@@ -15,11 +15,15 @@ public partial class Coupon
 
     public DateTime ExpirationDate { get; set; }
 
+    public int AmountItem { get; set; }
+
     public int Status { get; set; }
 
     public int PaymentId { get; set; }
 
-    public virtual ICollection<CouponItem> CouponItems { get; set; } = new List<CouponItem>();
+    public int ProductId { get; set; }
 
     public virtual Payment Payment { get; set; } = null!;
+
+    public virtual Product Product { get; set; } = null!;
 }

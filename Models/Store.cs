@@ -11,7 +11,7 @@ public partial class Store
 
     public string StoreLocation { get; set; } = null!;
 
-    public int PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
 
     public int Status { get; set; }
 

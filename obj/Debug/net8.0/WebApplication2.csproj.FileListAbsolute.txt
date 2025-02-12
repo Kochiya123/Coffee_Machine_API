@@ -166,3 +166,4 @@ D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtime
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\WebApplication2.sourcelink.json

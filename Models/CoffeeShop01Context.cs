@@ -21,8 +21,6 @@ public partial class CoffeeShop01Context : DbContext
 
     public virtual DbSet<Coupon> Coupons { get; set; }
 
-    public virtual DbSet<CouponItem> CouponItems { get; set; }
-
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<Machine> Machines { get; set; }
@@ -76,29 +74,16 @@ public partial class CoffeeShop01Context : DbContext
             entity.Property(e => e.DiscountAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Coupons)
                 .HasForeignKey(d => d.PaymentId)
                 .HasConstraintName("FK_Coupon_Payment");
-        });
 
-        modelBuilder.Entity<CouponItem>(entity =>
-        {
-            entity.ToTable("CouponItem");
-
-            entity.Property(e => e.CouponItemId).HasColumnName("CouponItemID");
-            entity.Property(e => e.CouponId).HasColumnName("CouponID");
-            entity.Property(e => e.DiscountAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-            entity.HasOne(d => d.Coupon).WithMany(p => p.CouponItems)
-                .HasForeignKey(d => d.CouponId)
-                .HasConstraintName("FK_CouponItem_Coupon");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.CouponItems)
+            entity.HasOne(d => d.Product).WithMany(p => p.Coupons)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_CouponItem_Product");
+                .HasConstraintName("FK_Coupon_Product");
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -111,6 +96,9 @@ public partial class CoffeeShop01Context : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Machine>(entity =>
@@ -230,6 +218,9 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.AreaId).HasColumnName("AreaID");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.StoreLocation).HasMaxLength(255);
             entity.Property(e => e.StoreName).HasMaxLength(255);
 

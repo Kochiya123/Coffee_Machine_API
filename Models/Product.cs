@@ -21,7 +21,7 @@ public partial class Product
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual ICollection<CouponItem> CouponItems { get; set; } = new List<CouponItem>();
+    public virtual ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 
     public virtual ICollection<MachineProduct> MachineProducts { get; set; } = new List<MachineProduct>();
 

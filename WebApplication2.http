@@ -1,6 +1,6 @@
-@WebApplication2_HostAddress = http://localhost:5161
+@Coffee_Shop_API_HostAddress = http://localhost:5161
 
-GET {{WebApplication2_HostAddress}}/weatherforecast/
+GET {{Coffee_Shop_API_HostAddress}}/coffeeshopapi/
 Accept: application/json
 
 ###

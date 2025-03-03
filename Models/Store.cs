@@ -5,7 +5,7 @@ namespace WebApplication2.Models;
 
 public partial class Store
 {
-    public int StoreId { get; set; }
+    public long StoreId { get; set; }
 
     public string StoreName { get; set; } = null!;
 
@@ -20,4 +20,6 @@ public partial class Store
     public virtual Area Area { get; set; } = null!;
 
     public virtual ICollection<Machine> Machines { get; set; } = new List<Machine>();
+
+    public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
 }

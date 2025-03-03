@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApplication2.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,5 +24,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapAreaEndpoints();
 
 app.Run();

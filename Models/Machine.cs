@@ -13,9 +13,13 @@ public partial class Machine
 
     public int Status { get; set; }
 
-    public int StoreId { get; set; }
+    public long StoreId { get; set; }
 
     public int MachineTypeId { get; set; }
+
+    public virtual ICollection<MachineIssue> MachineIssues { get; set; } = new List<MachineIssue>();
+
+    public virtual ICollection<MachineLog> MachineLogs { get; set; } = new List<MachineLog>();
 
     public virtual ICollection<MachineProduct> MachineProducts { get; set; } = new List<MachineProduct>();
 

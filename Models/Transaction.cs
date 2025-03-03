@@ -19,7 +19,11 @@ public partial class Transaction
 
     public int OrderId { get; set; }
 
+    public int PaymentId { get; set; }
+
     public virtual Order Order { get; set; } = null!;
+
+    public virtual Payment Payment { get; set; } = null!;
 
     public virtual Wallet Wallet { get; set; } = null!;
 }

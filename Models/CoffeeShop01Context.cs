@@ -23,7 +23,15 @@ public partial class CoffeeShop01Context : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<IssueAssignment> IssueAssignments { get; set; }
+
+    public virtual DbSet<IssueResolution> IssueResolutions { get; set; }
+
     public virtual DbSet<Machine> Machines { get; set; }
+
+    public virtual DbSet<MachineIssue> MachineIssues { get; set; }
+
+    public virtual DbSet<MachineLog> MachineLogs { get; set; }
 
     public virtual DbSet<MachineProduct> MachineProducts { get; set; }
 
@@ -37,13 +45,19 @@ public partial class CoffeeShop01Context : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+    public virtual DbSet<Staff> Staff { get; set; }
+
     public virtual DbSet<Store> Stores { get; set; }
+
+    public virtual DbSet<Technician> Technicians { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     public virtual DbSet<Wallet> Wallets { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-MODFQ7SR\\SQLEXPRESS;Database=CoffeeShop_01;User ID=sa;Password=123456;Encrypt=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -99,6 +113,48 @@ public partial class CoffeeShop01Context : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<IssueAssignment>(entity =>
+        {
+            entity.HasKey(e => e.AssignmentId);
+
+            entity.ToTable("IssueAssignment");
+
+            entity.Property(e => e.AssignmentId).HasColumnName("AssignmentID");
+            entity.Property(e => e.AssignedDate).HasColumnType("datetime");
+            entity.Property(e => e.IssueId).HasColumnName("IssueID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Issue).WithMany(p => p.IssueAssignments)
+                .HasForeignKey(d => d.IssueId)
+                .HasConstraintName("FK_IssueAssignment_MachineIssue");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.IssueAssignments)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IssueAssignment_Technician");
+        });
+
+        modelBuilder.Entity<IssueResolution>(entity =>
+        {
+            entity.HasKey(e => e.ResolutionId);
+
+            entity.ToTable("IssueResolution");
+
+            entity.Property(e => e.ResolutionId).HasColumnName("ResolutionID");
+            entity.Property(e => e.IssueId).HasColumnName("IssueID");
+            entity.Property(e => e.ResolutionDate).HasColumnType("datetime");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Issue).WithMany(p => p.IssueResolutions)
+                .HasForeignKey(d => d.IssueId)
+                .HasConstraintName("FK_IssueResolution_Issue");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.IssueResolutions)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IssueResolution_Technician");
+        });
+
         modelBuilder.Entity<Machine>(entity =>
         {
             entity.ToTable("Machine");
@@ -115,6 +171,46 @@ public partial class CoffeeShop01Context : DbContext
             entity.HasOne(d => d.Store).WithMany(p => p.Machines)
                 .HasForeignKey(d => d.StoreId)
                 .HasConstraintName("FK_Machine_Store");
+        });
+
+        modelBuilder.Entity<MachineIssue>(entity =>
+        {
+            entity.HasKey(e => e.IssueId);
+
+            entity.ToTable("MachineIssue");
+
+            entity.Property(e => e.IssueId).HasColumnName("IssueID");
+            entity.Property(e => e.MachineId).HasColumnName("MachineID");
+            entity.Property(e => e.ReportDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Machine).WithMany(p => p.MachineIssues)
+                .HasForeignKey(d => d.MachineId)
+                .HasConstraintName("FK_MachineIssue_Machine");
+
+            entity.HasOne(d => d.ReportedByNavigation).WithMany(p => p.MachineIssues)
+                .HasForeignKey(d => d.ReportedBy)
+                .HasConstraintName("FK_MachineIssue_ReportedBy");
+        });
+
+        modelBuilder.Entity<MachineLog>(entity =>
+        {
+            entity.HasKey(e => e.LogId);
+
+            entity.ToTable("MachineLog");
+
+            entity.Property(e => e.LogId).HasColumnName("LogID");
+            entity.Property(e => e.LogDate).HasColumnType("datetime");
+            entity.Property(e => e.MachineId).HasColumnName("MachineID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Machine).WithMany(p => p.MachineLogs)
+                .HasForeignKey(d => d.MachineId)
+                .HasConstraintName("FK_IssueResolution_Machine");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.MachineLogs)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_MachineLog_Technician");
         });
 
         modelBuilder.Entity<MachineProduct>(entity =>
@@ -210,6 +306,25 @@ public partial class CoffeeShop01Context : DbContext
                 .HasConstraintName("FK_Product_Category");
         });
 
+        modelBuilder.Entity<Staff>(entity =>
+        {
+            entity.Property(e => e.StaffId).HasColumnName("StaffID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Staff)
+                .HasForeignKey(d => d.StoreId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Staff_Store");
+        });
+
         modelBuilder.Entity<Store>(entity =>
         {
             entity.ToTable("Store");
@@ -227,12 +342,28 @@ public partial class CoffeeShop01Context : DbContext
                 .HasConstraintName("FK_Store_Area");
         });
 
+        modelBuilder.Entity<Technician>(entity =>
+        {
+            entity.ToTable("Technician");
+
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Transaction>(entity =>
         {
             entity.ToTable("Transaction");
 
             entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.TransactionAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TransactionDate).HasColumnType("datetime");
             entity.Property(e => e.WalletId).HasColumnName("WalletID");
@@ -241,6 +372,11 @@ public partial class CoffeeShop01Context : DbContext
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transaction_Order");
+
+            entity.HasOne(d => d.Payment).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.PaymentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transaction_Payment");
 
             entity.HasOne(d => d.Wallet).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.WalletId)

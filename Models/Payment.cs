@@ -20,4 +20,6 @@ public partial class Payment
     public virtual ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 
     public virtual Order Order { get; set; } = null!;
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

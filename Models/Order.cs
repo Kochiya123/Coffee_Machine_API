@@ -31,3 +31,20 @@ public partial class Order
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }
+
+
+
+public class OrderDto
+{
+    public int OrderId { get; set; }
+
+    public DateTime OrderDate { get; set; }
+
+    public string? OrderDescription { get; set; }
+
+    public decimal TotalAmount { get; set; }
+
+    public long CustomerId { get; set; }
+
+    public int Status { get; set; }
+}

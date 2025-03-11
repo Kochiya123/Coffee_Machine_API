@@ -19,6 +19,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IAreaService, AreaService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.WebHost.UseIISIntegration();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,11 +53,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseHttpsRedirection();
 app.MapControllers();
 
-app.MapAreaEndpoints();
 
 app.Run();

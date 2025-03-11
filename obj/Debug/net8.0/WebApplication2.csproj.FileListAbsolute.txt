@@ -303,3 +303,11 @@ D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtime
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\System.Net.Http.Formatting.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\System.Web.Http.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\System.Web.Http.Owin.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\Microsoft.Owin.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\Microsoft.Owin.Host.HttpListener.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\Microsoft.Owin.Hosting.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Debug\net8.0\Owin.dll

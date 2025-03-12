@@ -782,7 +782,7 @@
         }
       }
     },
-    "/api/issue/management": {
+    "/api/issue_assignment": {
       "get": {
         "tags": [
           "IssueAssignment"
@@ -899,7 +899,7 @@
         }
       }
     },
-    "/api/issue/management/{id}": {
+    "/api/issue_assignment/{id}": {
       "get": {
         "tags": [
           "IssueAssignment"
@@ -4750,6 +4750,10 @@
           "customerId": {
             "type": "integer",
             "format": "int64"
+          },
+          "machineId": {
+            "type": "integer",
+            "format": "int32"
           },
           "status": {
             "type": "integer",

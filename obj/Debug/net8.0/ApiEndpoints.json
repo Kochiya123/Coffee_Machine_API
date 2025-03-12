@@ -498,7 +498,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignments",
-    "RelativePath": "api/issue/management",
+    "RelativePath": "api/issue_assignment",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -554,7 +554,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "CreateIssueAssignment",
-    "RelativePath": "api/issue/management",
+    "RelativePath": "api/issue_assignment",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -570,7 +570,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignmentById",
-    "RelativePath": "api/issue/management/{id}",
+    "RelativePath": "api/issue_assignment/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -586,7 +586,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "UpdateIssueAssignment",
-    "RelativePath": "api/issue/management/{id}",
+    "RelativePath": "api/issue_assignment/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -607,7 +607,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "DeleteIssueAssignment",
-    "RelativePath": "api/issue/management/{id}",
+    "RelativePath": "api/issue_assignment/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

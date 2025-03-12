@@ -1,0 +1,4289 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "WebApplication2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/area": {
+      "get": {
+        "tags": [
+          "Area"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "AreaId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "AreaName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "AreaId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Area"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Area"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/area/{id}": {
+      "get": {
+        "tags": [
+          "Area"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Area"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Area"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Area"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "CategoryId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "CategoryName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "CategoryId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/{id}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/coupon": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "CouponId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "CouponCode",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "DiscountAmount",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "StartDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ExpirationDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "CouponId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Coupon"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Coupon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/coupon/{id}": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Coupon"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Coupon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/customer": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "firstName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "lastName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CustomerDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/customer/{id}": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Customer"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CustomerDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/issue_assignment": {
+      "get": {
+        "tags": [
+          "IssueAssignment"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "AssignmentId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "AssignedDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "IssueId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "TechnicianId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "AssignmentId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "IssueAssignment"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/IssueAssignment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/issue_assignment/{id}": {
+      "get": {
+        "tags": [
+          "IssueAssignment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "IssueAssignment"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/IssueAssignment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "IssueAssignment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/issue/resolution": {
+      "get": {
+        "tags": [
+          "IssueResolution"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ResolutionId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ResolutionDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ResolutionDescription",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "IssueId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "TechnicianId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "ResolutionId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "IssueResolution"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/IssueResolution"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/issue/resolution/{id}": {
+      "get": {
+        "tags": [
+          "IssueResolution"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "IssueResolution"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/IssueResolution"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "IssueResolution"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine": {
+      "get": {
+        "tags": [
+          "Machine"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "MachineId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "MachineName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "InstallationDate",
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "StoreId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "MachineTypeId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "MachineId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Machine"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Machine"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/{id}": {
+      "get": {
+        "tags": [
+          "Machine"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Machine"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Machine"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Machine"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/issue": {
+      "get": {
+        "tags": [
+          "MachineIssue"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "IssueId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ReportDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "IssueDescription",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "MachineId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ReportedBy",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "IssueId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MachineIssue"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineIssue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/issue/{id}": {
+      "get": {
+        "tags": [
+          "MachineIssue"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MachineIssue"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineIssue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MachineIssue"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/log": {
+      "get": {
+        "tags": [
+          "MachineLog"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "LogId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "LogDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "LogDescription",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "LogType",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "MachineId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "TechnicianId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "LogId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MachineLog"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineLog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/log/{id}": {
+      "get": {
+        "tags": [
+          "MachineLog"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MachineLog"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineLog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MachineLog"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/product": {
+      "get": {
+        "tags": [
+          "MachineProduct"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "MachineProductId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "MachineStockQuantity",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "MachineId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ProductId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "MachineProductId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MachineProduct"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/product/{id}": {
+      "get": {
+        "tags": [
+          "MachineProduct"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MachineProduct"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MachineProduct"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/type": {
+      "get": {
+        "tags": [
+          "MachineType"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "MachineTypeId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "TypeName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "MachineTypeId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MachineType"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/machine/type/{id}": {
+      "get": {
+        "tags": [
+          "MachineType"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MachineType"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MachineType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MachineType"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order/detail": {
+      "get": {
+        "tags": [
+          "OrderDetail"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "OrderDetailId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Quantity",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Price",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "OrderId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ProductId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "OrderDetailId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "OrderDetail"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderDetail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order/detail/{id}": {
+      "get": {
+        "tags": [
+          "OrderDetail"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "OrderDetail"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderDetail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "OrderDetail"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "orderId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "orderDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "orderDescription",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "totalAmount",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "CustomerId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "OrderId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDtoIEnumerablePaginationMetadataValueTuple"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/order/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "PaymentId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "PaymentMethod",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "PaymentDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "PaymentStatus",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "OrderId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "PaymentId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/{id}": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Payment"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ProductId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "ProductName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Price",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "StockQuantity",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "CategoryId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "ProductId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/staff": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "StaffId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "FirstName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "LastName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "PhoneNumber",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Email",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "StoreId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "StaffId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Staff"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/staff/{id}": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Staff"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Staff"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Staff"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/store": {
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "StoreId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "StoreName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "StoreLocation",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "PhoneNumber",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "AreaId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "StoreId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Store"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/store/{id}": {
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Store"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Store"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/technician": {
+      "get": {
+        "tags": [
+          "Technician"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "TechnicianId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "FirstName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "LastName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "PhoneNumber",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Email",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "TechnicianId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Technician"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Technician"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/technician/{id}": {
+      "get": {
+        "tags": [
+          "Technician"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Technician"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Technician"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Technician"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/transaction": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "TransactionId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "TransactionAmount",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "TransactionDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "TransactionType",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "WalletId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "OrderId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "PaymentId",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "TransactionId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/transaction/{id}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Transaction"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/wallet": {
+      "get": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "customerId",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "WalletId"
+          },
+          {
+            "in": "query",
+            "name": "isAscending",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/WalletDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/wallet/{id}": {
+      "get": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Wallet"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/WalletDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Area": {
+      "type": "object",
+      "properties": {
+        "areaId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "areaName": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "stores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Store"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "categoryName": {
+          "type": "string"
+        },
+        "categoryDescription": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Coupon": {
+      "type": "object",
+      "properties": {
+        "couponId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "couponCode": {
+          "type": "string"
+        },
+        "discountAmount": {
+          "format": "double",
+          "type": "number"
+        },
+        "startDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "amountItem": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "paymentId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "productId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "payment": {
+          "$ref": "#/definitions/Payment"
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "wallets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Wallet"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "CustomerDto": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "wallets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WalletDto"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "IssueAssignment": {
+      "type": "object",
+      "properties": {
+        "assignmentId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "assignedDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "issueId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "technicianId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "issue": {
+          "$ref": "#/definitions/MachineIssue"
+        },
+        "technician": {
+          "$ref": "#/definitions/Technician"
+        }
+      },
+      "additionalProperties": false
+    },
+    "IssueResolution": {
+      "type": "object",
+      "properties": {
+        "resolutionId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "resolutionDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "resolutionDescription": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "issueId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "technicianId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "issue": {
+          "$ref": "#/definitions/MachineIssue"
+        },
+        "technician": {
+          "$ref": "#/definitions/Technician"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Machine": {
+      "type": "object",
+      "properties": {
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineName": {
+          "type": "string"
+        },
+        "installationDate": {
+          "format": "date",
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "storeId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "machineTypeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineIssues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineIssue"
+          }
+        },
+        "machineLogs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineLog"
+          }
+        },
+        "machineProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineProduct"
+          }
+        },
+        "machineType": {
+          "$ref": "#/definitions/MachineType"
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "store": {
+          "$ref": "#/definitions/Store"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MachineIssue": {
+      "type": "object",
+      "properties": {
+        "issueId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "reportDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "issueDescription": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "reportedBy": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "issueAssignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueAssignment"
+          }
+        },
+        "issueResolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueResolution"
+          }
+        },
+        "machine": {
+          "$ref": "#/definitions/Machine"
+        },
+        "reportedByNavigation": {
+          "$ref": "#/definitions/Staff"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MachineLog": {
+      "type": "object",
+      "properties": {
+        "logId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "logDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "logDescription": {
+          "type": "string"
+        },
+        "logType": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "performedBy": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "technicianId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machine": {
+          "$ref": "#/definitions/Machine"
+        },
+        "technician": {
+          "$ref": "#/definitions/Technician"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MachineProduct": {
+      "type": "object",
+      "properties": {
+        "machineProductId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineStockQuantity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "productId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machine": {
+          "$ref": "#/definitions/Machine"
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MachineType": {
+      "type": "object",
+      "properties": {
+        "machineTypeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "typeName": {
+          "type": "string"
+        },
+        "machineDescription": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "machines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Machine"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orderDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "orderDescription": {
+          "type": "string"
+        },
+        "totalAmount": {
+          "format": "double",
+          "type": "number"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "customer": {
+          "$ref": "#/definitions/Customer"
+        },
+        "machine": {
+          "$ref": "#/definitions/Machine"
+        },
+        "orderDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetail"
+          }
+        },
+        "payments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Payment"
+          }
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "OrderDetail": {
+      "type": "object",
+      "properties": {
+        "orderDetailId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "quantity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "price": {
+          "format": "double",
+          "type": "number"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "productId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "order": {
+          "$ref": "#/definitions/Order"
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OrderDto": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orderDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "orderDescription": {
+          "type": "string"
+        },
+        "totalAmount": {
+          "format": "double",
+          "type": "number"
+        },
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "machineId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OrderDtoIEnumerablePaginationMetadataValueTuple": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "paymentId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "paymentDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "paymentStatus": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "orderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "coupons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Coupon"
+          }
+        },
+        "order": {
+          "$ref": "#/definitions/Order"
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "format": "double",
+          "type": "number"
+        },
+        "stockQuantity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "categoryId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "coupons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Coupon"
+          }
+        },
+        "machineProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineProduct"
+          }
+        },
+        "orderDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetail"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Staff": {
+      "type": "object",
+      "properties": {
+        "staffId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "storeId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "machineIssues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineIssue"
+          }
+        },
+        "store": {
+          "$ref": "#/definitions/Store"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Store": {
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "storeName": {
+          "type": "string"
+        },
+        "storeLocation": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "areaId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "area": {
+          "$ref": "#/definitions/Area"
+        },
+        "machines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Machine"
+          }
+        },
+        "staff": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Staff"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Technician": {
+      "type": "object",
+      "properties": {
+        "technicianId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "issueAssignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueAssignment"
+          }
+        },
+        "issueResolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueResolution"
+          }
+        },
+        "machineLogs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MachineLog"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "transactionAmount": {
+          "format": "double",
+          "type": "number"
+        },
+        "transactionDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "transactionType": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "walletId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "paymentId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "order": {
+          "$ref": "#/definitions/Order"
+        },
+        "payment": {
+          "$ref": "#/definitions/Payment"
+        },
+        "wallet": {
+          "$ref": "#/definitions/Wallet"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Wallet": {
+      "type": "object",
+      "properties": {
+        "walletId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "balance": {
+          "format": "double",
+          "type": "number"
+        },
+        "createDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "customer": {
+          "$ref": "#/definitions/Customer"
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "WalletDto": {
+      "type": "object",
+      "properties": {
+        "walletId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "balance": {
+          "format": "double",
+          "type": "number"
+        },
+        "createDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "customerId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

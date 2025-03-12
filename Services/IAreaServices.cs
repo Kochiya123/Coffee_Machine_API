@@ -110,6 +110,7 @@ namespace WebApplication2.Services
 
         public async Task<bool> DeleteAreaAsync(int id)
         {
+
             var area = await _areaRepository.GetByIdAsync(id);
             if (area == null)
             {
@@ -120,6 +121,8 @@ namespace WebApplication2.Services
             await _areaRepository.SaveChangesAsync();
 
             return true;
+
+            
         }
     }
 }

@@ -1,107 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
+using WebApplication2.Services;
+using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class WalletsController : ControllerBase
+    [Route("api/wallet")]
+    public class WalletController : ControllerBase
     {
-        private readonly CoffeeShop01Context _context;
+        private readonly IWalletService _walletService;
 
-        public WalletsController(CoffeeShop01Context context)
+        public WalletController(IWalletService walletService)
         {
-            _context = context;
+            _walletService = walletService;
         }
 
-        // GET: api/Wallets
+        // GET: api/Wallet
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Wallet>>> GetWallets()
+        public async Task<IActionResult> GetWallets(
+            [FromQuery] long? customerId, 
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "WalletId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
-            return await _context.Wallets.ToListAsync();
+            var (wallets, pagination) = await _walletService.GetWalletsAsync(customerId, status, sortBy, isAscending, page, pageSize);
+            return Ok(new { Wallets = wallets, Pagination = pagination });
         }
 
-        // GET: api/Wallets/5
+        // GET: api/Wallet/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Wallet>> GetWallet(long id)
+        public async Task<IActionResult> GetWalletById(long id)
         {
-            var wallet = await _context.Wallets.FindAsync(id);
-
+            var wallet = await _walletService.GetWalletByIdAsync(id);
             if (wallet == null)
             {
                 return NotFound();
             }
-
-            return wallet;
+            return Ok(wallet);
         }
 
-        // PUT: api/Wallets/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWallet(long id, Wallet wallet)
-        {
-            if (id != wallet.WalletId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(wallet).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WalletExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Wallets
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Wallet
         [HttpPost]
-        public async Task<ActionResult<Wallet>> PostWallet(Wallet wallet)
+        public async Task<IActionResult> CreateWallet(WalletDto walletDto)
         {
-            _context.Wallets.Add(wallet);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWallet", new { id = wallet.WalletId }, wallet);
+            var createdWallet = await _walletService.CreateWalletAsync(walletDto);
+            return CreatedAtAction(nameof(GetWalletById), new { id = createdWallet.WalletId }, createdWallet);
         }
 
-        // DELETE: api/Wallets/5
+        // PUT: api/Wallet/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateWallet(long id, WalletDto walletDto)
+        {
+            if (id != walletDto.WalletId)
+            {
+                return BadRequest("Wallet ID mismatch.");
+            }
+
+            var updatedWallet = await _walletService.UpdateWalletAsync(id, walletDto);
+            if (updatedWallet == null)
+            {
+                return NotFound();
+            }
+            return Ok(updatedWallet);
+        }
+
+        // DELETE: api/Wallet/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWallet(long id)
         {
-            var wallet = await _context.Wallets.FindAsync(id);
-            if (wallet == null)
+            var result = await _walletService.DeleteWalletAsync(id);
+            if (!result)
             {
                 return NotFound();
             }
-
-            _context.Wallets.Remove(wallet);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool WalletExists(long id)
-        {
-            return _context.Wallets.Any(e => e.WalletId == id);
         }
     }
 }

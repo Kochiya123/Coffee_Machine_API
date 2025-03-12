@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/product")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetProducts(
-            [FromQuery] int? ProductId, [FromQuery] string? ProductName, [FromQuery] decimal? Price,
-            [FromQuery] int? StockQuantity, [FromQuery] int? Status, [FromQuery] int? CategoryId,
-            [FromQuery] string sortBy = "ProductId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? ProductId, 
+            [FromQuery] string? ProductName, 
+            [FromQuery] decimal? Price,
+            [FromQuery] int? StockQuantity, 
+            [FromQuery] int? Status, 
+            [FromQuery] int? CategoryId,
+            [FromQuery] string sortBy = "ProductId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (products, pagination) = await _productService.GetProductsAsync(ProductId, ProductName, Price, StockQuantity, Status, CategoryId, sortBy, isAscending, page, pageSize);
             return Ok(new { Products = products, Pagination = pagination });

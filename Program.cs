@@ -21,6 +21,18 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<IAreaService, AreaService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IIssueAssignmentService, IssueAssignmentService>();
+builder.Services.AddScoped<IIssueResolutionService, IssueResolutionService>();
+builder.Services.AddScoped<IMachineIssueService, MachineIssueService>();
+builder.Services.AddScoped<IMachineProductService, MachineProductService>();
+builder.Services.AddScoped<IMachineLogService, MachineLogService>();
+builder.Services.AddScoped<IMachineService, MachineService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ITechnicianService, TechnicianService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.WebHost.UseIISIntegration();
 builder.Services.AddAuthentication(options =>
 {

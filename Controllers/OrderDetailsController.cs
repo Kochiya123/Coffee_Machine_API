@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/order/detail")]
     public class OrderDetailController : ControllerBase
     {
         private readonly IOrderDetailService _orderDetailService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetOrderDetails(
-            [FromQuery] int? OrderDetailId, [FromQuery] int? Quantity, [FromQuery] decimal? Price,
-            [FromQuery] int? Status, [FromQuery] int? OrderId, [FromQuery] int? ProductId,
-            [FromQuery] string sortBy = "OrderDetailId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? OrderDetailId, 
+            [FromQuery] int? Quantity, 
+            [FromQuery] decimal? Price,
+            [FromQuery] int? Status, 
+            [FromQuery] int? OrderId, 
+            [FromQuery] int? ProductId,
+            [FromQuery] string sortBy = "OrderDetailId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (orderDetails, pagination) = await _orderDetailService.GetOrderDetailsAsync(OrderDetailId, Quantity, Price, Status, OrderId, ProductId, sortBy, isAscending, page, pageSize);
             return Ok(new { OrderDetails = orderDetails, Pagination = pagination });

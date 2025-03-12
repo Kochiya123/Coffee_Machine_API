@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/staff")]
     public class StaffController : ControllerBase
     {
         private readonly IStaffService _staffService;
@@ -18,10 +18,17 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetStaffs(
-            [FromQuery] long? StaffId, [FromQuery] string? FirstName, [FromQuery] string? LastName,
-            [FromQuery] string? PhoneNumber, [FromQuery] string? Email, [FromQuery] int? Status, [FromQuery] long? StoreId,
-            [FromQuery] string sortBy = "StaffId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] long? StaffId, 
+            [FromQuery] string? FirstName, 
+            [FromQuery] string? LastName,
+            [FromQuery] string? PhoneNumber, 
+            [FromQuery] string? Email, 
+            [FromQuery] int? Status, 
+            [FromQuery] long? StoreId,
+            [FromQuery] string sortBy = "StaffId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (staffs, pagination) = await _staffService.GetStaffsAsync(StaffId, FirstName, LastName, PhoneNumber, Email, Status, StoreId, sortBy, isAscending, page, pageSize);
             return Ok(new { Staffs = staffs, Pagination = pagination });

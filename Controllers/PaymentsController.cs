@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/payment")]
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetPayments(
-            [FromQuery] int? PaymentId, [FromQuery] string? PaymentMethod, [FromQuery] DateTime? PaymentDate,
-            [FromQuery] int? PaymentStatus, [FromQuery] int? Status, [FromQuery] int? OrderId,
-            [FromQuery] string sortBy = "PaymentId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? PaymentId, 
+            [FromQuery] string? PaymentMethod, 
+            [FromQuery] DateTime? PaymentDate,
+            [FromQuery] int? PaymentStatus, 
+            [FromQuery] int? Status, 
+            [FromQuery] int? OrderId,
+            [FromQuery] string sortBy = "PaymentId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (payments, pagination) = await _paymentService.GetPaymentsAsync(PaymentId, PaymentMethod, PaymentDate, PaymentStatus, Status, OrderId, sortBy, isAscending, page, pageSize);
             return Ok(new { Payments = payments, Pagination = pagination });

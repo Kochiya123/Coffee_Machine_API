@@ -23,6 +23,7 @@ public partial class Wallet
 public class WalletDto
 {
     public long WalletId { get; set; }
+
     public decimal Balance { get; set; }
 
     public DateTime CreateDate { get; set; }

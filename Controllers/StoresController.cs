@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/store")]
     public class StoreController : ControllerBase
     {
         private readonly IStoreService _storeService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetStores(
-            [FromQuery] long? StoreId, [FromQuery] string? StoreName, [FromQuery] string? StoreLocation,
-            [FromQuery] string? PhoneNumber, [FromQuery] int? Status, [FromQuery] int? AreaId,
-            [FromQuery] string sortBy = "StoreId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] long? StoreId, 
+            [FromQuery] string? StoreName, 
+            [FromQuery] string? StoreLocation,
+            [FromQuery] string? PhoneNumber, 
+            [FromQuery] int? Status, 
+            [FromQuery] int? AreaId,
+            [FromQuery] string sortBy = "StoreId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (stores, pagination) = await _storeService.GetStoresAsync(StoreId, StoreName, StoreLocation, PhoneNumber, Status, AreaId, sortBy, isAscending, page, pageSize);
             return Ok(new { Stores = stores, Pagination = pagination });

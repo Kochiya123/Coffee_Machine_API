@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/machine/log")]
     public class MachineLogController : ControllerBase
     {
         private readonly IMachineLogService _machineLogService;
@@ -18,10 +18,17 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetMachineLogs(
-            [FromQuery] int? LogId, [FromQuery] DateTime? LogDate, [FromQuery] string? LogDescription,
-            [FromQuery] int? LogType, [FromQuery] int? Status, [FromQuery] int? MachineId, [FromQuery] int? TechnicianId,
-            [FromQuery] string sortBy = "LogId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? LogId, 
+            [FromQuery] DateTime? LogDate, 
+            [FromQuery] string? LogDescription,
+            [FromQuery] int? LogType, 
+            [FromQuery] int? Status, 
+            [FromQuery] int? MachineId, 
+            [FromQuery] int? TechnicianId,
+            [FromQuery] string sortBy = "LogId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (machineLogs, pagination) = await _machineLogService.GetMachineLogsAsync(LogId, LogDate, LogDescription, LogType, Status, MachineId, TechnicianId, sortBy, isAscending, page, pageSize);
             return Ok(new { MachineLogs = machineLogs, Pagination = pagination });

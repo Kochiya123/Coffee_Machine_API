@@ -44,5 +44,21 @@ public class OrderDto
 
     public long CustomerId { get; set; }
 
+    public int MachineId { get; set; }
+
     public int Status { get; set; }
+}
+
+public class OrderCustomerDto
+{
+    public int OrderId { get; set; }
+
+    public DateTime OrderDate { get; set; }
+
+    public string? OrderDescription { get; set; }
+
+    public decimal TotalAmount { get; set; }
+
+    public int CustomerId { get; set; }
+
 }

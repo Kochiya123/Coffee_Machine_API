@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/machine/type")]
     public class MachineTypeController : ControllerBase
     {
         private readonly IMachineTypeService _machineTypeService;
@@ -18,9 +18,13 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetMachineTypes(
-            [FromQuery] int? MachineTypeId, [FromQuery] string? TypeName, [FromQuery] int? Status,
-            [FromQuery] string sortBy = "MachineTypeId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? MachineTypeId, 
+            [FromQuery] string? TypeName, 
+            [FromQuery] int? Status,
+            [FromQuery] string sortBy = "MachineTypeId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (machineTypes, pagination) = await _machineTypeService.GetMachineTypesAsync(MachineTypeId, TypeName, Status, sortBy, isAscending, page, pageSize);
             return Ok(new { MachineTypes = machineTypes, Pagination = pagination });

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/transaction")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
@@ -18,10 +18,18 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetTransactions(
-            [FromQuery] long? TransactionId, [FromQuery] decimal? TransactionAmount, [FromQuery] DateTime? TransactionDate,
-            [FromQuery] int? TransactionType, [FromQuery] int? Status, [FromQuery] long? WalletId, [FromQuery] int? OrderId, [FromQuery] int? PaymentId,
-            [FromQuery] string sortBy = "TransactionId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] long? TransactionId, 
+            [FromQuery] decimal? TransactionAmount, 
+            [FromQuery] DateTime? TransactionDate,
+            [FromQuery] int? TransactionType, 
+            [FromQuery] int? Status, 
+            [FromQuery] long? WalletId, 
+            [FromQuery] int? OrderId, 
+            [FromQuery] int? PaymentId,
+            [FromQuery] string sortBy = "TransactionId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
             var (transactions, pagination) = await _transactionService.GetTransactionsAsync(TransactionId, TransactionAmount, TransactionDate, TransactionType, Status, WalletId, OrderId, PaymentId, sortBy, isAscending, page, pageSize);
             return Ok(new { Transactions = transactions, Pagination = pagination });

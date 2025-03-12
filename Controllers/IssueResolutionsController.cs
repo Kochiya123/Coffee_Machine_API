@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/issue/resolution")]
     public class IssueResolutionController : ControllerBase
     {
         private readonly IIssueResolutionService _issueResolutionService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetIssueResolutions(
-            [FromQuery] int? ResolutionId, [FromQuery] DateTime? ResolutionDate, [FromQuery] string? ResolutionDescription,
-            [FromQuery] int? Status, [FromQuery] int? IssueId, [FromQuery] int? TechnicianId,
-            [FromQuery] string sortBy = "ResolutionId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? ResolutionId, 
+            [FromQuery] DateTime? ResolutionDate, 
+            [FromQuery] string? ResolutionDescription,
+            [FromQuery] int? Status, 
+            [FromQuery] int? IssueId, 
+            [FromQuery] int? TechnicianId,
+            [FromQuery] string sortBy = "ResolutionId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (issueResolutions, pagination) = await _issueResolutionService.GetIssueResolutionsAsync(ResolutionId, ResolutionDate, ResolutionDescription, Status, IssueId, TechnicianId, sortBy, isAscending, page, pageSize);
             return Ok(new { IssueResolutions = issueResolutions, Pagination = pagination });

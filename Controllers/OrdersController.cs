@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/order")]
     [ApiController]
     public class OrdersController : ControllerBase
     {

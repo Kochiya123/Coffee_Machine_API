@@ -311,3 +311,7 @@ D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Release\net8.0\Micro
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Release\net8.0\Microsoft.Owin.Hosting.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Release\net8.0\Newtonsoft.Json.Bson.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Release\net8.0\Owin.dll
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\bin\Release\net8.0\WebApplication2.staticwebassets.endpoints.json
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\staticwebassets.build.endpoints.json
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\staticwebassets\msbuild.WebApplication2.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

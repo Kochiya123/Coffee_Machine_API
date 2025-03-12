@@ -385,7 +385,7 @@
         }
       }
     },
-    "/api/Coupon": {
+    "/api/coupon": {
       "get": {
         "tags": [
           "Coupon"
@@ -509,7 +509,7 @@
         }
       }
     },
-    "/api/Coupon/{id}": {
+    "/api/coupon/{id}": {
       "get": {
         "tags": [
           "Coupon"
@@ -782,7 +782,7 @@
         }
       }
     },
-    "/api/IssueAssignment": {
+    "/api/issue/management": {
       "get": {
         "tags": [
           "IssueAssignment"
@@ -899,7 +899,7 @@
         }
       }
     },
-    "/api/IssueAssignment/{id}": {
+    "/api/issue/management/{id}": {
       "get": {
         "tags": [
           "IssueAssignment"
@@ -983,7 +983,7 @@
         }
       }
     },
-    "/api/IssueResolution": {
+    "/api/issue/resolution": {
       "get": {
         "tags": [
           "IssueResolution"
@@ -1107,7 +1107,7 @@
         }
       }
     },
-    "/api/IssueResolution/{id}": {
+    "/api/issue/resolution/{id}": {
       "get": {
         "tags": [
           "IssueResolution"
@@ -1191,7 +1191,7 @@
         }
       }
     },
-    "/api/Machine": {
+    "/api/machine": {
       "get": {
         "tags": [
           "Machine"
@@ -1315,7 +1315,7 @@
         }
       }
     },
-    "/api/Machine/{id}": {
+    "/api/machine/{id}": {
       "get": {
         "tags": [
           "Machine"
@@ -1399,7 +1399,7 @@
         }
       }
     },
-    "/api/MachineIssue": {
+    "/api/machine/issue": {
       "get": {
         "tags": [
           "MachineIssue"
@@ -1523,7 +1523,7 @@
         }
       }
     },
-    "/api/MachineIssue/{id}": {
+    "/api/machine/issue/{id}": {
       "get": {
         "tags": [
           "MachineIssue"
@@ -1607,7 +1607,7 @@
         }
       }
     },
-    "/api/MachineLog": {
+    "/api/machine/log": {
       "get": {
         "tags": [
           "MachineLog"
@@ -1739,7 +1739,7 @@
         }
       }
     },
-    "/api/MachineLog/{id}": {
+    "/api/machine/log/{id}": {
       "get": {
         "tags": [
           "MachineLog"
@@ -1823,7 +1823,7 @@
         }
       }
     },
-    "/api/MachineProduct": {
+    "/api/machine/product": {
       "get": {
         "tags": [
           "MachineProduct"
@@ -1940,7 +1940,7 @@
         }
       }
     },
-    "/api/MachineProduct/{id}": {
+    "/api/machine/product/{id}": {
       "get": {
         "tags": [
           "MachineProduct"
@@ -2024,7 +2024,7 @@
         }
       }
     },
-    "/api/MachineType": {
+    "/api/machine/type": {
       "get": {
         "tags": [
           "MachineType"
@@ -2124,7 +2124,7 @@
         }
       }
     },
-    "/api/MachineType/{id}": {
+    "/api/machine/type/{id}": {
       "get": {
         "tags": [
           "MachineType"
@@ -2208,7 +2208,7 @@
         }
       }
     },
-    "/api/OrderDetail": {
+    "/api/order/detail": {
       "get": {
         "tags": [
           "OrderDetail"
@@ -2333,7 +2333,7 @@
         }
       }
     },
-    "/api/OrderDetail/{id}": {
+    "/api/order/detail/{id}": {
       "get": {
         "tags": [
           "OrderDetail"
@@ -2417,7 +2417,7 @@
         }
       }
     },
-    "/api/Orders": {
+    "/api/order": {
       "get": {
         "tags": [
           "Orders"
@@ -2575,7 +2575,7 @@
         }
       }
     },
-    "/api/Orders/{id}": {
+    "/api/order/{id}": {
       "get": {
         "tags": [
           "Orders"
@@ -2693,7 +2693,7 @@
         }
       }
     },
-    "/api/Payment": {
+    "/api/payment": {
       "get": {
         "tags": [
           "Payment"
@@ -2817,7 +2817,7 @@
         }
       }
     },
-    "/api/Payment/{id}": {
+    "/api/payment/{id}": {
       "get": {
         "tags": [
           "Payment"
@@ -2901,7 +2901,7 @@
         }
       }
     },
-    "/api/Product": {
+    "/api/product": {
       "get": {
         "tags": [
           "Product"
@@ -3025,7 +3025,7 @@
         }
       }
     },
-    "/api/Product/{id}": {
+    "/api/product/{id}": {
       "get": {
         "tags": [
           "Product"
@@ -3109,7 +3109,7 @@
         }
       }
     },
-    "/api/Staff": {
+    "/api/staff": {
       "get": {
         "tags": [
           "Staff"
@@ -3238,7 +3238,7 @@
         }
       }
     },
-    "/api/Staff/{id}": {
+    "/api/staff/{id}": {
       "get": {
         "tags": [
           "Staff"
@@ -3322,7 +3322,7 @@
         }
       }
     },
-    "/api/Store": {
+    "/api/store": {
       "get": {
         "tags": [
           "Store"
@@ -3444,7 +3444,7 @@
         }
       }
     },
-    "/api/Store/{id}": {
+    "/api/store/{id}": {
       "get": {
         "tags": [
           "Store"
@@ -3528,7 +3528,7 @@
         }
       }
     },
-    "/api/Technician": {
+    "/api/technician": {
       "get": {
         "tags": [
           "Technician"
@@ -3649,7 +3649,7 @@
         }
       }
     },
-    "/api/Technician/{id}": {
+    "/api/technician/{id}": {
       "get": {
         "tags": [
           "Technician"
@@ -3733,7 +3733,7 @@
         }
       }
     },
-    "/api/Transaction": {
+    "/api/transaction": {
       "get": {
         "tags": [
           "Transaction"
@@ -3874,7 +3874,7 @@
         }
       }
     },
-    "/api/Transaction/{id}": {
+    "/api/transaction/{id}": {
       "get": {
         "tags": [
           "Transaction"
@@ -3958,94 +3958,103 @@
         }
       }
     },
-    "/api/Wallets": {
+    "/api/wallet": {
       "get": {
         "tags": [
-          "Wallets"
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "WalletId"
+            }
+          },
+          {
+            "name": "isAscending",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Wallet"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Wallet"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Wallet"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
       "post": {
         "tags": [
-          "Wallets"
+          "Wallet"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Wallets/{id}": {
+    "/api/wallet/{id}": {
       "get": {
         "tags": [
-          "Wallets"
+          "Wallet"
         ],
         "parameters": [
           {
@@ -4060,30 +4069,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Wallet"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
       "put": {
         "tags": [
-          "Wallets"
+          "Wallet"
         ],
         "parameters": [
           {
@@ -4100,17 +4092,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Wallet"
+                "$ref": "#/components/schemas/WalletDto"
               }
             }
           }
@@ -4123,7 +4115,7 @@
       },
       "delete": {
         "tags": [
-          "Wallets"
+          "Wallet"
         ],
         "parameters": [
           {

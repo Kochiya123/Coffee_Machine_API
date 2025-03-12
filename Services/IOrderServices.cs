@@ -17,7 +17,10 @@ namespace WebApplication2.Services
         Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
         Task<OrderDto> UpdateOrderAsync(int id, OrderDto orderDto);
         Task<bool> DeleteOrderAsync(int id);
-    }
+        Task<(IEnumerable<OrderDto> Orders, PaginationMetadata Pagination)> GetOrdersByCustomerAsync(
+            long customerId, string sortBy, bool isAscending, int page, int pageSize);
+    
+}
 
     public class OrderService : IOrderService
     {
@@ -173,13 +176,53 @@ namespace WebApplication2.Services
 
             return true;
         }
+
+    public async Task<(IEnumerable<OrderDto> Orders, PaginationMetadata Pagination)> GetOrdersByCustomerAsync(
+        long customerId, string sortBy, bool isAscending, int page, int pageSize)
+    {
+        // Start with the base query
+        var query = _orderRepository.Query()
+            .Where(o => o.CustomerId == customerId); // Filter by customer ID
+
+        // Validate and apply sorting
+        if (!string.IsNullOrEmpty(sortBy) && typeof(Order).GetProperty(sortBy) != null)
+        {
+            query = isAscending
+                ? query.OrderBy(o => EF.Property<object>(o, sortBy))
+                : query.OrderByDescending(o => EF.Property<object>(o, sortBy));
+        }
+
+        // Get total count for pagination
+        var totalCount = await query.CountAsync();
+
+        // Apply pagination
+        var orders = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        // Map to DTOs
+        var orderDtos = orders.Select(o => new OrderDto
+        {
+            OrderId = o.OrderId,
+            OrderDate = o.OrderDate,
+            TotalAmount = o.TotalAmount,
+            Status = o.Status,
+            CustomerId = o.CustomerId
+        });
+
+        // Create pagination metadata
+        var paginationMetadata = new PaginationMetadata
+        {
+            TotalItems = totalCount,
+            Page = page,
+            PageSize = pageSize,
+            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+        };
+
+        return (orderDtos, paginationMetadata);
     }
 
-    public class PaginationMetadata
-    {
-        public int TotalItems { get; set; }
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public int TotalPages { get; set; }
-    }
+
+}
 }

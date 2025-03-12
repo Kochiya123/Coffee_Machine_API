@@ -43,7 +43,6 @@ public class WalletService : IWalletService
             query = query.Where(w => w.Status == status.Value);
             hasFilters = true;
         }
-
         if (!hasFilters)
         {
             query = _walletRepository.Query(); // Reset query to fetch all records

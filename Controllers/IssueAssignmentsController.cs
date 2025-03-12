@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/issue_assignment")]
     public class IssueAssignmentController : ControllerBase
     {
         private readonly IIssueAssignmentService _issueAssignmentService;
@@ -18,10 +18,15 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetIssueAssignments(
-            [FromQuery] int? AssignmentId, [FromQuery] DateTime? AssignedDate, [FromQuery] int? Status,
-            [FromQuery] int? IssueId, [FromQuery] int? TechnicianId,
-            [FromQuery] string sortBy = "AssignmentId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? AssignmentId, 
+            [FromQuery] DateTime? AssignedDate, 
+            [FromQuery] int? Status,
+            [FromQuery] int? IssueId, 
+            [FromQuery] int? TechnicianId,
+            [FromQuery] string sortBy = "AssignmentId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (issueAssignments, pagination) = await _issueAssignmentService.GetIssueAssignmentsAsync(AssignmentId, AssignedDate, Status, IssueId, TechnicianId, sortBy, isAscending, page, pageSize);
             return Ok(new { IssueAssignments = issueAssignments, Pagination = pagination });

@@ -18,9 +18,13 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetCategories(
-            [FromQuery] int? CategoryId, [FromQuery] string? CategoryName, [FromQuery] int? Status,
-            [FromQuery] string sortBy = "CategoryId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? CategoryId, 
+            [FromQuery] string? CategoryName, 
+            [FromQuery] int? Status,
+            [FromQuery] string sortBy = "CategoryId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (categories, pagination) = await _categoryService.GetCategoriesAsync(CategoryId, CategoryName, Status, sortBy, isAscending, page, pageSize);
             return Ok(new { Categories = categories, Pagination = pagination });

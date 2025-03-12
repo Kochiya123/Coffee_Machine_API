@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/coupon")]
     public class CouponController : ControllerBase
     {
         private readonly ICouponService _couponService;
@@ -18,9 +18,14 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetCoupons(
-            [FromQuery] int? CouponId, [FromQuery] string? CouponCode, [FromQuery] decimal? DiscountAmount,
-            [FromQuery] DateTime? StartDate, [FromQuery] DateTime? ExpirationDate, [FromQuery] int? Status,
-            [FromQuery] string sortBy = "CouponId", [FromQuery] bool isAscending = true,
+            [FromQuery] int? CouponId, 
+            [FromQuery] string? CouponCode, 
+            [FromQuery] decimal? DiscountAmount,
+            [FromQuery] DateTime? StartDate, 
+            [FromQuery] DateTime? ExpirationDate, 
+            [FromQuery] int? Status,
+            [FromQuery] string sortBy = "CouponId", 
+            [FromQuery] bool isAscending = true,
             [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var (coupons, pagination) = await _couponService.GetCouponsAsync(CouponId, CouponCode, DiscountAmount, StartDate, ExpirationDate, Status, sortBy, isAscending, page, pageSize);

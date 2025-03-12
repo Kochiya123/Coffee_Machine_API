@@ -11,7 +11,7 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>WebApplication2.Models.CoffeeShop01Context</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <NameOfLastUsedPublishProfile>D:\New folder\CFS_API_2\WebApplication2\WebApplication2\Properties\PublishProfiles\FolderProfile1.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\New folder\CFS_API_2\WebApplication2\WebApplication2\Properties\PublishProfiles\WebApplication220250312214313 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
     <ActiveDebugProfile>http</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

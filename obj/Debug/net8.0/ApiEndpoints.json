@@ -248,7 +248,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.CouponController",
     "Method": "GetCoupons",
-    "RelativePath": "api/Coupon",
+    "RelativePath": "api/coupon",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -309,7 +309,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.CouponController",
     "Method": "CreateCoupon",
-    "RelativePath": "api/Coupon",
+    "RelativePath": "api/coupon",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -325,7 +325,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.CouponController",
     "Method": "GetCouponById",
-    "RelativePath": "api/Coupon/{id}",
+    "RelativePath": "api/coupon/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -341,7 +341,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.CouponController",
     "Method": "UpdateCoupon",
-    "RelativePath": "api/Coupon/{id}",
+    "RelativePath": "api/coupon/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -362,7 +362,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.CouponController",
     "Method": "DeleteCoupon",
-    "RelativePath": "api/Coupon/{id}",
+    "RelativePath": "api/coupon/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -498,7 +498,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignments",
-    "RelativePath": "api/IssueAssignment",
+    "RelativePath": "api/issue/management",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -554,7 +554,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "CreateIssueAssignment",
-    "RelativePath": "api/IssueAssignment",
+    "RelativePath": "api/issue/management",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -570,7 +570,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignmentById",
-    "RelativePath": "api/IssueAssignment/{id}",
+    "RelativePath": "api/issue/management/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -586,7 +586,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "UpdateIssueAssignment",
-    "RelativePath": "api/IssueAssignment/{id}",
+    "RelativePath": "api/issue/management/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -607,7 +607,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "DeleteIssueAssignment",
-    "RelativePath": "api/IssueAssignment/{id}",
+    "RelativePath": "api/issue/management/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -623,7 +623,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
     "Method": "GetIssueResolutions",
-    "RelativePath": "api/IssueResolution",
+    "RelativePath": "api/issue/resolution",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -684,7 +684,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
     "Method": "CreateIssueResolution",
-    "RelativePath": "api/IssueResolution",
+    "RelativePath": "api/issue/resolution",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -700,7 +700,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
     "Method": "GetIssueResolutionById",
-    "RelativePath": "api/IssueResolution/{id}",
+    "RelativePath": "api/issue/resolution/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -716,7 +716,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
     "Method": "UpdateIssueResolution",
-    "RelativePath": "api/IssueResolution/{id}",
+    "RelativePath": "api/issue/resolution/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -737,7 +737,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
     "Method": "DeleteIssueResolution",
-    "RelativePath": "api/IssueResolution/{id}",
+    "RelativePath": "api/issue/resolution/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -753,7 +753,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineController",
     "Method": "GetMachines",
-    "RelativePath": "api/Machine",
+    "RelativePath": "api/machine",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -814,7 +814,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineController",
     "Method": "CreateMachine",
-    "RelativePath": "api/Machine",
+    "RelativePath": "api/machine",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -830,7 +830,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineController",
     "Method": "GetMachineById",
-    "RelativePath": "api/Machine/{id}",
+    "RelativePath": "api/machine/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -846,7 +846,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineController",
     "Method": "UpdateMachine",
-    "RelativePath": "api/Machine/{id}",
+    "RelativePath": "api/machine/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -867,7 +867,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineController",
     "Method": "DeleteMachine",
-    "RelativePath": "api/Machine/{id}",
+    "RelativePath": "api/machine/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -883,7 +883,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "GetMachineIssues",
-    "RelativePath": "api/MachineIssue",
+    "RelativePath": "api/machine/issue",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -944,7 +944,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "CreateMachineIssue",
-    "RelativePath": "api/MachineIssue",
+    "RelativePath": "api/machine/issue",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -960,7 +960,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "GetMachineIssueById",
-    "RelativePath": "api/MachineIssue/{id}",
+    "RelativePath": "api/machine/issue/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -976,7 +976,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "UpdateMachineIssue",
-    "RelativePath": "api/MachineIssue/{id}",
+    "RelativePath": "api/machine/issue/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -997,7 +997,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "DeleteMachineIssue",
-    "RelativePath": "api/MachineIssue/{id}",
+    "RelativePath": "api/machine/issue/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1013,7 +1013,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineLogController",
     "Method": "GetMachineLogs",
-    "RelativePath": "api/MachineLog",
+    "RelativePath": "api/machine/log",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1079,7 +1079,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineLogController",
     "Method": "CreateMachineLog",
-    "RelativePath": "api/MachineLog",
+    "RelativePath": "api/machine/log",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1095,7 +1095,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineLogController",
     "Method": "GetMachineLogById",
-    "RelativePath": "api/MachineLog/{id}",
+    "RelativePath": "api/machine/log/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1111,7 +1111,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineLogController",
     "Method": "UpdateMachineLog",
-    "RelativePath": "api/MachineLog/{id}",
+    "RelativePath": "api/machine/log/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1132,7 +1132,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineLogController",
     "Method": "DeleteMachineLog",
-    "RelativePath": "api/MachineLog/{id}",
+    "RelativePath": "api/machine/log/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1148,7 +1148,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "GetMachineProducts",
-    "RelativePath": "api/MachineProduct",
+    "RelativePath": "api/machine/product",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1204,7 +1204,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "CreateMachineProduct",
-    "RelativePath": "api/MachineProduct",
+    "RelativePath": "api/machine/product",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1220,7 +1220,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "GetMachineProductById",
-    "RelativePath": "api/MachineProduct/{id}",
+    "RelativePath": "api/machine/product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1236,7 +1236,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "UpdateMachineProduct",
-    "RelativePath": "api/MachineProduct/{id}",
+    "RelativePath": "api/machine/product/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1257,7 +1257,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "DeleteMachineProduct",
-    "RelativePath": "api/MachineProduct/{id}",
+    "RelativePath": "api/machine/product/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1273,7 +1273,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineTypeController",
     "Method": "GetMachineTypes",
-    "RelativePath": "api/MachineType",
+    "RelativePath": "api/machine/type",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1319,7 +1319,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineTypeController",
     "Method": "CreateMachineType",
-    "RelativePath": "api/MachineType",
+    "RelativePath": "api/machine/type",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1335,7 +1335,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineTypeController",
     "Method": "GetMachineTypeById",
-    "RelativePath": "api/MachineType/{id}",
+    "RelativePath": "api/machine/type/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1351,7 +1351,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineTypeController",
     "Method": "UpdateMachineType",
-    "RelativePath": "api/MachineType/{id}",
+    "RelativePath": "api/machine/type/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1372,137 +1372,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.MachineTypeController",
     "Method": "DeleteMachineType",
-    "RelativePath": "api/MachineType/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "GetOrderDetails",
-    "RelativePath": "api/OrderDetail",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "OrderDetailId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Quantity",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Price",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Status",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "OrderId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProductId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "sortBy",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "isAscending",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "CreateOrderDetail",
-    "RelativePath": "api/OrderDetail",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "orderDetail",
-        "Type": "WebApplication2.Models.OrderDetail",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "GetOrderDetailById",
-    "RelativePath": "api/OrderDetail/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "UpdateOrderDetail",
-    "RelativePath": "api/OrderDetail/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "orderDetail",
-        "Type": "WebApplication2.Models.OrderDetail",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "DeleteOrderDetail",
-    "RelativePath": "api/OrderDetail/{id}",
+    "RelativePath": "api/machine/type/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1518,7 +1388,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrdersController",
     "Method": "GetOrders",
-    "RelativePath": "api/Orders",
+    "RelativePath": "api/order",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1589,7 +1459,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrdersController",
     "Method": "CreateOrder",
-    "RelativePath": "api/Orders",
+    "RelativePath": "api/order",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1615,7 +1485,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrdersController",
     "Method": "GetOrder",
-    "RelativePath": "api/Orders/{id}",
+    "RelativePath": "api/order/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1641,7 +1511,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrdersController",
     "Method": "UpdateOrder",
-    "RelativePath": "api/Orders/{id}",
+    "RelativePath": "api/order/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1672,7 +1542,137 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrdersController",
     "Method": "DeleteOrder",
-    "RelativePath": "api/Orders/{id}",
+    "RelativePath": "api/order/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "GetOrderDetails",
+    "RelativePath": "api/order/detail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "OrderDetailId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Quantity",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProductId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isAscending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "CreateOrderDetail",
+    "RelativePath": "api/order/detail",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetail",
+        "Type": "WebApplication2.Models.OrderDetail",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "GetOrderDetailById",
+    "RelativePath": "api/order/detail/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "UpdateOrderDetail",
+    "RelativePath": "api/order/detail/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "orderDetail",
+        "Type": "WebApplication2.Models.OrderDetail",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "DeleteOrderDetail",
+    "RelativePath": "api/order/detail/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1688,7 +1688,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.PaymentController",
     "Method": "GetPayments",
-    "RelativePath": "api/Payment",
+    "RelativePath": "api/payment",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1749,7 +1749,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.PaymentController",
     "Method": "CreatePayment",
-    "RelativePath": "api/Payment",
+    "RelativePath": "api/payment",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1765,7 +1765,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.PaymentController",
     "Method": "GetPaymentById",
-    "RelativePath": "api/Payment/{id}",
+    "RelativePath": "api/payment/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1781,7 +1781,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.PaymentController",
     "Method": "UpdatePayment",
-    "RelativePath": "api/Payment/{id}",
+    "RelativePath": "api/payment/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1802,7 +1802,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.PaymentController",
     "Method": "DeletePayment",
-    "RelativePath": "api/Payment/{id}",
+    "RelativePath": "api/payment/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1818,7 +1818,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.ProductController",
     "Method": "GetProducts",
-    "RelativePath": "api/Product",
+    "RelativePath": "api/product",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1879,7 +1879,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.ProductController",
     "Method": "CreateProduct",
-    "RelativePath": "api/Product",
+    "RelativePath": "api/product",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1895,7 +1895,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.ProductController",
     "Method": "GetProductById",
-    "RelativePath": "api/Product/{id}",
+    "RelativePath": "api/product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1911,7 +1911,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.ProductController",
     "Method": "UpdateProduct",
-    "RelativePath": "api/Product/{id}",
+    "RelativePath": "api/product/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1932,7 +1932,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.ProductController",
     "Method": "DeleteProduct",
-    "RelativePath": "api/Product/{id}",
+    "RelativePath": "api/product/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1948,7 +1948,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StaffController",
     "Method": "GetStaffs",
-    "RelativePath": "api/Staff",
+    "RelativePath": "api/staff",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2014,7 +2014,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StaffController",
     "Method": "CreateStaff",
-    "RelativePath": "api/Staff",
+    "RelativePath": "api/staff",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2030,7 +2030,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StaffController",
     "Method": "GetStaffById",
-    "RelativePath": "api/Staff/{id}",
+    "RelativePath": "api/staff/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2046,7 +2046,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StaffController",
     "Method": "UpdateStaff",
-    "RelativePath": "api/Staff/{id}",
+    "RelativePath": "api/staff/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2067,7 +2067,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StaffController",
     "Method": "DeleteStaff",
-    "RelativePath": "api/Staff/{id}",
+    "RelativePath": "api/staff/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -2083,7 +2083,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StoreController",
     "Method": "GetStores",
-    "RelativePath": "api/Store",
+    "RelativePath": "api/store",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2144,7 +2144,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StoreController",
     "Method": "CreateStore",
-    "RelativePath": "api/Store",
+    "RelativePath": "api/store",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2160,7 +2160,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StoreController",
     "Method": "GetStoreById",
-    "RelativePath": "api/Store/{id}",
+    "RelativePath": "api/store/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2176,7 +2176,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StoreController",
     "Method": "UpdateStore",
-    "RelativePath": "api/Store/{id}",
+    "RelativePath": "api/store/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2197,7 +2197,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.StoreController",
     "Method": "DeleteStore",
-    "RelativePath": "api/Store/{id}",
+    "RelativePath": "api/store/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -2213,7 +2213,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TechnicianController",
     "Method": "GetTechnicians",
-    "RelativePath": "api/Technician",
+    "RelativePath": "api/technician",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2274,7 +2274,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TechnicianController",
     "Method": "CreateTechnician",
-    "RelativePath": "api/Technician",
+    "RelativePath": "api/technician",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2290,7 +2290,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TechnicianController",
     "Method": "GetTechnicianById",
-    "RelativePath": "api/Technician/{id}",
+    "RelativePath": "api/technician/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2306,7 +2306,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TechnicianController",
     "Method": "UpdateTechnician",
-    "RelativePath": "api/Technician/{id}",
+    "RelativePath": "api/technician/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2327,7 +2327,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TechnicianController",
     "Method": "DeleteTechnician",
-    "RelativePath": "api/Technician/{id}",
+    "RelativePath": "api/technician/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -2343,7 +2343,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TransactionController",
     "Method": "GetTransactions",
-    "RelativePath": "api/Transaction",
+    "RelativePath": "api/transaction",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2414,7 +2414,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TransactionController",
     "Method": "CreateTransaction",
-    "RelativePath": "api/Transaction",
+    "RelativePath": "api/transaction",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2430,7 +2430,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TransactionController",
     "Method": "GetTransactionById",
-    "RelativePath": "api/Transaction/{id}",
+    "RelativePath": "api/transaction/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2446,7 +2446,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TransactionController",
     "Method": "UpdateTransaction",
-    "RelativePath": "api/Transaction/{id}",
+    "RelativePath": "api/transaction/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2467,7 +2467,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.TransactionController",
     "Method": "DeleteTransaction",
-    "RelativePath": "api/Transaction/{id}",
+    "RelativePath": "api/transaction/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -2481,55 +2481,66 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.WalletsController",
+    "ContainingType": "WebApplication2.Controllers.WalletController",
     "Method": "GetWallets",
-    "RelativePath": "api/Wallets",
+    "RelativePath": "api/wallet",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[WebApplication2.Models.Wallet, WebApplication2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "customerId",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isAscending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.WalletsController",
-    "Method": "PostWallet",
-    "RelativePath": "api/Wallets",
+    "ContainingType": "WebApplication2.Controllers.WalletController",
+    "Method": "CreateWallet",
+    "RelativePath": "api/wallet",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "wallet",
-        "Type": "WebApplication2.Models.Wallet",
+        "Name": "walletDto",
+        "Type": "WebApplication2.Models.WalletDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "WebApplication2.Models.Wallet",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.WalletsController",
-    "Method": "GetWallet",
-    "RelativePath": "api/Wallets/{id}",
+    "ContainingType": "WebApplication2.Controllers.WalletController",
+    "Method": "GetWalletById",
+    "RelativePath": "api/wallet/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2540,22 +2551,12 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "WebApplication2.Models.Wallet",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.WalletsController",
-    "Method": "PutWallet",
-    "RelativePath": "api/Wallets/{id}",
+    "ContainingType": "WebApplication2.Controllers.WalletController",
+    "Method": "UpdateWallet",
+    "RelativePath": "api/wallet/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2566,17 +2567,17 @@
         "IsRequired": true
       },
       {
-        "Name": "wallet",
-        "Type": "WebApplication2.Models.Wallet",
+        "Name": "walletDto",
+        "Type": "WebApplication2.Models.WalletDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.WalletsController",
+    "ContainingType": "WebApplication2.Controllers.WalletController",
     "Method": "DeleteWallet",
-    "RelativePath": "api/Wallets/{id}",
+    "RelativePath": "api/wallet/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

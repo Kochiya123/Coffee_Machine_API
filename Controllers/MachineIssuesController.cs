@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/machine/issue")]
     public class MachineIssueController : ControllerBase
     {
         private readonly IMachineIssueService _machineIssueService;
@@ -18,10 +18,16 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetMachineIssues(
-            [FromQuery] int? IssueId, [FromQuery] DateTime? ReportDate, [FromQuery] string? IssueDescription,
-            [FromQuery] int? Status, [FromQuery] int? MachineId, [FromQuery] long? ReportedBy,
-            [FromQuery] string sortBy = "IssueId", [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int? IssueId, 
+            [FromQuery] DateTime? ReportDate, 
+            [FromQuery] string? IssueDescription,
+            [FromQuery] int? Status,
+            [FromQuery] int? MachineId, 
+            [FromQuery] long? ReportedBy,
+            [FromQuery] string sortBy = "IssueId", 
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10)
         {
             var (machineIssues, pagination) = await _machineIssueService.GetMachineIssuesAsync(IssueId, ReportDate, IssueDescription, Status, MachineId, ReportedBy, sortBy, isAscending, page, pageSize);
             return Ok(new { MachineIssues = machineIssues, Pagination = pagination });

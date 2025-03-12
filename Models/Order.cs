@@ -9,8 +9,6 @@ public partial class Order
 
     public DateTime OrderDate { get; set; }
 
-    public string OrderStatus { get; set; } = null!;
-
     public string? OrderDescription { get; set; }
 
     public decimal TotalAmount { get; set; }

@@ -248,7 +248,6 @@ public partial class CoffeeShop01Context : DbContext
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.MachineId).HasColumnName("MachineID");
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
-            entity.Property(e => e.OrderStatus).HasMaxLength(50);
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)

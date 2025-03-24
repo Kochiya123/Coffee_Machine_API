@@ -88,5 +88,18 @@ namespace WebApplication2.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("customer/{customerId}")]
+        public async Task<IActionResult> GetOrdersByCustomer(
+            long customerId,
+            [FromQuery] string sortBy = "OrderDate",
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var (orders, pagination) = await _orderService.GetOrdersByCustomerAsync(customerId, sortBy, isAscending, page, pageSize);
+            return Ok(new { Orders = orders, Pagination = pagination });
+        }
+
     }
 }

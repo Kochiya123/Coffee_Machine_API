@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/machine/product")]
+    [Route("api/machine")]
     public class MachineProductController : ControllerBase
     {
         private readonly IMachineProductService _machineProductService;
@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
             _machineProductService = machineProductService;
         }
 
-        [HttpGet]
+        [HttpGet("product")]
         public async Task<IActionResult> GetMachineProducts(
             [FromQuery] int? MachineProductId, 
             [FromQuery] int? MachineStockQuantity, 
@@ -32,7 +32,7 @@ namespace WebApplication2.Controllers
             return Ok(new { MachineProducts = machineProducts, Pagination = pagination });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/product/{id}")]
         public async Task<IActionResult> GetMachineProductById(int id)
         {
             var machineProduct = await _machineProductService.GetMachineProductByIdAsync(id);
@@ -50,7 +50,7 @@ namespace WebApplication2.Controllers
             return CreatedAtAction(nameof(GetMachineProductById), new { id = createdMachineProduct.MachineProductId }, createdMachineProduct);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/product")]
         public async Task<IActionResult> UpdateMachineProduct(int id, MachineProduct machineProduct)
         {
             var updatedMachineProduct = await _machineProductService.UpdateMachineProductAsync(id, machineProduct);
@@ -61,7 +61,7 @@ namespace WebApplication2.Controllers
             return Ok(updatedMachineProduct);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/product")]
         public async Task<IActionResult> DeleteMachineProduct(int id)
         {
             var result = await _machineProductService.DeleteMachineProductAsync(id);

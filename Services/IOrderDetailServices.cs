@@ -10,9 +10,9 @@ namespace WebApplication2.Services
 {
     public interface IOrderDetailService
     {
-        Task<(IEnumerable<OrderDetail> OrderDetails, PaginationMetadata Pagination)> GetOrderDetailsAsync(
+        /*Task<(IEnumerable<OrderDetail> OrderDetails, PaginationMetadata Pagination)> GetOrderDetailsAsync(
             int? OrderDetailId, int? Quantity, decimal? Price, int? Status, int? OrderId, int? ProductId,
-            string sortBy, bool isAscending, int page, int pageSize);
+            string sortBy, bool isAscending, int page, int pageSize);*/
         Task<OrderDetail> GetOrderDetailByIdAsync(int id);
         Task<OrderDetail> CreateOrderDetailAsync(OrderDetail orderDetail);
         Task<OrderDetail> UpdateOrderDetailAsync(int id, OrderDetail orderDetail);
@@ -28,7 +28,7 @@ namespace WebApplication2.Services
             _orderDetailRepository = orderDetailRepository;
         }
 
-        public async Task<(IEnumerable<OrderDetail> OrderDetails, PaginationMetadata Pagination)> GetOrderDetailsAsync(
+        /*public async Task<(IEnumerable<OrderDetail> OrderDetails, PaginationMetadata Pagination)> GetOrderDetailsAsync(
             int? OrderDetailId, int? Quantity, decimal? Price, int? Status, int? OrderId, int? ProductId,
             string sortBy, bool isAscending, int page, int pageSize)
         {
@@ -96,7 +96,7 @@ namespace WebApplication2.Services
             };
 
             return (orderDetails, paginationMetadata);
-        }
+        }*/
 
         public async Task<OrderDetail> GetOrderDetailByIdAsync(int id)
         {

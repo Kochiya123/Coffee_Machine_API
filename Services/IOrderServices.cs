@@ -182,7 +182,7 @@ namespace WebApplication2.Services
     {
         // Start with the base query
         var query = _orderRepository.Query()
-            .Where(o => o.CustomerId == customerId); // Filter by customer ID
+            .Where(o => o.CustomerId == customerId); 
 
         // Validate and apply sorting
         if (!string.IsNullOrEmpty(sortBy) && typeof(Order).GetProperty(sortBy) != null)

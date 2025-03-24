@@ -3,6 +3,12 @@
     "apis1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/WebApplication2CoffeeShop/apis/WebApplication2",
       "type": "apis.azure"
+    },
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:WebApplication2Context1",
+      "dynamicId": null
     }
   }
 }

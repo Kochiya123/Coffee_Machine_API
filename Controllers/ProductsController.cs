@@ -17,6 +17,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
+        [Consumes("multipart/form-data")] // Specifies expected Content-Type
         public async Task<IActionResult> GetProducts(
             [FromQuery] int? ProductId, 
             [FromQuery] string? ProductName, 

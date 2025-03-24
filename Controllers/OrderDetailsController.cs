@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/order/detail")]
+    [Route("api/order")]
     public class OrderDetailController : ControllerBase
     {
         private readonly IOrderDetailService _orderDetailService;
@@ -16,24 +16,7 @@ namespace WebApplication2.Controllers
             _orderDetailService = orderDetailService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetOrderDetails(
-            [FromQuery] int? OrderDetailId, 
-            [FromQuery] int? Quantity, 
-            [FromQuery] decimal? Price,
-            [FromQuery] int? Status, 
-            [FromQuery] int? OrderId, 
-            [FromQuery] int? ProductId,
-            [FromQuery] string sortBy = "OrderDetailId", 
-            [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
-            [FromQuery] int pageSize = 10)
-        {
-            var (orderDetails, pagination) = await _orderDetailService.GetOrderDetailsAsync(OrderDetailId, Quantity, Price, Status, OrderId, ProductId, sortBy, isAscending, page, pageSize);
-            return Ok(new { OrderDetails = orderDetails, Pagination = pagination });
-        }
-
-        [HttpGet("{id}")]
+        [HttpGet("{id}/detail")]
         public async Task<IActionResult> GetOrderDetailById(int id)
         {
             var orderDetail = await _orderDetailService.GetOrderDetailByIdAsync(id);
@@ -51,7 +34,7 @@ namespace WebApplication2.Controllers
             return CreatedAtAction(nameof(GetOrderDetailById), new { id = createdOrderDetail.OrderDetailId }, createdOrderDetail);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/detail")]
         public async Task<IActionResult> UpdateOrderDetail(int id, OrderDetail orderDetail)
         {
             var updatedOrderDetail = await _orderDetailService.UpdateOrderDetailAsync(id, orderDetail);
@@ -62,7 +45,7 @@ namespace WebApplication2.Controllers
             return Ok(updatedOrderDetail);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/detail")]
         public async Task<IActionResult> DeleteOrderDetail(int id)
         {
             var result = await _orderDetailService.DeleteOrderDetailAsync(id);

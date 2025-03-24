@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/machine/log")]
+    [Route("api/machine")]
     public class MachineLogController : ControllerBase
     {
         private readonly IMachineLogService _machineLogService;
@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
             _machineLogService = machineLogService;
         }
 
-        [HttpGet]
+        [HttpGet("log")]
         public async Task<IActionResult> GetMachineLogs(
             [FromQuery] int? LogId, 
             [FromQuery] DateTime? LogDate, 
@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
             return Ok(new { MachineLogs = machineLogs, Pagination = pagination });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/log")]
         public async Task<IActionResult> GetMachineLogById(int id)
         {
             var machineLog = await _machineLogService.GetMachineLogByIdAsync(id);
@@ -52,7 +52,7 @@ namespace WebApplication2.Controllers
             return CreatedAtAction(nameof(GetMachineLogById), new { id = createdMachineLog.LogId }, createdMachineLog);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/log")]
         public async Task<IActionResult> UpdateMachineLog(int id, MachineLog machineLog)
         {
             var updatedMachineLog = await _machineLogService.UpdateMachineLogAsync(id, machineLog);
@@ -63,7 +63,7 @@ namespace WebApplication2.Controllers
             return Ok(updatedMachineLog);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/log")]
         public async Task<IActionResult> DeleteMachineLog(int id)
         {
             var result = await _machineLogService.DeleteMachineLogAsync(id);

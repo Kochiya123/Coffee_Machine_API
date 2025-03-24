@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/issue_assignment")]
+    [Route("api/issue/assignment")]
     public class IssueAssignmentController : ControllerBase
     {
         private readonly IIssueAssignmentService _issueAssignmentService;

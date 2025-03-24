@@ -1,4 +1,5 @@
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\PubTmp\Out\WebApplication2.exe
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\PubTmp\Out\appsettings.Container.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\PubTmp\Out\appsettings.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Release\net8.0\PubTmp\Out\WebApplication2.dll

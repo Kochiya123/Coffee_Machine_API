@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/issue/resolution")]
+    [Route("api/issue")]
     public class IssueResolutionController : ControllerBase
     {
         private readonly IIssueResolutionService _issueResolutionService;
@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
             _issueResolutionService = issueResolutionService;
         }
 
-        [HttpGet]
+        [HttpGet("resolution")]
         public async Task<IActionResult> GetIssueResolutions(
             [FromQuery] int? ResolutionId, 
             [FromQuery] DateTime? ResolutionDate, 
@@ -33,7 +33,7 @@ namespace WebApplication2.Controllers
             return Ok(new { IssueResolutions = issueResolutions, Pagination = pagination });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/resolution")]
         public async Task<IActionResult> GetIssueResolutionById(int id)
         {
             var issueResolution = await _issueResolutionService.GetIssueResolutionByIdAsync(id);
@@ -51,7 +51,7 @@ namespace WebApplication2.Controllers
             return CreatedAtAction(nameof(GetIssueResolutionById), new { id = createdIssueResolution.ResolutionId }, createdIssueResolution);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/resolution")]
         public async Task<IActionResult> UpdateIssueResolution(int id, IssueResolution issueResolution)
         {
             var updatedIssueResolution = await _issueResolutionService.UpdateIssueResolutionAsync(id, issueResolution);
@@ -62,7 +62,7 @@ namespace WebApplication2.Controllers
             return Ok(updatedIssueResolution);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/resolution")]
         public async Task<IActionResult> DeleteIssueResolution(int id)
         {
             var result = await _issueResolutionService.DeleteIssueResolutionAsync(id);

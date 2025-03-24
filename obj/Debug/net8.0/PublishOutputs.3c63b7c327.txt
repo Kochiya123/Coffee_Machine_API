@@ -1,11 +1,7 @@
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\WebApplication2.exe
-D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\publish\web.config
+D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\appsettings.Container.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\appsettings.Development.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\appsettings.json
-D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\publish\appsettings.Development.json
-D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\publish\appsettings.json
-D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\publish\WebApplication2.deps.json
-D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\publish\WebApplication2.runtimeconfig.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\WebApplication2.dll
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\WebApplication2.runtimeconfig.json
 D:\New folder\CFS_API_2\WebApplication2\WebApplication2\obj\Debug\net8.0\PubTmp\Out\WebApplication2.pdb

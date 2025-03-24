@@ -4,27 +4,30 @@ using Google.Apis.Auth.OAuth2;
 
 public class FirebaseService
 {
+    private readonly FirebaseAuth _auth;
+
     public FirebaseService()
     {
         if (FirebaseApp.DefaultInstance == null)
         {
-            FirebaseApp.Create(new AppOptions()
+            FirebaseApp.Create(new AppOptions
             {
-                Credential = GoogleCredential.FromFile("path/to/your/firebase-service-account.json")
+                Credential = GoogleCredential.FromFile("firebase-config.json") // Your service account JSON file
             });
         }
+        _auth = FirebaseAuth.DefaultInstance;
     }
 
-    public async Task<string> VerifyIdTokenAsync(string idToken)
+    public async Task<string?> VerifyFirebaseToken(string idToken)
     {
         try
         {
-            var decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
-            return decodedToken.Uid; // Return the user's UID
+            var decodedToken = await _auth.VerifyIdTokenAsync(idToken);
+            return decodedToken.Claims["email"]?.ToString(); // Extract email from the token
         }
-        catch (Exception ex)
+        catch
         {
-            throw new Exception("Invalid ID token", ex);
+            return null; // Invalid token
         }
     }
 }

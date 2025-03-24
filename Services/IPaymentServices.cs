@@ -36,11 +36,6 @@ namespace WebApplication2.Services
             bool hasFilters = false;
 
             // Apply filtering
-            if (PaymentId.HasValue)
-            {
-                query = query.Where(p => p.PaymentId == PaymentId);
-                hasFilters = true;
-            }
             if (!string.IsNullOrEmpty(PaymentMethod))
             {
                 query = query.Where(p => p.PaymentMethod.Contains(PaymentMethod));
@@ -54,16 +49,6 @@ namespace WebApplication2.Services
             if (PaymentStatus.HasValue)
             {
                 query = query.Where(p => p.PaymentStatus == PaymentStatus);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(p => p.Status == Status);
-                hasFilters = true;
-            }
-            if (OrderId.HasValue)
-            {
-                query = query.Where(p => p.OrderId == OrderId);
                 hasFilters = true;
             }
 
@@ -120,11 +105,11 @@ namespace WebApplication2.Services
                 return null;
             }
 
-            existingPayment.PaymentMethod = payment.PaymentMethod;
-            existingPayment.PaymentDate = payment.PaymentDate;
-            existingPayment.PaymentStatus = payment.PaymentStatus;
-            existingPayment.Status = payment.Status;
-            existingPayment.OrderId = payment.OrderId;
+            existingPayment.PaymentMethod = payment.PaymentMethod != null ? payment.PaymentMethod : existingPayment.PaymentMethod;
+            existingPayment.PaymentDate = payment.PaymentDate != null ? payment.PaymentDate : existingPayment.PaymentDate;
+            existingPayment.PaymentStatus = payment.PaymentStatus != null ? payment.PaymentStatus : existingPayment.PaymentStatus;
+            existingPayment.Status = payment.Status != null ? payment.Status : existingPayment.Status;
+            existingPayment.OrderId = existingPayment.OrderId;
 
             await _paymentRepository.UpdateAsync(existingPayment);
             await _paymentRepository.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace WebApplication2.Models;
@@ -47,4 +48,15 @@ public partial class CustomerDto
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public List<WalletDto> Wallets { get; set; } = new List<WalletDto>();
+}
+
+public partial class AuthenticationUser : IdentityUser
+{
+    public string FirstName { get; set; } = null!;
+
+    public string LastName { get; set; } = null!;
+
+    public string? Email { get; set; }
+
+    public string FirebaseUserId { get; set; }
 }

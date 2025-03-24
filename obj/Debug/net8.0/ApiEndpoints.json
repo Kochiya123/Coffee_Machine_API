@@ -115,22 +115,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AuthController",
-    "Method": "Login",
-    "RelativePath": "api/auth/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "authorization",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "WebApplication2.Controllers.CategoryController",
     "Method": "GetCategories",
     "RelativePath": "api/category",
@@ -496,9 +480,78 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
+    "Method": "CreateIssueResolution",
+    "RelativePath": "api/issue",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "issueResolution",
+        "Type": "WebApplication2.Models.IssueResolution",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
+    "Method": "GetIssueResolutionById",
+    "RelativePath": "api/issue/{id}/resolution",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
+    "Method": "UpdateIssueResolution",
+    "RelativePath": "api/issue/{id}/resolution",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "issueResolution",
+        "Type": "WebApplication2.Models.IssueResolution",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
+    "Method": "DeleteIssueResolution",
+    "RelativePath": "api/issue/{id}/resolution",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignments",
-    "RelativePath": "api/issue_assignment",
+    "RelativePath": "api/issue/assignment",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -554,7 +607,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "CreateIssueAssignment",
-    "RelativePath": "api/issue_assignment",
+    "RelativePath": "api/issue/assignment",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -570,7 +623,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "GetIssueAssignmentById",
-    "RelativePath": "api/issue_assignment/{id}",
+    "RelativePath": "api/issue/assignment/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -586,7 +639,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "UpdateIssueAssignment",
-    "RelativePath": "api/issue_assignment/{id}",
+    "RelativePath": "api/issue/assignment/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -607,7 +660,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.IssueAssignmentController",
     "Method": "DeleteIssueAssignment",
-    "RelativePath": "api/issue_assignment/{id}",
+    "RelativePath": "api/issue/assignment/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -682,69 +735,48 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
-    "Method": "CreateIssueResolution",
-    "RelativePath": "api/issue/resolution",
+    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
+    "Method": "CreateMachineIssue",
+    "RelativePath": "api/machine",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "issueResolution",
-        "Type": "WebApplication2.Models.IssueResolution",
+        "Name": "machineIssue",
+        "Type": "WebApplication2.Models.MachineIssue",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
-    "Method": "GetIssueResolutionById",
-    "RelativePath": "api/issue/resolution/{id}",
-    "HttpMethod": "GET",
+    "ContainingType": "WebApplication2.Controllers.MachineLogController",
+    "Method": "CreateMachineLog",
+    "RelativePath": "api/machine",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "machineLog",
+        "Type": "WebApplication2.Models.MachineLog",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
-    "Method": "UpdateIssueResolution",
-    "RelativePath": "api/issue/resolution/{id}",
-    "HttpMethod": "PUT",
+    "ContainingType": "WebApplication2.Controllers.MachineProductController",
+    "Method": "CreateMachineProduct",
+    "RelativePath": "api/machine",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "issueResolution",
-        "Type": "WebApplication2.Models.IssueResolution",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.IssueResolutionController",
-    "Method": "DeleteIssueResolution",
-    "RelativePath": "api/issue/resolution/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "machineProduct",
+        "Type": "WebApplication2.Models.MachineProduct",
         "IsRequired": true
       }
     ],
@@ -882,6 +914,149 @@
   },
   {
     "ContainingType": "WebApplication2.Controllers.MachineIssueController",
+    "Method": "GetMachineIssueById",
+    "RelativePath": "api/machine/{id}/issue",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
+    "Method": "UpdateMachineIssue",
+    "RelativePath": "api/machine/{id}/issue",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "machineIssue",
+        "Type": "WebApplication2.Models.MachineIssue",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
+    "Method": "DeleteMachineIssue",
+    "RelativePath": "api/machine/{id}/issue",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineLogController",
+    "Method": "GetMachineLogById",
+    "RelativePath": "api/machine/{id}/log",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineLogController",
+    "Method": "UpdateMachineLog",
+    "RelativePath": "api/machine/{id}/log",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "machineLog",
+        "Type": "WebApplication2.Models.MachineLog",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineLogController",
+    "Method": "DeleteMachineLog",
+    "RelativePath": "api/machine/{id}/log",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineProductController",
+    "Method": "UpdateMachineProduct",
+    "RelativePath": "api/machine/{id}/product",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "machineProduct",
+        "Type": "WebApplication2.Models.MachineProduct",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineProductController",
+    "Method": "DeleteMachineProduct",
+    "RelativePath": "api/machine/{id}/product",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
     "Method": "GetMachineIssues",
     "RelativePath": "api/machine/issue",
     "HttpMethod": "GET",
@@ -937,75 +1112,6 @@
         "Name": "pageSize",
         "Type": "System.Int32",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
-    "Method": "CreateMachineIssue",
-    "RelativePath": "api/machine/issue",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "machineIssue",
-        "Type": "WebApplication2.Models.MachineIssue",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
-    "Method": "GetMachineIssueById",
-    "RelativePath": "api/machine/issue/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
-    "Method": "UpdateMachineIssue",
-    "RelativePath": "api/machine/issue/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "machineIssue",
-        "Type": "WebApplication2.Models.MachineIssue",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineIssueController",
-    "Method": "DeleteMachineIssue",
-    "RelativePath": "api/machine/issue/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1077,75 +1183,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebApplication2.Controllers.MachineLogController",
-    "Method": "CreateMachineLog",
-    "RelativePath": "api/machine/log",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "machineLog",
-        "Type": "WebApplication2.Models.MachineLog",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineLogController",
-    "Method": "GetMachineLogById",
-    "RelativePath": "api/machine/log/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineLogController",
-    "Method": "UpdateMachineLog",
-    "RelativePath": "api/machine/log/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "machineLog",
-        "Type": "WebApplication2.Models.MachineLog",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineLogController",
-    "Method": "DeleteMachineLog",
-    "RelativePath": "api/machine/log/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "WebApplication2.Controllers.MachineProductController",
     "Method": "GetMachineProducts",
     "RelativePath": "api/machine/product",
@@ -1197,75 +1234,6 @@
         "Name": "pageSize",
         "Type": "System.Int32",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineProductController",
-    "Method": "CreateMachineProduct",
-    "RelativePath": "api/machine/product",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "machineProduct",
-        "Type": "WebApplication2.Models.MachineProduct",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineProductController",
-    "Method": "GetMachineProductById",
-    "RelativePath": "api/machine/product/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineProductController",
-    "Method": "UpdateMachineProduct",
-    "RelativePath": "api/machine/product/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "machineProduct",
-        "Type": "WebApplication2.Models.MachineProduct",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.MachineProductController",
-    "Method": "DeleteMachineProduct",
-    "RelativePath": "api/machine/product/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1380,6 +1348,22 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
+    "Method": "CreateOrderDetail",
+    "RelativePath": "api/order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetail",
+        "Type": "WebApplication2.Models.OrderDetail",
         "IsRequired": true
       }
     ],
@@ -1557,85 +1541,8 @@
   },
   {
     "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "GetOrderDetails",
-    "RelativePath": "api/order/detail",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "OrderDetailId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Quantity",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Price",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Status",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "OrderId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProductId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "sortBy",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "isAscending",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
-    "Method": "CreateOrderDetail",
-    "RelativePath": "api/order/detail",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "orderDetail",
-        "Type": "WebApplication2.Models.OrderDetail",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebApplication2.Controllers.OrderDetailController",
     "Method": "GetOrderDetailById",
-    "RelativePath": "api/order/detail/{id}",
+    "RelativePath": "api/order/{id}/detail",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1651,7 +1558,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrderDetailController",
     "Method": "UpdateOrderDetail",
-    "RelativePath": "api/order/detail/{id}",
+    "RelativePath": "api/order/{id}/detail",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1672,7 +1579,7 @@
   {
     "ContainingType": "WebApplication2.Controllers.OrderDetailController",
     "Method": "DeleteOrderDetail",
-    "RelativePath": "api/order/detail/{id}",
+    "RelativePath": "api/order/{id}/detail",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1681,6 +1588,42 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.OrdersController",
+    "Method": "GetOrdersByCustomer",
+    "RelativePath": "api/order/customer/{customerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isAscending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -2585,6 +2528,38 @@
       {
         "Name": "id",
         "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthController",
+    "Method": "AuthenticateUser",
+    "RelativePath": "authenticate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Microsoft.AspNetCore.Identity.Data.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication2.Controllers.MachineProductController",
+    "Method": "GetMachineProductById",
+    "RelativePath": "product/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

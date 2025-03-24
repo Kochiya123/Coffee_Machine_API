@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/machine/issue")]
+    [Route("api/machine")]
     public class MachineIssueController : ControllerBase
     {
         private readonly IMachineIssueService _machineIssueService;
@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
             _machineIssueService = machineIssueService;
         }
 
-        [HttpGet]
+        [HttpGet("issue")]
         public async Task<IActionResult> GetMachineIssues(
             [FromQuery] int? IssueId, 
             [FromQuery] DateTime? ReportDate, 
@@ -33,7 +33,7 @@ namespace WebApplication2.Controllers
             return Ok(new { MachineIssues = machineIssues, Pagination = pagination });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/issue")]
         public async Task<IActionResult> GetMachineIssueById(int id)
         {
             var machineIssue = await _machineIssueService.GetMachineIssueByIdAsync(id);
@@ -51,7 +51,7 @@ namespace WebApplication2.Controllers
             return CreatedAtAction(nameof(GetMachineIssueById), new { id = createdMachineIssue.IssueId }, createdMachineIssue);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/issue")]
         public async Task<IActionResult> UpdateMachineIssue(int id, MachineIssue machineIssue)
         {
             var updatedMachineIssue = await _machineIssueService.UpdateMachineIssueAsync(id, machineIssue);
@@ -62,7 +62,7 @@ namespace WebApplication2.Controllers
             return Ok(updatedMachineIssue);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/issue")]
         public async Task<IActionResult> DeleteMachineIssue(int id)
         {
             var result = await _machineIssueService.DeleteMachineIssueAsync(id);

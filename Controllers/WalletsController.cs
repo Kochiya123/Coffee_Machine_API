@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/wallet")]
+    [Route("api/customer/{customerId}/wallet")]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService _walletService;

@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Google;
 using Microsoft.Extensions.FileProviders;
+using WebApplication2.Payments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IMachineTypeService, MachineTypeService>();
 builder.Services.AddScoped<FirebaseService>();
+builder.Services.AddScoped<VNPayHelper>();
 builder.Services.AddScoped<IJwtTokenGenerator,JwtTokenGenerator>();
 builder.Services.AddHttpClient();
 builder.WebHost.UseIISIntegration();

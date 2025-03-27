@@ -16,12 +16,13 @@ namespace WebApplication2.Controllers
         private readonly VNPayHelper _vnPayHelper;
         private readonly IWalletService _walletService;
 
-        public PaymentController(IPaymentService paymentService, IOrderService orderService, IConfiguration configuration, IWalletService walletService)
+        public PaymentController(IPaymentService paymentService, IOrderService orderService, IConfiguration configuration, IWalletService walletService,VNPayHelper vNPayHelper)
         {
             _paymentService = paymentService;
             _orderRepository = orderService;
             _configuration = configuration;
             _walletService = walletService;
+            _vnPayHelper = vNPayHelper;
         }
 
         [HttpGet]
@@ -75,7 +76,12 @@ namespace WebApplication2.Controllers
             }
 
             // Generate VNPay payment URL
-            string paymentUrl = _vnPayHelper.CreatePaymentUrl(HttpContext, request.Amount, request.OrderId.ToString());
+            string paymentUrl = _vnPayHelper.CreatePaymentUrl(HttpContext, request.Amount, request.OrderId.ToString()) ;
+
+            if (paymentUrl == null)
+            {
+                return BadRequest("Can't generate URL");
+            }
 
             return Ok(new { PaymentUrl = paymentUrl });
         }

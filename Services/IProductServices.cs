@@ -93,14 +93,17 @@ namespace WebApplication2.Services
             if (!string.IsNullOrWhiteSpace(productDto.Description)) existingProduct.Description = productDto.Description;
             if (productDto.Price.HasValue) existingProduct.Price = productDto.Price;
             if (productDto.StockQuantity.HasValue) existingProduct.StockQuantity = productDto.StockQuantity;
-            if (productDto.Status==null) existingProduct.Status = productDto.Status;
+            if (productDto.Status != null) existingProduct.Status = productDto.Status;
             if (productDto.CategoryId != 0) existingProduct.CategoryId = productDto.CategoryId;
+            if (!string.IsNullOrWhiteSpace(productDto.Path)) existingProduct.Path = productDto.Path;
+            
 
             await _productRepository.UpdateAsync(existingProduct);
             await _productRepository.SaveChangesAsync();
 
             return MapToDto(existingProduct);
         }
+
 
         public async Task<bool> DeleteProductAsync(int id)
         {

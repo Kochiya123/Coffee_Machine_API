@@ -123,7 +123,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPut("{id}")]
-        [Consumes("multipart/form-data")] // ✅ Accept form-data
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDto productDto, IFormFile? imageFile)
         {
             if (productDto == null)
@@ -131,43 +131,36 @@ namespace WebApplication2.Controllers
                 return BadRequest("Invalid product data.");
             }
 
-            // 🔹 Fetch the existing product from the database
             var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
             {
                 return NotFound();
             }
 
-            // 🔹 Update the product details
-            existingProduct.ProductCode = productDto.ProductCode;
-            existingProduct.ProductName = productDto.ProductName;
-            existingProduct.Price = productDto.Price;
-            existingProduct.StockQuantity = productDto.StockQuantity;
-            existingProduct.Status = productDto.Status;
-            existingProduct.CategoryId = productDto.CategoryId;
-
-            // 🔹 Handle Image Upload (If a new image is provided)
+            // 🔹 Handle Image Upload
             if (imageFile != null)
             {
-                var imagePath = await SaveImageAsync(imageFile);
-                existingProduct.Path = imagePath; // Update Image Path
+                var newImagePath = await SaveImageAsync(imageFile, existingProduct.Path); // ✅ Pass old image path
+                productDto.Path = newImagePath; // ✅ Assign new path
             }
 
-            // 🔹 Update the product in the database
-            var updatedProduct = await _productService.UpdateProductAsync(id,existingProduct);
+            var updatedProduct = await _productService.UpdateProductAsync(id, productDto);
 
             return Ok(new
             {
-                updatedProduct.ProductCode,
-                updatedProduct.ProductId,
-                updatedProduct.ProductName,
-                updatedProduct.Price,
-                updatedProduct.StockQuantity,
-                updatedProduct.Status,
-                updatedProduct.CategoryId,
-                ImageUrl = $"{Request.Scheme}://{Request.Host}{updatedProduct.Path}"
+                updatedProduct?.ProductCode,
+                updatedProduct?.ProductId,
+                updatedProduct?.ProductName,
+                updatedProduct?.Price,
+                updatedProduct?.StockQuantity,
+                updatedProduct?.Status,
+                updatedProduct?.CategoryId,
+                ImageUrl = updatedProduct != null ? $"{Request.Scheme}://{Request.Host}{updatedProduct.Path}" : null
             });
         }
+
+
+
 
 
         [HttpDelete("{id}")]
@@ -181,11 +174,22 @@ namespace WebApplication2.Controllers
             return NoContent();
         }
 
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
+        private async Task<string> SaveImageAsync(IFormFile imageFile, string? existingImagePath)
         {
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory());
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ProductImages");
             Directory.CreateDirectory(uploadsFolder); // Ensure folder exists
 
+            // 🔹 Delete the old image if it exists
+            if (!string.IsNullOrEmpty(existingImagePath))
+            {
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingImagePath.TrimStart('/'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            // 🔹 Save the new image
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(imageFile.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
@@ -194,8 +198,9 @@ namespace WebApplication2.Controllers
                 await imageFile.CopyToAsync(stream);
             }
 
-            return $"/ProductImages/{fileName}"; // Return relative path for serving
+            return $"/ProductImages/{fileName}"; // Return relative path
         }
+
 
         [HttpGet("image/{fileName}")]
         public IActionResult GetProductImage(string fileName)

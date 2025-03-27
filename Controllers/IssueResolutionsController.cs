@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/issue")]
+    [Route("api/issue/{issueId}/resolution")]
     public class IssueResolutionController : ControllerBase
     {
         private readonly IIssueResolutionService _issueResolutionService;
@@ -16,61 +16,60 @@ namespace WebApplication2.Controllers
             _issueResolutionService = issueResolutionService;
         }
 
-        [HttpGet("resolution")]
-        public async Task<IActionResult> GetIssueResolutions(
-            [FromQuery] int? ResolutionId, 
-            [FromQuery] DateTime? ResolutionDate, 
-            [FromQuery] string? ResolutionDescription,
-            [FromQuery] int? Status, 
-            [FromQuery] int? IssueId, 
-            [FromQuery] int? TechnicianId,
-            [FromQuery] string sortBy = "ResolutionId", 
+        [HttpGet]
+        public async Task<ActionResult<(IEnumerable<IssueResolutionDto>, PaginationMetadata)>> GetIssueResolutions(
+            [FromQuery] int? issueId,
+            [FromQuery] int? technicianId,
+            [FromQuery] int? status,
+            [FromQuery] DateTime? resolutionDate,
+            [FromQuery] string sortBy = "ResolutionId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (issueResolutions, pagination) = await _issueResolutionService.GetIssueResolutionsAsync(ResolutionId, ResolutionDate, ResolutionDescription, Status, IssueId, TechnicianId, sortBy, isAscending, page, pageSize);
-            return Ok(new { IssueResolutions = issueResolutions, Pagination = pagination });
+            var (resolutions, pagination) = await _issueResolutionService.GetIssueResolutionsAsync(issueId, technicianId, status, resolutionDate, sortBy, isAscending, page, pageSize);
+            return Ok(new { Resolutions = resolutions, Pagination = pagination });
         }
 
-        [HttpGet("{id}/resolution")]
-        public async Task<IActionResult> GetIssueResolutionById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IssueResolutionDto>> GetIssueResolution(int id)
         {
-            var issueResolution = await _issueResolutionService.GetIssueResolutionByIdAsync(id);
-            if (issueResolution == null)
-            {
+            var resolution = await _issueResolutionService.GetIssueResolutionByIdAsync(id);
+            if (resolution == null)
                 return NotFound();
-            }
-            return Ok(issueResolution);
+
+            return Ok(resolution);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIssueResolution(IssueResolution issueResolution)
+        public async Task<ActionResult<IssueResolutionDto>> CreateIssueResolution([FromBody] IssueResolutionDto resolutionDto)
         {
-            var createdIssueResolution = await _issueResolutionService.CreateIssueResolutionAsync(issueResolution);
-            return CreatedAtAction(nameof(GetIssueResolutionById), new { id = createdIssueResolution.ResolutionId }, createdIssueResolution);
+            var createdResolution = await _issueResolutionService.CreateIssueResolutionAsync(resolutionDto);
+            return CreatedAtAction(nameof(GetIssueResolution), new { id = createdResolution.ResolutionId }, createdResolution);
         }
 
-        [HttpPut("{id}/resolution")]
-        public async Task<IActionResult> UpdateIssueResolution(int id, IssueResolution issueResolution)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<IssueResolutionDto>> UpdateIssueResolution(int id, [FromBody] IssueResolutionDto resolutionDto)
         {
-            var updatedIssueResolution = await _issueResolutionService.UpdateIssueResolutionAsync(id, issueResolution);
-            if (updatedIssueResolution == null)
-            {
+            if (id != resolutionDto.ResolutionId)
+                return BadRequest("ID mismatch");
+
+            var updatedResolution = await _issueResolutionService.UpdateIssueResolutionAsync(id, resolutionDto);
+            if (updatedResolution == null)
                 return NotFound();
-            }
-            return Ok(updatedIssueResolution);
+
+            return Ok(updatedResolution);
         }
 
-        [HttpDelete("{id}/resolution")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIssueResolution(int id)
         {
             var result = await _issueResolutionService.DeleteIssueResolutionAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }
+
 }

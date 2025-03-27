@@ -10,78 +10,52 @@ namespace WebApplication2.Services
 {
     public interface IMachineProductService
     {
-        Task<(IEnumerable<MachineProduct> MachineProducts, PaginationMetadata Pagination)> GetMachineProductsAsync(
-            int? MachineProductId, int? MachineStockQuantity, int? Status, int? MachineId, int? ProductId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<MachineProduct> GetMachineProductByIdAsync(int id);
-        Task<MachineProduct> CreateMachineProductAsync(MachineProduct machineProduct);
-        Task<MachineProduct> UpdateMachineProductAsync(int id, MachineProduct machineProduct);
+        Task<(IEnumerable<MachineProductDto> Products, PaginationMetadata Pagination)> GetMachineProductsAsync(int? machineId, int? productId, int? status, string sortBy, bool isAscending, int page, int pageSize);
+        Task<MachineProductDto> GetMachineProductByIdAsync(int id);
+        Task<MachineProductDto> CreateMachineProductAsync(MachineProductDto productDto);
+        Task<MachineProductDto> UpdateMachineProductAsync(int id, MachineProductDto productDto);
         Task<bool> DeleteMachineProductAsync(int id);
     }
 
     public class MachineProductService : IMachineProductService
     {
-        private readonly IRepository<MachineProduct> _machineProductRepository;
+        private readonly IRepository<MachineProduct> _productRepository;
 
-        public MachineProductService(IRepository<MachineProduct> machineProductRepository)
+        public MachineProductService(IRepository<MachineProduct> productRepository)
         {
-            _machineProductRepository = machineProductRepository;
+            _productRepository = productRepository;
         }
 
-        public async Task<(IEnumerable<MachineProduct> MachineProducts, PaginationMetadata Pagination)> GetMachineProductsAsync(
-            int? MachineProductId, int? MachineStockQuantity, int? Status, int? MachineId, int? ProductId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<MachineProductDto> Products, PaginationMetadata Pagination)> GetMachineProductsAsync(int? machineId, int? productId, int? status, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _machineProductRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _productRepository.Query();
 
-            // Apply filtering
-            if (MachineProductId.HasValue)
-            {
-                query = query.Where(mp => mp.MachineProductId == MachineProductId);
-                hasFilters = true;
-            }
-            if (MachineStockQuantity.HasValue)
-            {
-                query = query.Where(mp => mp.MachineStockQuantity == MachineStockQuantity);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(mp => mp.Status == Status);
-                hasFilters = true;
-            }
-            if (MachineId.HasValue)
-            {
-                query = query.Where(mp => mp.MachineId == MachineId);
-                hasFilters = true;
-            }
-            if (ProductId.HasValue)
-            {
-                query = query.Where(mp => mp.ProductId == ProductId);
-                hasFilters = true;
-            }
+            if (machineId.HasValue)
+                query = query.Where(p => p.MachineId == machineId);
+            if (productId.HasValue)
+                query = query.Where(p => p.ProductId == productId);
+            if (status.HasValue)
+                query = query.Where(p => p.Status == status);
 
-            if (!hasFilters)
-            {
-                query = _machineProductRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(MachineProduct).GetProperty(sortBy) != null)
             {
                 query = isAscending
-                    ? query.OrderBy(mp => EF.Property<object>(mp, sortBy))
-                    : query.OrderByDescending(mp => EF.Property<object>(mp, sortBy));
+                    ? query.OrderBy(p => EF.Property<object>(p, sortBy))
+                    : query.OrderByDescending(p => EF.Property<object>(p, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
+            var products = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Apply pagination
-            var machineProducts = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var productDtos = products.Select(p => new MachineProductDto
+            {
+                MachineProductId = p.MachineProductId,
+                MachineStockQuantity = p.MachineStockQuantity,
+                Status = p.Status,
+                MachineId = p.MachineId,
+                ProductId = p.ProductId
+            });
 
-            // Create pagination metadata
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -90,53 +64,68 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (machineProducts, paginationMetadata);
+            return (productDtos, paginationMetadata);
         }
 
-        public async Task<MachineProduct> GetMachineProductByIdAsync(int id)
+        public async Task<MachineProductDto> GetMachineProductByIdAsync(int id)
         {
-            return await _machineProductRepository.Query()
-                .Where(mp => mp.MachineProductId == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<MachineProduct> CreateMachineProductAsync(MachineProduct machineProduct)
-        {
-            await _machineProductRepository.AddAsync(machineProduct);
-            await _machineProductRepository.SaveChangesAsync();
-            return machineProduct;
-        }
-
-        public async Task<MachineProduct> UpdateMachineProductAsync(int id, MachineProduct machineProduct)
-        {
-            var existingMachineProduct = await _machineProductRepository.GetByIdAsync(id);
-            if (existingMachineProduct == null)
-            {
+            
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
                 return null;
-            }
 
-            existingMachineProduct.MachineStockQuantity = machineProduct.MachineStockQuantity;
-            existingMachineProduct.Status = machineProduct.Status;
-            existingMachineProduct.MachineId = machineProduct.MachineId;
-            existingMachineProduct.ProductId = machineProduct.ProductId;
+            return new MachineProductDto
+            {
+                MachineProductId = product.MachineProductId,
+                MachineStockQuantity = product.MachineStockQuantity,
+                Status = product.Status,
+                MachineId = product.MachineId,
+                ProductId = product.ProductId
+            };
+        }
 
-            await _machineProductRepository.UpdateAsync(existingMachineProduct);
-            await _machineProductRepository.SaveChangesAsync();
+        public async Task<MachineProductDto> CreateMachineProductAsync(MachineProductDto productDto)
+        {
+            var product = new MachineProduct
+            {
+                MachineStockQuantity = productDto.MachineStockQuantity,
+                Status = productDto.Status,
+                MachineId = productDto.MachineId,
+                ProductId = productDto.ProductId
+            };
 
-            return existingMachineProduct;
+            await _productRepository.AddAsync(product);
+            await _productRepository.SaveChangesAsync();
+            productDto.MachineProductId = product.MachineProductId;
+            return productDto;
+        }
+
+        public async Task<MachineProductDto> UpdateMachineProductAsync(int id, MachineProductDto productDto)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+                return null;
+
+            product.MachineStockQuantity = productDto.MachineStockQuantity;
+            product.Status = productDto.Status;
+            product.MachineId = productDto.MachineId;
+            product.ProductId = productDto.ProductId;
+
+            await _productRepository.UpdateAsync(product);
+            await _productRepository.SaveChangesAsync();
+
+            return productDto;
         }
 
         public async Task<bool> DeleteMachineProductAsync(int id)
         {
-            var machineProduct = await _machineProductRepository.GetByIdAsync(id);
-            if (machineProduct == null)
-            {
+            
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
                 return false;
-            }
 
-            await _machineProductRepository.DeleteAsync(id);
-            await _machineProductRepository.SaveChangesAsync();
-
+            await _productRepository.DeleteAsync(id);
+            await _productRepository.SaveChangesAsync();
             return true;
         }
     }

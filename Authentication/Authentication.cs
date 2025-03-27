@@ -1,13 +1,13 @@
-﻿using Azure.Core;
-using Google;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using WebApplication2.Models;
 using WebApplication2.Services;
 
 [ApiController]
-[Route("authenticate")]
+[Route("authenticatication")]
 public class AuthController : ControllerBase
 {
     private readonly FirebaseService _firebaseService;
@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AuthenticateUser([FromBody] LoginRequest request)
+    public async Task<IActionResult> AuthenticateUser()
     {
         string? firebaseToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
@@ -34,17 +34,44 @@ public class AuthController : ControllerBase
         if (firebaseEmail == null)
             return Unauthorized(new { message = "Invalid Firebase token" });
 
-        // ✅ Check if Customer exists in the database
+        // ✅ Check if Customer exists
         var customer = await _dbContext.Customers
-            .Where(c => c.Email == request.Email)
-            .FirstOrDefaultAsync();
+            .Include(c => c.Wallets) // Ensure we fetch Wallets too
+            .FirstOrDefaultAsync(c => c.Email == firebaseEmail);
 
         if (customer == null)
-            return NotFound(new { message = "User not found" });
+        {
+            // ✅ Auto-Register New Customer
+            customer = new Customer
+            {
+                FirstName = "New", // Can be updated later
+                LastName = "User",
+                Email = firebaseEmail,
+                PhoneNumber = null,
+                Address = null,
+                Description = "Registered via Google login",
+                Status = 1, // Assuming 1 means active
+                Wallets = new List<Wallet>() // Initialize wallet list
+            };
+
+            // ✅ Create an empty wallet for the new customer
+            var newWallet = new Wallet
+            {
+                Balance = 0.0M,
+                CreateDate = DateTime.UtcNow,
+                Status = 1, // Assuming 1 means active
+                Customer = customer
+            };
+
+            customer.Wallets.Add(newWallet);
+
+            _dbContext.Customers.Add(customer);
+            await _dbContext.SaveChangesAsync();
+        }
 
         // ✅ Generate JWT Token
         string jwtToken = _jwtTokenGenerator.GenerateJwtToken(customer);
 
-        return Ok(new { token = jwtToken });
+        return Ok(new { token = jwtToken, user = customer });
     }
 }

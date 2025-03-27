@@ -10,78 +10,54 @@ namespace WebApplication2.Services
 {
     public interface IIssueAssignmentService
     {
-        Task<(IEnumerable<IssueAssignment> IssueAssignments, PaginationMetadata Pagination)> GetIssueAssignmentsAsync(
-            int? AssignmentId, DateTime? AssignedDate, int? Status, int? IssueId, int? TechnicianId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<IssueAssignment> GetIssueAssignmentByIdAsync(int id);
-        Task<IssueAssignment> CreateIssueAssignmentAsync(IssueAssignment issueAssignment);
-        Task<IssueAssignment> UpdateIssueAssignmentAsync(int id, IssueAssignment issueAssignment);
+        Task<(IEnumerable<IssueAssignmentDto> Assignments, PaginationMetadata Pagination)> GetIssueAssignmentsAsync(int? issueId, int? technicianId, int? status, DateTime? assignedDate, string sortBy, bool isAscending, int page, int pageSize);
+        Task<IssueAssignmentDto> GetIssueAssignmentByIdAsync(int id);
+        Task<IssueAssignmentDto> CreateIssueAssignmentAsync(IssueAssignmentDto assignmentDto);
+        Task<IssueAssignmentDto> UpdateIssueAssignmentAsync(int id, IssueAssignmentDto assignmentDto);
         Task<bool> DeleteIssueAssignmentAsync(int id);
     }
 
     public class IssueAssignmentService : IIssueAssignmentService
     {
-        private readonly IRepository<IssueAssignment> _issueAssignmentRepository;
+        private readonly IRepository<IssueAssignment> _assignmentRepository;
 
-        public IssueAssignmentService(IRepository<IssueAssignment> issueAssignmentRepository)
+        public IssueAssignmentService(IRepository<IssueAssignment> assignmentRepository)
         {
-            _issueAssignmentRepository = issueAssignmentRepository;
+            _assignmentRepository = assignmentRepository;
         }
 
-        public async Task<(IEnumerable<IssueAssignment> IssueAssignments, PaginationMetadata Pagination)> GetIssueAssignmentsAsync(
-            int? AssignmentId, DateTime? AssignedDate, int? Status, int? IssueId, int? TechnicianId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<IssueAssignmentDto> Assignments, PaginationMetadata Pagination)> GetIssueAssignmentsAsync(int? issueId, int? technicianId, int? status, DateTime? assignedDate, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _issueAssignmentRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _assignmentRepository.Query();
 
-            // Apply filtering
-            if (AssignmentId.HasValue)
-            {
-                query = query.Where(ia => ia.AssignmentId == AssignmentId);
-                hasFilters = true;
-            }
-            if (AssignedDate.HasValue)
-            {
-                query = query.Where(ia => ia.AssignedDate == AssignedDate);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(ia => ia.Status == Status);
-                hasFilters = true;
-            }
-            if (IssueId.HasValue)
-            {
-                query = query.Where(ia => ia.IssueId == IssueId);
-                hasFilters = true;
-            }
-            if (TechnicianId.HasValue)
-            {
-                query = query.Where(ia => ia.TechnicianId == TechnicianId);
-                hasFilters = true;
-            }
+            if (issueId.HasValue)
+                query = query.Where(a => a.IssueId == issueId);
+            if (technicianId.HasValue)
+                query = query.Where(a => a.TechnicianId == technicianId);
+            if (status.HasValue)
+                query = query.Where(a => a.Status == status);
+            if (assignedDate.HasValue)
+                query = query.Where(a => a.AssignedDate == assignedDate);
 
-            if (!hasFilters)
-            {
-                query = _issueAssignmentRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(IssueAssignment).GetProperty(sortBy) != null)
             {
                 query = isAscending
-                    ? query.OrderBy(ia => EF.Property<object>(ia, sortBy))
-                    : query.OrderByDescending(ia => EF.Property<object>(ia, sortBy));
+                    ? query.OrderBy(a => EF.Property<object>(a, sortBy))
+                    : query.OrderByDescending(a => EF.Property<object>(a, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
+            var assignments = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Apply pagination
-            var issueAssignments = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var assignmentDtos = assignments.Select(a => new IssueAssignmentDto
+            {
+                AssignmentId = a.AssignmentId,
+                AssignedDate = a.AssignedDate,
+                Status = a.Status,
+                IssueId = a.IssueId,
+                TechnicianId = a.TechnicianId
+            });
 
-            // Create pagination metadata
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -90,53 +66,69 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (issueAssignments, paginationMetadata);
+            return (assignmentDtos, paginationMetadata);
         }
 
-        public async Task<IssueAssignment> GetIssueAssignmentByIdAsync(int id)
+        public async Task<IssueAssignmentDto> GetIssueAssignmentByIdAsync(int id)
         {
-            return await _issueAssignmentRepository.Query()
-                .Where(ia => ia.AssignmentId == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<IssueAssignment> CreateIssueAssignmentAsync(IssueAssignment issueAssignment)
-        {
-            await _issueAssignmentRepository.AddAsync(issueAssignment);
-            await _issueAssignmentRepository.SaveChangesAsync();
-            return issueAssignment;
-        }
-
-        public async Task<IssueAssignment> UpdateIssueAssignmentAsync(int id, IssueAssignment issueAssignment)
-        {
-            var existingIssueAssignment = await _issueAssignmentRepository.GetByIdAsync(id);
-            if (existingIssueAssignment == null)
-            {
+            
+            var assignment = await _assignmentRepository.GetByIdAsync(id);
+            if (assignment == null)
                 return null;
-            }
 
-            existingIssueAssignment.AssignedDate = issueAssignment.AssignedDate;
-            existingIssueAssignment.Status = issueAssignment.Status;
-            existingIssueAssignment.IssueId = issueAssignment.IssueId;
-            existingIssueAssignment.TechnicianId = issueAssignment.TechnicianId;
+            return new IssueAssignmentDto
+            {
+                AssignmentId = assignment.AssignmentId,
+                AssignedDate = assignment.AssignedDate,
+                Status = assignment.Status,
+                IssueId = assignment.IssueId,
+                TechnicianId = assignment.TechnicianId
+            };
+        }
 
-            await _issueAssignmentRepository.UpdateAsync(existingIssueAssignment);
-            await _issueAssignmentRepository.SaveChangesAsync();
+        public async Task<IssueAssignmentDto> CreateIssueAssignmentAsync(IssueAssignmentDto assignmentDto)
+        {
+            var assignment = new IssueAssignment
+            {
+                AssignedDate = assignmentDto.AssignedDate,
+                Status = assignmentDto.Status,
+                IssueId = assignmentDto.IssueId,
+                TechnicianId = assignmentDto.TechnicianId
+            };
 
-            return existingIssueAssignment;
+            await _assignmentRepository.AddAsync(assignment);
+            await _assignmentRepository.SaveChangesAsync();
+            assignmentDto.AssignmentId = assignment.AssignmentId;
+            return assignmentDto;
+        }
+
+        public async Task<IssueAssignmentDto> UpdateIssueAssignmentAsync(int id, IssueAssignmentDto assignmentDto)
+        {
+            
+            var assignment = await _assignmentRepository.GetByIdAsync(id);
+            if (assignment == null)
+                return null;
+
+            assignment.AssignedDate = assignmentDto.AssignedDate;
+            assignment.Status = assignmentDto.Status;
+            assignment.IssueId = assignmentDto.IssueId;
+            assignment.TechnicianId = assignmentDto.TechnicianId;
+
+            await _assignmentRepository.UpdateAsync(assignment);
+            await _assignmentRepository.SaveChangesAsync();
+
+            return assignmentDto;
         }
 
         public async Task<bool> DeleteIssueAssignmentAsync(int id)
         {
-            var issueAssignment = await _issueAssignmentRepository.GetByIdAsync(id);
-            if (issueAssignment == null)
-            {
+            
+            var assignment = await _assignmentRepository.GetByIdAsync(id);
+            if (assignment == null)
                 return false;
-            }
 
-            await _issueAssignmentRepository.DeleteAsync(id);
-            await _issueAssignmentRepository.SaveChangesAsync();
-
+            await _assignmentRepository.DeleteAsync(id);
+            await _assignmentRepository.SaveChangesAsync();
             return true;
         }
     }

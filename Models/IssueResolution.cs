@@ -7,9 +7,9 @@ public partial class IssueResolution
 {
     public int ResolutionId { get; set; }
 
-    public DateTime ResolutionDate { get; set; }
+    public DateTime? ResolutionDate { get; set; }
 
-    public string ResolutionDescription { get; set; } = null!;
+    public string? ResolutionDescription { get; set; }
 
     public int Status { get; set; }
 
@@ -20,4 +20,19 @@ public partial class IssueResolution
     public virtual MachineIssue Issue { get; set; } = null!;
 
     public virtual Technician Technician { get; set; } = null!;
+}
+
+public partial class IssueResolutionDto
+{
+    public int ResolutionId { get; set; }
+
+    public DateTime? ResolutionDate { get; set; }
+
+    public string? ResolutionDescription { get; set; }
+
+    public int Status { get; set; }
+
+    public int IssueId { get; set; }
+
+    public int TechnicianId { get; set; }
 }

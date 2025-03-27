@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface ICategoryService
     {
-        Task<(IEnumerable<Category> Categories, PaginationMetadata Pagination)> GetCategoriesAsync(
-            int? CategoryId, string? CategoryName, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Category> GetCategoryByIdAsync(int id);
-        Task<Category> CreateCategoryAsync(Category category);
-        Task<Category> UpdateCategoryAsync(int id, Category category);
+        Task<(IEnumerable<CategoryDto> Categories, PaginationMetadata Pagination)> GetCategoriesAsync(string? categoryCode, string? categoryName, int? status, string sortBy, bool isAscending, int page, int pageSize);
+        Task<CategoryDto> GetCategoryByIdAsync(int id);
+        Task<CategoryDto> CreateCategoryAsync(CategoryDto categoryDto);
+        Task<CategoryDto> UpdateCategoryAsync(int id, CategoryDto categoryDto);
         Task<bool> DeleteCategoryAsync(int id);
     }
 
@@ -28,36 +26,17 @@ namespace WebApplication2.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<(IEnumerable<Category> Categories, PaginationMetadata Pagination)> GetCategoriesAsync(
-            int? CategoryId, string? CategoryName, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<CategoryDto> Categories, PaginationMetadata Pagination)> GetCategoriesAsync(string? categoryCode, string? categoryName, int? status, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _categoryRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _categoryRepository.Query();
 
-            // Apply filtering
-            if (CategoryId.HasValue)
-            {
-                query = query.Where(c => c.CategoryId == CategoryId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(CategoryName))
-            {
-                query = query.Where(c => c.CategoryName.Contains(CategoryName));
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(c => c.Status == Status);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(categoryCode))
+                query = query.Where(c => c.CategoryCode.Contains(categoryCode));
+            if (!string.IsNullOrEmpty(categoryName))
+                query = query.Where(c => c.CategoryName.Contains(categoryName));
+            if (status.HasValue)
+                query = query.Where(c => c.Status == status);
 
-            if (!hasFilters)
-            {
-                query = _categoryRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Category).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -65,13 +44,18 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(c => EF.Property<object>(c, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var categories = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var categoryDtos = categories.Select(c => new CategoryDto
+            {
+                CategoryId = c.CategoryId,
+                CategoryCode = c.CategoryCode,
+                CategoryName = c.CategoryName,
+                CategoryDescription = c.CategoryDescription,
+                Status = c.Status
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -80,52 +64,66 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (categories, paginationMetadata);
+            return (categoryDtos, paginationMetadata);
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<CategoryDto> GetCategoryByIdAsync(int id)
         {
-            return await _categoryRepository.Query()
-                .Where(c => c.CategoryId == id)
-                .FirstOrDefaultAsync();
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
+                return null;
+
+            return new CategoryDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryCode = category.CategoryCode,
+                CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
+                Status = category.Status
+            };
         }
 
-        public async Task<Category> CreateCategoryAsync(Category category)
+        public async Task<CategoryDto> CreateCategoryAsync(CategoryDto categoryDto)
         {
+            var category = new Category
+            {
+                CategoryCode = categoryDto.CategoryCode,
+                CategoryName = categoryDto.CategoryName,
+                CategoryDescription = categoryDto.CategoryDescription,
+                Status = categoryDto.Status
+            };
+
             await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveChangesAsync();
-            return category;
+            categoryDto.CategoryId = category.CategoryId;
+            return categoryDto;
         }
 
-        public async Task<Category> UpdateCategoryAsync(int id, Category category)
+        public async Task<CategoryDto> UpdateCategoryAsync(int id, CategoryDto categoryDto)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(id);
-            if (existingCategory == null)
-            {
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
                 return null;
-            }
 
-            existingCategory.CategoryName = category.CategoryName;
-            existingCategory.CategoryDescription = category.CategoryDescription;
-            existingCategory.Status = category.Status;
+            category.CategoryCode = categoryDto.CategoryCode;
+            category.CategoryName = categoryDto.CategoryName;
+            category.CategoryDescription = categoryDto.CategoryDescription;
+            category.Status = categoryDto.Status;
 
-            await _categoryRepository.UpdateAsync(existingCategory);
+            await _categoryRepository.UpdateAsync(category);
             await _categoryRepository.SaveChangesAsync();
 
-            return existingCategory;
+            return categoryDto;
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null)
-            {
                 return false;
-            }
 
             await _categoryRepository.DeleteAsync(id);
             await _categoryRepository.SaveChangesAsync();
-
             return true;
         }
     }

@@ -17,49 +17,48 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMachineIssues(
-            [FromQuery] int? IssueId, 
-            [FromQuery] DateTime? ReportDate, 
-            [FromQuery] string? IssueDescription,
-            [FromQuery] int? Status,
-            [FromQuery] int? MachineId, 
-            [FromQuery] long? ReportedBy,
-            [FromQuery] string sortBy = "IssueId", 
+        public async Task<ActionResult<(IEnumerable<MachineIssueDto>, PaginationMetadata)>> GetMachineIssues(
+            [FromQuery] int? machineId,
+            [FromQuery] long? reportedBy,
+            [FromQuery] int? status,
+            [FromQuery] DateTime? reportDate,
+            [FromQuery] string sortBy = "IssueId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (machineIssues, pagination) = await _machineIssueService.GetMachineIssuesAsync(IssueId, ReportDate, IssueDescription, Status, MachineId, ReportedBy, sortBy, isAscending, page, pageSize);
-            return Ok(new { MachineIssues = machineIssues, Pagination = pagination });
+            var (issues, pagination) = await _machineIssueService.GetMachineIssuesAsync(machineId, reportedBy, status, reportDate, sortBy, isAscending, page, pageSize);
+            return Ok(new { Issues = issues, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMachineIssueById(int id)
+        public async Task<ActionResult<MachineIssueDto>> GetMachineIssue(int id)
         {
-            var machineIssue = await _machineIssueService.GetMachineIssueByIdAsync(id);
-            if (machineIssue == null)
-            {
+            var issue = await _machineIssueService.GetMachineIssueByIdAsync(id);
+            if (issue == null)
                 return NotFound();
-            }
-            return Ok(machineIssue);
+
+            return Ok(issue);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMachineIssue(MachineIssue machineIssue)
+        public async Task<ActionResult<MachineIssueDto>> CreateMachineIssue([FromBody] MachineIssueDto issueDto)
         {
-            var createdMachineIssue = await _machineIssueService.CreateMachineIssueAsync(machineIssue);
-            return CreatedAtAction(nameof(GetMachineIssueById), new { id = createdMachineIssue.IssueId }, createdMachineIssue);
+            var createdIssue = await _machineIssueService.CreateMachineIssueAsync(issueDto);
+            return CreatedAtAction(nameof(GetMachineIssue), new { id = createdIssue.IssueId }, createdIssue);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMachineIssue(int id, MachineIssue machineIssue)
+        public async Task<ActionResult<MachineIssueDto>> UpdateMachineIssue(int id, [FromBody] MachineIssueDto issueDto)
         {
-            var updatedMachineIssue = await _machineIssueService.UpdateMachineIssueAsync(id, machineIssue);
-            if (updatedMachineIssue == null)
-            {
+            if (id != issueDto.IssueId)
+                return BadRequest("ID mismatch");
+
+            var updatedIssue = await _machineIssueService.UpdateMachineIssueAsync(id, issueDto);
+            if (updatedIssue == null)
                 return NotFound();
-            }
-            return Ok(updatedMachineIssue);
+
+            return Ok(updatedIssue);
         }
 
         [HttpDelete("{id}")]
@@ -67,9 +66,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _machineIssueService.DeleteMachineIssueAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

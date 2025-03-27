@@ -7,7 +7,9 @@ public partial class Category
 {
     public int CategoryId { get; set; }
 
-    public string CategoryName { get; set; } = null!;
+    public string? CategoryCode { get; set; }
+
+    public string? CategoryName { get; set; }
 
     public string? CategoryDescription { get; set; }
 
@@ -16,10 +18,11 @@ public partial class Category
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
 
-
 public class CategoryDto
 {
     public int CategoryId { get; set; }
+
+    public string? CategoryCode { get; set; }
 
     public string CategoryName { get; set; } = null!;
 

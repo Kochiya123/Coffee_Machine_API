@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/technician")]
+    [Route("api/technicians")]
     public class TechnicianController : ControllerBase
     {
         private readonly ITechnicianService _technicianService;
@@ -17,48 +17,48 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTechnicians(
-            [FromQuery] int? TechnicianId, 
-            [FromQuery] string? FirstName, 
-            [FromQuery] string? LastName,
-            [FromQuery] string? PhoneNumber, 
-            [FromQuery] string? Email, 
-            [FromQuery] int? Status,
-            [FromQuery] string sortBy = "TechnicianId", 
+        public async Task<ActionResult<(IEnumerable<TechnicianDto>, PaginationMetadata)>> GetTechnicians(
+            [FromQuery] string? firstName,
+            [FromQuery] string? lastName,
+            [FromQuery] string? phoneNumber,
+            [FromQuery] string? email,
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "TechnicianId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (technicians, pagination) = await _technicianService.GetTechniciansAsync(TechnicianId, FirstName, LastName, PhoneNumber, Email, Status, sortBy, isAscending, page, pageSize);
+            var (technicians, pagination) = await _technicianService.GetTechniciansAsync(firstName, lastName, phoneNumber, email, status, sortBy, isAscending, page, pageSize);
             return Ok(new { Technicians = technicians, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTechnicianById(int id)
+        public async Task<ActionResult<TechnicianDto>> GetTechnicianById(int id)
         {
             var technician = await _technicianService.GetTechnicianByIdAsync(id);
             if (technician == null)
-            {
                 return NotFound();
-            }
+
             return Ok(technician);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTechnician(Technician technician)
+        public async Task<ActionResult<TechnicianDto>> CreateTechnician([FromBody] TechnicianDto technicianDto)
         {
-            var createdTechnician = await _technicianService.CreateTechnicianAsync(technician);
+            var createdTechnician = await _technicianService.CreateTechnicianAsync(technicianDto);
             return CreatedAtAction(nameof(GetTechnicianById), new { id = createdTechnician.TechnicianId }, createdTechnician);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTechnician(int id, Technician technician)
+        public async Task<ActionResult<TechnicianDto>> UpdateTechnician(int id, [FromBody] TechnicianDto technicianDto)
         {
-            var updatedTechnician = await _technicianService.UpdateTechnicianAsync(id, technician);
+            if (id != technicianDto.TechnicianId)
+                return BadRequest("ID mismatch");
+
+            var updatedTechnician = await _technicianService.UpdateTechnicianAsync(id, technicianDto);
             if (updatedTechnician == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedTechnician);
         }
 
@@ -67,10 +67,10 @@ namespace WebApplication2.Controllers
         {
             var result = await _technicianService.DeleteTechnicianAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }
+
 }

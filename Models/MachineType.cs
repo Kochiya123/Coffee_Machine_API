@@ -7,11 +7,23 @@ public partial class MachineType
 {
     public int MachineTypeId { get; set; }
 
-    public string TypeName { get; set; } = null!;
+    public string? TypeName { get; set; }
 
     public string? MachineDescription { get; set; }
 
     public int Status { get; set; }
 
     public virtual ICollection<Machine> Machines { get; set; } = new List<Machine>();
+}
+
+
+public partial class MachineTypeDto
+{
+    public int MachineTypeId { get; set; }
+
+    public string? TypeName { get; set; }
+
+    public string? MachineDescription { get; set; }
+
+    public int Status { get; set; }
 }

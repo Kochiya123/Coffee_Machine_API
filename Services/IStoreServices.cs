@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface IStoreService
     {
-        Task<(IEnumerable<Store> Stores, PaginationMetadata Pagination)> GetStoresAsync(
-            long? StoreId, string? StoreName, string? StoreLocation, string? PhoneNumber, int? Status, int? AreaId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Store> GetStoreByIdAsync(long id);
-        Task<Store> CreateStoreAsync(Store store);
-        Task<Store> UpdateStoreAsync(long id, Store store);
+        Task<(IEnumerable<StoreDto> Stores, PaginationMetadata Pagination)> GetStoresAsync(string? storeName, string? storeLocation, string? phoneNumber, int? status, int? areaId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<StoreDto> GetStoreByIdAsync(long id);
+        Task<StoreDto> CreateStoreAsync(StoreDto storeDto);
+        Task<StoreDto> UpdateStoreAsync(long id, StoreDto storeDto);
         Task<bool> DeleteStoreAsync(long id);
     }
 
@@ -28,51 +26,21 @@ namespace WebApplication2.Services
             _storeRepository = storeRepository;
         }
 
-        public async Task<(IEnumerable<Store> Stores, PaginationMetadata Pagination)> GetStoresAsync(
-            long? StoreId, string? StoreName, string? StoreLocation, string? PhoneNumber, int? Status, int? AreaId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<StoreDto> Stores, PaginationMetadata Pagination)> GetStoresAsync(string? storeName, string? storeLocation, string? phoneNumber, int? status, int? areaId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _storeRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _storeRepository.Query();
 
-            // Apply filtering
-            if (StoreId.HasValue)
-            {
-                query = query.Where(s => s.StoreId == StoreId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(StoreName))
-            {
-                query = query.Where(s => s.StoreName.Contains(StoreName));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(StoreLocation))
-            {
-                query = query.Where(s => s.StoreLocation.Contains(StoreLocation));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(PhoneNumber))
-            {
-                query = query.Where(s => s.PhoneNumber.Contains(PhoneNumber));
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(s => s.Status == Status);
-                hasFilters = true;
-            }
-            if (AreaId.HasValue)
-            {
-                query = query.Where(s => s.AreaId == AreaId);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(storeName))
+                query = query.Where(s => s.StoreName.Contains(storeName));
+            if (!string.IsNullOrEmpty(storeLocation))
+                query = query.Where(s => s.StoreLocation.Contains(storeLocation));
+            if (!string.IsNullOrEmpty(phoneNumber))
+                query = query.Where(s => s.PhoneNumber.Contains(phoneNumber));
+            if (status.HasValue)
+                query = query.Where(s => s.Status == status);
+            if (areaId.HasValue)
+                query = query.Where(s => s.AreaId == areaId);
 
-            if (!hasFilters)
-            {
-                query = _storeRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Store).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -80,13 +48,22 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(s => EF.Property<object>(s, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var stores = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var storeDtos = stores.Select(s => new StoreDto
+            {
+                StoreId = s.StoreId,
+                StoreName = s.StoreName,
+                StoreLocation = s.StoreLocation,
+                PhoneNumber = s.PhoneNumber,
+                Status = s.Status,
+                AreaId = s.AreaId,
+                Machines = s.Machines,
+                Managers = s.Managers,
+                Staff = s.Staff
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -95,54 +72,78 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (stores, paginationMetadata);
+            return (storeDtos, paginationMetadata);
         }
 
-        public async Task<Store> GetStoreByIdAsync(long id)
+        public async Task<StoreDto> GetStoreByIdAsync(long id)
         {
-            return await _storeRepository.Query()
-                .Where(s => s.StoreId == id)
-                .FirstOrDefaultAsync();
+            var store = await _storeRepository.GetByIdAsync(id);
+            if (store == null)
+                return null;
+
+            return new StoreDto
+            {
+                StoreId = store.StoreId,
+                StoreName = store.StoreName,
+                StoreLocation = store.StoreLocation,
+                PhoneNumber = store.PhoneNumber,
+                Status = store.Status,
+                AreaId = store.AreaId,
+                Machines = store.Machines,
+                Managers = store.Managers,
+                Staff = store.Staff
+            };
         }
 
-        public async Task<Store> CreateStoreAsync(Store store)
+        public async Task<StoreDto> CreateStoreAsync(StoreDto storeDto)
         {
+            var store = new Store
+            {
+                StoreName = storeDto.StoreName,
+                StoreLocation = storeDto.StoreLocation,
+                PhoneNumber = storeDto.PhoneNumber,
+                Status = storeDto.Status,
+                AreaId = storeDto.AreaId,
+                Machines = storeDto.Machines,
+                Managers = storeDto.Managers,
+                Staff = storeDto.Staff
+            };
+
             await _storeRepository.AddAsync(store);
             await _storeRepository.SaveChangesAsync();
-            return store;
+            storeDto.StoreId = store.StoreId;
+            return storeDto;
         }
 
-        public async Task<Store> UpdateStoreAsync(long id, Store store)
+        public async Task<StoreDto> UpdateStoreAsync(long id, StoreDto storeDto)
         {
-            var existingStore = await _storeRepository.GetByIdAsync(id);
-            if (existingStore == null)
-            {
+            var store = await _storeRepository.GetByIdAsync(id);
+            if (store == null)
                 return null;
-            }
 
-            existingStore.StoreName = store.StoreName;
-            existingStore.StoreLocation = store.StoreLocation;
-            existingStore.PhoneNumber = store.PhoneNumber;
-            existingStore.Status = store.Status;
-            existingStore.AreaId = store.AreaId;
+            store.StoreName = storeDto.StoreName;
+            store.StoreLocation = storeDto.StoreLocation;
+            store.PhoneNumber = storeDto.PhoneNumber;
+            store.Status = storeDto.Status;
+            store.AreaId = storeDto.AreaId;
+            store.Machines = storeDto.Machines;
+            store.Managers = storeDto.Managers;
+            store.Staff = storeDto.Staff;
 
-            await _storeRepository.UpdateAsync(existingStore);
+            await _storeRepository.UpdateAsync(store);
             await _storeRepository.SaveChangesAsync();
 
-            return existingStore;
+            return storeDto;
         }
 
         public async Task<bool> DeleteStoreAsync(long id)
         {
             var store = await _storeRepository.GetByIdAsync(id);
             if (store == null)
-            {
                 return false;
-            }
 
             await _storeRepository.DeleteAsync(id);
             await _storeRepository.SaveChangesAsync();
-
             return true;
         }
     }

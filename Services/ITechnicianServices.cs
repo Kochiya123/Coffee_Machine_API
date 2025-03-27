@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface ITechnicianService
     {
-        Task<(IEnumerable<Technician> Technicians, PaginationMetadata Pagination)> GetTechniciansAsync(
-            int? TechnicianId, string? FirstName, string? LastName, string? PhoneNumber, string? Email, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Technician> GetTechnicianByIdAsync(int id);
-        Task<Technician> CreateTechnicianAsync(Technician technician);
-        Task<Technician> UpdateTechnicianAsync(int id, Technician technician);
+        Task<(IEnumerable<TechnicianDto> Technicians, PaginationMetadata Pagination)> GetTechniciansAsync(string? firstName, string? lastName, string? phoneNumber, string? email, int? status, string sortBy, bool isAscending, int page, int pageSize);
+        Task<TechnicianDto> GetTechnicianByIdAsync(int id);
+        Task<TechnicianDto> CreateTechnicianAsync(TechnicianDto technicianDto);
+        Task<TechnicianDto> UpdateTechnicianAsync(int id, TechnicianDto technicianDto);
         Task<bool> DeleteTechnicianAsync(int id);
     }
 
@@ -28,51 +26,21 @@ namespace WebApplication2.Services
             _technicianRepository = technicianRepository;
         }
 
-        public async Task<(IEnumerable<Technician> Technicians, PaginationMetadata Pagination)> GetTechniciansAsync(
-            int? TechnicianId, string? FirstName, string? LastName, string? PhoneNumber, string? Email, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<TechnicianDto> Technicians, PaginationMetadata Pagination)> GetTechniciansAsync(string? firstName, string? lastName, string? phoneNumber, string? email, int? status, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _technicianRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _technicianRepository.Query();
 
-            // Apply filtering
-            if (TechnicianId.HasValue)
-            {
-                query = query.Where(t => t.TechnicianId == TechnicianId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(FirstName))
-            {
-                query = query.Where(t => t.FirstName.Contains(FirstName));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(LastName))
-            {
-                query = query.Where(t => t.LastName.Contains(LastName));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(PhoneNumber))
-            {
-                query = query.Where(t => t.PhoneNumber.Contains(PhoneNumber));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(Email))
-            {
-                query = query.Where(t => t.Email.Contains(Email));
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(t => t.Status == Status);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(firstName))
+                query = query.Where(t => t.FirstName == firstName);
+            if (!string.IsNullOrEmpty(lastName))
+                query = query.Where(t => t.LastName == lastName);
+            if (!string.IsNullOrEmpty(phoneNumber))
+                query = query.Where(t => t.PhoneNumber == phoneNumber);
+            if (!string.IsNullOrEmpty(email))
+                query = query.Where(t => t.Email == email);
+            if (status.HasValue)
+                query = query.Where(t => t.Status == status);
 
-            if (!hasFilters)
-            {
-                query = _technicianRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Technician).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -80,13 +48,22 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(t => EF.Property<object>(t, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var technicians = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var technicianDtos = technicians.Select(t => new TechnicianDto
+            {
+                TechnicianId = t.TechnicianId,
+                FirstName = t.FirstName,
+                LastName = t.LastName,
+                PhoneNumber = t.PhoneNumber,
+                Email = t.Email,
+                Status = t.Status,
+                IssueAssignments = t.IssueAssignments,
+                IssueResolutions = t.IssueResolutions,
+                MachineLogs = t.MachineLogs
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -95,54 +72,78 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (technicians, paginationMetadata);
+            return (technicianDtos, paginationMetadata);
         }
 
-        public async Task<Technician> GetTechnicianByIdAsync(int id)
+        public async Task<TechnicianDto> GetTechnicianByIdAsync(int id)
         {
-            return await _technicianRepository.Query()
-                .Where(t => t.TechnicianId == id)
-                .FirstOrDefaultAsync();
+            var technician = await _technicianRepository.GetByIdAsync(id);
+            if (technician == null)
+                return null;
+
+            return new TechnicianDto
+            {
+                TechnicianId = technician.TechnicianId,
+                FirstName = technician.FirstName,
+                LastName = technician.LastName,
+                PhoneNumber = technician.PhoneNumber,
+                Email = technician.Email,
+                Status = technician.Status,
+                IssueAssignments = technician.IssueAssignments,
+                IssueResolutions = technician.IssueResolutions,
+                MachineLogs = technician.MachineLogs
+            };
         }
 
-        public async Task<Technician> CreateTechnicianAsync(Technician technician)
+        public async Task<TechnicianDto> CreateTechnicianAsync(TechnicianDto technicianDto)
         {
+            var technician = new Technician
+            {
+                FirstName = technicianDto.FirstName,
+                LastName = technicianDto.LastName,
+                PhoneNumber = technicianDto.PhoneNumber,
+                Email = technicianDto.Email,
+                Status = technicianDto.Status,
+                IssueAssignments = technicianDto.IssueAssignments,
+                IssueResolutions = technicianDto.IssueResolutions,
+                MachineLogs = technicianDto.MachineLogs
+            };
+
             await _technicianRepository.AddAsync(technician);
             await _technicianRepository.SaveChangesAsync();
-            return technician;
+            technicianDto.TechnicianId = technician.TechnicianId;
+            return technicianDto;
         }
 
-        public async Task<Technician> UpdateTechnicianAsync(int id, Technician technician)
+        public async Task<TechnicianDto> UpdateTechnicianAsync(int id, TechnicianDto technicianDto)
         {
-            var existingTechnician = await _technicianRepository.GetByIdAsync(id);
-            if (existingTechnician == null)
-            {
+            var technician = await _technicianRepository.GetByIdAsync(id);
+            if (technician == null)
                 return null;
-            }
 
-            existingTechnician.FirstName = technician.FirstName;
-            existingTechnician.LastName = technician.LastName;
-            existingTechnician.PhoneNumber = technician.PhoneNumber;
-            existingTechnician.Email = technician.Email;
-            existingTechnician.Status = technician.Status;
+            technician.FirstName = technicianDto.FirstName;
+            technician.LastName = technicianDto.LastName;
+            technician.PhoneNumber = technicianDto.PhoneNumber;
+            technician.Email = technicianDto.Email;
+            technician.Status = technicianDto.Status;
+            technician.IssueAssignments = technicianDto.IssueAssignments;
+            technician.IssueResolutions = technicianDto.IssueResolutions;
+            technician.MachineLogs = technicianDto.MachineLogs;
 
-            await _technicianRepository.UpdateAsync(existingTechnician);
+            await _technicianRepository.UpdateAsync(technician);
             await _technicianRepository.SaveChangesAsync();
 
-            return existingTechnician;
+            return technicianDto;
         }
 
         public async Task<bool> DeleteTechnicianAsync(int id)
         {
             var technician = await _technicianRepository.GetByIdAsync(id);
             if (technician == null)
-            {
                 return false;
-            }
 
             await _technicianRepository.DeleteAsync(id);
             await _technicianRepository.SaveChangesAsync();
-
             return true;
         }
     }

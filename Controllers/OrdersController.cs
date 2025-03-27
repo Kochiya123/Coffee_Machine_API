@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
-    [Route("api/order")]
+    [Route("api/orders")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -20,18 +20,35 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<(IEnumerable<OrderDto>, PaginationMetadata)>> GetOrders(
             [FromQuery] int? orderId,
+            [FromQuery] string? OrderCode,
             [FromQuery] DateTime? orderDate,
             [FromQuery] string? orderDescription,
-            [FromQuery] decimal? totalAmount,
-            [FromQuery] long CustomerId,
+            [FromQuery] decimal? Min,
+            [FromQuery] decimal? Max,
+            [FromQuery] long? CustomerId,
             [FromQuery] int? status,
             [FromQuery] string sortBy = "OrderId",
             [FromQuery] bool isAscending = true,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
+            if (Min.HasValue && Min < 0)
+            {
+                return BadRequest("Min can't be negative number!");
+            }
+            if (Max.HasValue)
+            {
+                if(Max < 0)
+                {
+                    return BadRequest("Max can't be negative number!");
+                }
+                else if(Max > 1_000_000)
+                {
+                    return BadRequest("Max can't be more than 1,000,000!");
+                }
+            }
             var (orders, pagination) = await _orderService.GetOrdersAsync(
-                orderId, orderDate, orderDescription, totalAmount, status,CustomerId,
+                orderId, OrderCode, orderDate, orderDescription, Min, Max, status, CustomerId,
                 sortBy, isAscending, page, pageSize);
 
             return Ok(new { Orders = orders, Pagination = pagination });

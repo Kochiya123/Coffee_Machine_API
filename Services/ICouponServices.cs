@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface ICouponService
     {
-        Task<(IEnumerable<Coupon> Coupons, PaginationMetadata Pagination)> GetCouponsAsync(
-            int? CouponId, string? CouponCode, decimal? DiscountAmount, DateTime? StartDate, DateTime? ExpirationDate, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Coupon> GetCouponByIdAsync(int id);
-        Task<Coupon> CreateCouponAsync(Coupon coupon);
-        Task<Coupon> UpdateCouponAsync(int id, Coupon coupon);
+        Task<(IEnumerable<CouponDto> Coupons, PaginationMetadata Pagination)> GetCouponsAsync(string? couponCode, decimal? minDiscount, decimal? maxDiscount, DateTime? startDate, DateTime? expirationDate, int? status, int? paymentId, int? productId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<CouponDto> GetCouponByIdAsync(int id);
+        Task<CouponDto> CreateCouponAsync(CouponDto couponDto);
+        Task<CouponDto> UpdateCouponAsync(int id, CouponDto couponDto);
         Task<bool> DeleteCouponAsync(int id);
     }
 
@@ -28,51 +26,23 @@ namespace WebApplication2.Services
             _couponRepository = couponRepository;
         }
 
-        public async Task<(IEnumerable<Coupon> Coupons, PaginationMetadata Pagination)> GetCouponsAsync(
-            int? CouponId, string? CouponCode, decimal? DiscountAmount, DateTime? StartDate, DateTime? ExpirationDate, int? Status,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<CouponDto> Coupons, PaginationMetadata Pagination)> GetCouponsAsync(string? couponCode, decimal? minDiscount, decimal? maxDiscount, DateTime? startDate, DateTime? expirationDate, int? status, int? paymentId, int? productId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _couponRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _couponRepository.Query();
 
-            // Apply filtering
-            if (CouponId.HasValue)
-            {
-                query = query.Where(c => c.CouponId == CouponId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(CouponCode))
-            {
-                query = query.Where(c => c.CouponCode.Contains(CouponCode));
-                hasFilters = true;
-            }
-            if (DiscountAmount.HasValue)
-            {
-                query = query.Where(c => c.DiscountAmount == DiscountAmount);
-                hasFilters = true;
-            }
-            if (StartDate.HasValue)
-            {
-                query = query.Where(c => c.StartDate >= StartDate);
-                hasFilters = true;
-            }
-            if (ExpirationDate.HasValue)
-            {
-                query = query.Where(c => c.ExpirationDate <= ExpirationDate);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(c => c.Status == Status);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(couponCode))
+                query = query.Where(c => c.CouponCode.Contains(couponCode));
+            if (minDiscount.HasValue)
+                query = query.Where(c => c.DiscountAmount >= minDiscount);
+            if (maxDiscount.HasValue)
+                query = query.Where(c => c.DiscountAmount <= maxDiscount);
+            if (startDate.HasValue)
+                query = query.Where(c => c.StartDate >= startDate);
+            if (expirationDate.HasValue)
+                query = query.Where(c => c.ExpirationDate <= expirationDate);
+            if (status.HasValue)
+                query = query.Where(c => c.Status == status);
 
-            if (!hasFilters)
-            {
-                query = _couponRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Coupon).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -80,13 +50,22 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(c => EF.Property<object>(c, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var coupons = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var couponDtos = coupons.Select(c => new CouponDto
+            {
+                CouponId = c.CouponId,
+                CouponCode = c.CouponCode,
+                DiscountAmount = c.DiscountAmount,
+                StartDate = c.StartDate,
+                ExpirationDate = c.ExpirationDate,
+                AmountItem = c.AmountItem,
+                Status = c.Status,
+                PaymentId = c.PaymentId,
+                ProductId = c.ProductId
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -95,55 +74,81 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (coupons, paginationMetadata);
+            return (couponDtos, paginationMetadata);
         }
 
-        public async Task<Coupon> GetCouponByIdAsync(int id)
+        public async Task<CouponDto> GetCouponByIdAsync(int id)
         {
-            return await _couponRepository.Query()
-                .Where(c => c.CouponId == id)
-                .FirstOrDefaultAsync();
+            
+            var coupon = await _couponRepository.GetByIdAsync(id);
+            if (coupon == null)
+                return null;
+
+            return new CouponDto
+            {
+                CouponId = coupon.CouponId,
+                CouponCode = coupon.CouponCode,
+                DiscountAmount = coupon.DiscountAmount,
+                StartDate = coupon.StartDate,
+                ExpirationDate = coupon.ExpirationDate,
+                AmountItem = coupon.AmountItem,
+                Status = coupon.Status,
+                PaymentId = coupon.PaymentId,
+                ProductId = coupon.ProductId
+            };
         }
 
-        public async Task<Coupon> CreateCouponAsync(Coupon coupon)
+        public async Task<CouponDto> CreateCouponAsync(CouponDto couponDto)
         {
+            var coupon = new Coupon
+            {
+                CouponCode = couponDto.CouponCode,
+                DiscountAmount = couponDto.DiscountAmount,
+                StartDate = couponDto.StartDate,
+                ExpirationDate = couponDto.ExpirationDate,
+                AmountItem = couponDto.AmountItem,
+                Status = couponDto.Status,
+                PaymentId = couponDto.PaymentId,
+                ProductId = couponDto.ProductId
+            };
+
             await _couponRepository.AddAsync(coupon);
             await _couponRepository.SaveChangesAsync();
-            return coupon;
+            couponDto.CouponId = coupon.CouponId;
+            return couponDto;
         }
 
-        public async Task<Coupon> UpdateCouponAsync(int id, Coupon coupon)
+        public async Task<CouponDto> UpdateCouponAsync(int id, CouponDto couponDto)
         {
-            var existingCoupon = await _couponRepository.GetByIdAsync(id);
-            if (existingCoupon == null)
-            {
+            
+            var coupon = await _couponRepository.GetByIdAsync(id);
+            if (coupon == null)
                 return null;
-            }
 
-            existingCoupon.CouponCode = coupon.CouponCode;
-            existingCoupon.DiscountAmount = coupon.DiscountAmount;
-            existingCoupon.StartDate = coupon.StartDate;
-            existingCoupon.ExpirationDate = coupon.ExpirationDate;
-            existingCoupon.AmountItem = coupon.AmountItem;
-            existingCoupon.Status = coupon.Status;
+            coupon.CouponCode = couponDto.CouponCode;
+            coupon.DiscountAmount = couponDto.DiscountAmount;
+            coupon.StartDate = couponDto.StartDate;
+            coupon.ExpirationDate = couponDto.ExpirationDate;
+            coupon.AmountItem = couponDto.AmountItem;
+            coupon.Status = couponDto.Status;
+            coupon.PaymentId = couponDto.PaymentId;
+            coupon.ProductId = couponDto.ProductId;
 
-            await _couponRepository.UpdateAsync(existingCoupon);
+            await _couponRepository.UpdateAsync(coupon);
             await _couponRepository.SaveChangesAsync();
 
-            return existingCoupon;
+            return couponDto;
         }
 
         public async Task<bool> DeleteCouponAsync(int id)
         {
+            
             var coupon = await _couponRepository.GetByIdAsync(id);
             if (coupon == null)
-            {
                 return false;
-            }
 
             await _couponRepository.DeleteAsync(id);
             await _couponRepository.SaveChangesAsync();
-
             return true;
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/order")]
+    [Route("api/order/{orderId}/detail")]
     public class OrderDetailController : ControllerBase
     {
         private readonly IOrderDetailService _orderDetailService;
@@ -16,43 +16,57 @@ namespace WebApplication2.Controllers
             _orderDetailService = orderDetailService;
         }
 
-        [HttpGet("{id}/detail")]
-        public async Task<IActionResult> GetOrderDetailById(int id)
+        [HttpGet]
+        public async Task<ActionResult<(IEnumerable<OrderDetailDto>, PaginationMetadata)>> GetOrderDetails(
+            [FromQuery] int? orderId,
+            [FromQuery] int? productId,
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "OrderDetailId",
+            [FromQuery] bool isAscending = true,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var orderDetail = await _orderDetailService.GetOrderDetailByIdAsync(id);
-            if (orderDetail == null)
-            {
+            var (details, pagination) = await _orderDetailService.GetOrderDetailsAsync(orderId, productId, status, sortBy, isAscending, page, pageSize);
+            return Ok(new { OrderDetails = details, Pagination = pagination });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderDetailDto>> GetOrderDetail(int id)
+        {
+            var detail = await _orderDetailService.GetOrderDetailByIdAsync(id);
+            if (detail == null)
                 return NotFound();
-            }
-            return Ok(orderDetail);
+
+            return Ok(detail);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrderDetail(OrderDetail orderDetail)
+        public async Task<ActionResult<OrderDetailDto>> CreateOrderDetail([FromBody] OrderDetailDto detailDto)
         {
-            var createdOrderDetail = await _orderDetailService.CreateOrderDetailAsync(orderDetail);
-            return CreatedAtAction(nameof(GetOrderDetailById), new { id = createdOrderDetail.OrderDetailId }, createdOrderDetail);
+            var createdDetail = await _orderDetailService.CreateOrderDetailAsync(detailDto);
+            return CreatedAtAction(nameof(GetOrderDetail), new { id = createdDetail.OrderDetailId }, createdDetail);
         }
 
-        [HttpPut("{id}/detail")]
-        public async Task<IActionResult> UpdateOrderDetail(int id, OrderDetail orderDetail)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<OrderDetailDto>> UpdateOrderDetail(int id, [FromBody] OrderDetailDto detailDto)
         {
-            var updatedOrderDetail = await _orderDetailService.UpdateOrderDetailAsync(id, orderDetail);
-            if (updatedOrderDetail == null)
-            {
+            if (id != detailDto.OrderDetailId)
+                return BadRequest("ID mismatch");
+
+            var updatedDetail = await _orderDetailService.UpdateOrderDetailAsync(id, detailDto);
+            if (updatedDetail == null)
                 return NotFound();
-            }
-            return Ok(updatedOrderDetail);
+
+            return Ok(updatedDetail);
         }
 
-        [HttpDelete("{id}/detail")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrderDetail(int id)
         {
             var result = await _orderDetailService.DeleteOrderDetailAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

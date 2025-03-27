@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/store")]
+    [Route("api/stores")]
     public class StoreController : ControllerBase
     {
         private readonly IStoreService _storeService;
@@ -17,48 +17,48 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetStores(
-            [FromQuery] long? StoreId, 
-            [FromQuery] string? StoreName, 
-            [FromQuery] string? StoreLocation,
-            [FromQuery] string? PhoneNumber, 
-            [FromQuery] int? Status, 
-            [FromQuery] int? AreaId,
-            [FromQuery] string sortBy = "StoreId", 
+        public async Task<ActionResult<(IEnumerable<StoreDto>, PaginationMetadata)>> GetStores(
+            [FromQuery] string? storeName,
+            [FromQuery] string? storeLocation,
+            [FromQuery] string? phoneNumber,
+            [FromQuery] int? status,
+            [FromQuery] int? areaId,
+            [FromQuery] string sortBy = "StoreId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (stores, pagination) = await _storeService.GetStoresAsync(StoreId, StoreName, StoreLocation, PhoneNumber, Status, AreaId, sortBy, isAscending, page, pageSize);
+            var (stores, pagination) = await _storeService.GetStoresAsync(storeName, storeLocation, phoneNumber, status, areaId, sortBy, isAscending, page, pageSize);
             return Ok(new { Stores = stores, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStoreById(long id)
+        public async Task<ActionResult<StoreDto>> GetStoreById(long id)
         {
             var store = await _storeService.GetStoreByIdAsync(id);
             if (store == null)
-            {
                 return NotFound();
-            }
+
             return Ok(store);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStore(Store store)
+        public async Task<ActionResult<StoreDto>> CreateStore([FromBody] StoreDto storeDto)
         {
-            var createdStore = await _storeService.CreateStoreAsync(store);
+            var createdStore = await _storeService.CreateStoreAsync(storeDto);
             return CreatedAtAction(nameof(GetStoreById), new { id = createdStore.StoreId }, createdStore);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStore(long id, Store store)
+        public async Task<ActionResult<StoreDto>> UpdateStore(long id, [FromBody] StoreDto storeDto)
         {
-            var updatedStore = await _storeService.UpdateStoreAsync(id, store);
+            if (id != storeDto.StoreId)
+                return BadRequest("ID mismatch");
+
+            var updatedStore = await _storeService.UpdateStoreAsync(id, storeDto);
             if (updatedStore == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedStore);
         }
 
@@ -67,9 +67,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _storeService.DeleteStoreAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

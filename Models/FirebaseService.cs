@@ -6,18 +6,6 @@ public class FirebaseService
 {
     private readonly FirebaseAuth _auth;
 
-    public FirebaseService()
-    {
-        if (FirebaseApp.DefaultInstance == null)
-        {
-            FirebaseApp.Create(new AppOptions
-            {
-                Credential = GoogleCredential.FromFile("firebase-config.json") // Your service account JSON file
-            });
-        }
-        _auth = FirebaseAuth.DefaultInstance;
-    }
-
     public async Task<string?> VerifyFirebaseToken(string idToken)
     {
         try

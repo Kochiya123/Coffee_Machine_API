@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
+    [Route("api/areas")]
     [ApiController]
-    [Route("api/area")]
     public class AreaController : ControllerBase
     {
         private readonly IAreaService _areaService;
@@ -17,45 +17,45 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAreas(
-            [FromQuery] int? AreaId, 
-            [FromQuery] string? AreaName, 
-            [FromQuery] int? Status,
-            [FromQuery] string sortBy = "AreaId", 
+        public async Task<ActionResult<(IEnumerable<Area>, PaginationMetadata)>> GetAreas(
+            [FromQuery] string? areaName,
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "AreaId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (areas, pagination) = await _areaService.GetAreasAsync(AreaId, AreaName, Status, sortBy, isAscending, page, pageSize);
+            var (areas, pagination) = await _areaService.GetAreasAsync(areaName, status, sortBy, isAscending, page, pageSize);
             return Ok(new { Areas = areas, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAreaById(int id)
+        public async Task<ActionResult<Area>> GetArea(int id)
         {
             var area = await _areaService.GetAreaByIdAsync(id);
             if (area == null)
-            {
                 return NotFound();
-            }
+
             return Ok(area);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateArea(Area area)
+        public async Task<ActionResult<Area>> CreateArea([FromBody] Area area)
         {
             var createdArea = await _areaService.CreateAreaAsync(area);
-            return CreatedAtAction(nameof(GetAreaById), new { id = createdArea.AreaId }, createdArea);
+            return CreatedAtAction(nameof(GetArea), new { id = createdArea.AreaId }, createdArea);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateArea(int id, Area area)
+        public async Task<ActionResult<Area>> UpdateArea(int id, [FromBody] Area area)
         {
+            if (id != area.AreaId)
+                return BadRequest("ID mismatch");
+
             var updatedArea = await _areaService.UpdateAreaAsync(id, area);
             if (updatedArea == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedArea);
         }
 
@@ -64,9 +64,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _areaService.DeleteAreaAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

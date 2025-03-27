@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication2.Models;
@@ -15,6 +14,8 @@ public partial class CoffeeShop01Context : DbContext
         : base(options)
     {
     }
+
+    public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Area> Areas { get; set; }
 
@@ -38,6 +39,8 @@ public partial class CoffeeShop01Context : DbContext
 
     public virtual DbSet<MachineType> MachineTypes { get; set; }
 
+    public virtual DbSet<Manager> Managers { get; set; }
+
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
@@ -56,8 +59,36 @@ public partial class CoffeeShop01Context : DbContext
 
     public virtual DbSet<Wallet> Wallets { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=host.docker.internal;Initial Catalog=CoffeeShop_01;User Id=sa;Password=Kochiya145236@;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.ToTable("Admin");
+
+            entity.HasIndex(e => e.Email, "UQ_Admin_Email").IsUnique();
+
+            entity.HasIndex(e => e.Username, "UQ_Admin_Username").IsUnique();
+
+            entity.Property(e => e.AdminId).HasColumnName("AdminID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastLogin).HasColumnType("datetime");
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.Username).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Area>(entity =>
         {
             entity.ToTable("Area");
@@ -71,6 +102,9 @@ public partial class CoffeeShop01Context : DbContext
             entity.ToTable("Category");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.CategoryName).HasMaxLength(255);
         });
 
@@ -88,10 +122,12 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Coupons)
                 .HasForeignKey(d => d.PaymentId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Coupon_Payment");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Coupons)
                 .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Coupon_Product");
         });
 
@@ -99,7 +135,13 @@ public partial class CoffeeShop01Context : DbContext
         {
             entity.ToTable("Customer");
 
-            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.HasIndex(e => e.Email, "UQ_Gmail").IsUnique();
+
+            entity.HasIndex(e => e.CustomerId, "UQ_ID").IsUnique();
+
+            entity.Property(e => e.CustomerId)
+                .ValueGeneratedNever()
+                .HasColumnName("CustomerID");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -127,7 +169,6 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Technician).WithMany(p => p.IssueAssignments)
                 .HasForeignKey(d => d.TechnicianId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_IssueAssignment_Technician");
         });
 
@@ -148,7 +189,6 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Technician).WithMany(p => p.IssueResolutions)
                 .HasForeignKey(d => d.TechnicianId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_IssueResolution_Technician");
         });
 
@@ -157,6 +197,9 @@ public partial class CoffeeShop01Context : DbContext
             entity.ToTable("Machine");
 
             entity.Property(e => e.MachineId).HasColumnName("MachineID");
+            entity.Property(e => e.MachineCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.MachineName).HasMaxLength(255);
             entity.Property(e => e.MachineTypeId).HasColumnName("MachineTypeID");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
@@ -206,7 +249,6 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Technician).WithMany(p => p.MachineLogs)
                 .HasForeignKey(d => d.TechnicianId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_MachineLog_Technician");
         });
 
@@ -214,9 +256,7 @@ public partial class CoffeeShop01Context : DbContext
         {
             entity.ToTable("MachineProduct");
 
-            entity.Property(e => e.MachineProductId)
-                .ValueGeneratedNever()
-                .HasColumnName("MachineProductID");
+            entity.Property(e => e.MachineProductId).HasColumnName("MachineProductID");
             entity.Property(e => e.MachineId).HasColumnName("MachineID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -237,6 +277,35 @@ public partial class CoffeeShop01Context : DbContext
             entity.Property(e => e.TypeName).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<Manager>(entity =>
+        {
+            entity.ToTable("Manager");
+
+            entity.HasIndex(e => e.Email, "UQ_Manager_Email").IsUnique();
+
+            entity.HasIndex(e => e.Username, "UQ_Manager_Username").IsUnique();
+
+            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastLogin).HasColumnType("datetime");
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.StoreId).HasColumnName("StoreID");
+            entity.Property(e => e.Username).HasMaxLength(50);
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Managers)
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_Manager_Store");
+        });
+
         modelBuilder.Entity<Order>(entity =>
         {
             entity.ToTable("Order");
@@ -244,11 +313,15 @@ public partial class CoffeeShop01Context : DbContext
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.MachineId).HasColumnName("MachineID");
+            entity.Property(e => e.OrderCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Order_Customer");
 
             entity.HasOne(d => d.Machine).WithMany(p => p.Orders)
@@ -280,6 +353,9 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.PaymentCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.PaymentDate).HasColumnType("datetime");
             entity.Property(e => e.PaymentMethod).HasMaxLength(50);
 
@@ -294,7 +370,13 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Path)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.ProductName).HasMaxLength(255);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -335,6 +417,7 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Area).WithMany(p => p.Stores)
                 .HasForeignKey(d => d.AreaId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Store_Area");
         });
 
@@ -366,12 +449,10 @@ public partial class CoffeeShop01Context : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transaction_Order");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.PaymentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transaction_Payment");
 
             entity.HasOne(d => d.Wallet).WithMany(p => p.Transactions)

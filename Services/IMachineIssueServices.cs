@@ -10,83 +10,57 @@ namespace WebApplication2.Services
 {
     public interface IMachineIssueService
     {
-        Task<(IEnumerable<MachineIssue> MachineIssues, PaginationMetadata Pagination)> GetMachineIssuesAsync(
-            int? IssueId, DateTime? ReportDate, string? IssueDescription, int? Status, int? MachineId, long? ReportedBy,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<MachineIssue> GetMachineIssueByIdAsync(int id);
-        Task<MachineIssue> CreateMachineIssueAsync(MachineIssue machineIssue);
-        Task<MachineIssue> UpdateMachineIssueAsync(int id, MachineIssue machineIssue);
+        Task<(IEnumerable<MachineIssueDto> Issues, PaginationMetadata Pagination)> GetMachineIssuesAsync(int? machineId, long? reportedBy, int? status, DateTime? reportDate, string sortBy, bool isAscending, int page, int pageSize);
+        Task<MachineIssueDto> GetMachineIssueByIdAsync(int id);
+        Task<MachineIssueDto> CreateMachineIssueAsync(MachineIssueDto issueDto);
+        Task<MachineIssueDto> UpdateMachineIssueAsync(int id, MachineIssueDto issueDto);
         Task<bool> DeleteMachineIssueAsync(int id);
     }
 
     public class MachineIssueService : IMachineIssueService
     {
-        private readonly IRepository<MachineIssue> _machineIssueRepository;
+        private readonly IRepository<MachineIssue> _issueRepository;
 
-        public MachineIssueService(IRepository<MachineIssue> machineIssueRepository)
+        public MachineIssueService(IRepository<MachineIssue> issueRepository)
         {
-            _machineIssueRepository = machineIssueRepository;
+            _issueRepository = issueRepository;
         }
 
-        public async Task<(IEnumerable<MachineIssue> MachineIssues, PaginationMetadata Pagination)> GetMachineIssuesAsync(
-            int? IssueId, DateTime? ReportDate, string? IssueDescription, int? Status, int? MachineId, long? ReportedBy,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<MachineIssueDto> Issues, PaginationMetadata Pagination)> GetMachineIssuesAsync(int? machineId, long? reportedBy, int? status, DateTime? reportDate, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _machineIssueRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _issueRepository.Query();
 
-            // Apply filtering
-            if (IssueId.HasValue)
-            {
-                query = query.Where(mi => mi.IssueId == IssueId);
-                hasFilters = true;
-            }
-            if (ReportDate.HasValue)
-            {
-                query = query.Where(mi => mi.ReportDate == ReportDate);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(IssueDescription))
-            {
-                query = query.Where(mi => mi.IssueDescription.Contains(IssueDescription));
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(mi => mi.Status == Status);
-                hasFilters = true;
-            }
-            if (MachineId.HasValue)
-            {
-                query = query.Where(mi => mi.MachineId == MachineId);
-                hasFilters = true;
-            }
-            if (ReportedBy.HasValue)
-            {
-                query = query.Where(mi => mi.ReportedBy == ReportedBy);
-                hasFilters = true;
-            }
+            if (machineId.HasValue)
+                query = query.Where(i => i.MachineId == machineId);
+            if (reportedBy.HasValue)
+                query = query.Where(i => i.ReportedBy == reportedBy);
+            if (status.HasValue)
+                query = query.Where(i => i.Status == status);
+            if (reportDate.HasValue)
+                query = query.Where(i => i.ReportDate == reportDate);
 
-            if (!hasFilters)
-            {
-                query = _machineIssueRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(MachineIssue).GetProperty(sortBy) != null)
             {
                 query = isAscending
-                    ? query.OrderBy(mi => EF.Property<object>(mi, sortBy))
-                    : query.OrderByDescending(mi => EF.Property<object>(mi, sortBy));
+                    ? query.OrderBy(i => EF.Property<object>(i, sortBy))
+                    : query.OrderByDescending(i => EF.Property<object>(i, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
+            var issues = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Apply pagination
-            var machineIssues = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var issueDtos = issues.Select(i => new MachineIssueDto
+            {
+                IssueId = i.IssueId,
+                ReportDate = i.ReportDate,
+                IssueDescription = i.IssueDescription,
+                Status = i.Status,
+                MachineId = i.MachineId,
+                ReportedBy = i.ReportedBy,
+                IssueAssignments = i.IssueAssignments,
+                IssueResolutions = i.IssueResolutions
+            });
 
-            // Create pagination metadata
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -95,54 +69,74 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (machineIssues, paginationMetadata);
+            return (issueDtos, paginationMetadata);
         }
 
-        public async Task<MachineIssue> GetMachineIssueByIdAsync(int id)
+        public async Task<MachineIssueDto> GetMachineIssueByIdAsync(int id)
         {
-            return await _machineIssueRepository.Query()
-                .Where(mi => mi.IssueId == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<MachineIssue> CreateMachineIssueAsync(MachineIssue machineIssue)
-        {
-            await _machineIssueRepository.AddAsync(machineIssue);
-            await _machineIssueRepository.SaveChangesAsync();
-            return machineIssue;
-        }
-
-        public async Task<MachineIssue> UpdateMachineIssueAsync(int id, MachineIssue machineIssue)
-        {
-            var existingMachineIssue = await _machineIssueRepository.GetByIdAsync(id);
-            if (existingMachineIssue == null)
-            {
+            
+            var issue = await _issueRepository.GetByIdAsync(id);
+            if (issue == null)
                 return null;
-            }
 
-            existingMachineIssue.ReportDate = machineIssue.ReportDate;
-            existingMachineIssue.IssueDescription = machineIssue.IssueDescription;
-            existingMachineIssue.Status = machineIssue.Status;
-            existingMachineIssue.MachineId = machineIssue.MachineId;
-            existingMachineIssue.ReportedBy = machineIssue.ReportedBy;
+            return new MachineIssueDto
+            {
+                IssueId = issue.IssueId,
+                ReportDate = issue.ReportDate,
+                IssueDescription = issue.IssueDescription,
+                Status = issue.Status,
+                MachineId = issue.MachineId,
+                ReportedBy = issue.ReportedBy,
+                IssueAssignments = issue.IssueAssignments,
+                IssueResolutions = issue.IssueResolutions
+            };
+        }
 
-            await _machineIssueRepository.UpdateAsync(existingMachineIssue);
-            await _machineIssueRepository.SaveChangesAsync();
+        public async Task<MachineIssueDto> CreateMachineIssueAsync(MachineIssueDto issueDto)
+        {
+            var issue = new MachineIssue
+            {
+                ReportDate = issueDto.ReportDate,
+                IssueDescription = issueDto.IssueDescription,
+                Status = issueDto.Status,
+                MachineId = issueDto.MachineId,
+                ReportedBy = issueDto.ReportedBy
+            };
 
-            return existingMachineIssue;
+            await _issueRepository.AddAsync(issue);
+            await _issueRepository.SaveChangesAsync();
+            issueDto.IssueId = issue.IssueId;
+            return issueDto;
+        }
+
+        public async Task<MachineIssueDto> UpdateMachineIssueAsync(int id, MachineIssueDto issueDto)
+        {
+            
+            var issue = await _issueRepository.GetByIdAsync(id);
+            if (issue == null)
+                return null;
+
+            issue.ReportDate = issueDto.ReportDate;
+            issue.IssueDescription = issueDto.IssueDescription;
+            issue.Status = issueDto.Status;
+            issue.MachineId = issueDto.MachineId;
+            issue.ReportedBy = issueDto.ReportedBy;
+
+            await _issueRepository.UpdateAsync(issue);
+            await _issueRepository.SaveChangesAsync();
+
+            return issueDto;
         }
 
         public async Task<bool> DeleteMachineIssueAsync(int id)
         {
-            var machineIssue = await _machineIssueRepository.GetByIdAsync(id);
-            if (machineIssue == null)
-            {
+            
+            var issue = await _issueRepository.GetByIdAsync(id);
+            if (issue == null)
                 return false;
-            }
 
-            await _machineIssueRepository.DeleteAsync(id);
-            await _machineIssueRepository.SaveChangesAsync();
-
+            await _issueRepository.DeleteAsync(id);
+            await _issueRepository.SaveChangesAsync();
             return true;
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/machine/type")]
+    [Route("api/machine_types")]
     public class MachineTypeController : ControllerBase
     {
         private readonly IMachineTypeService _machineTypeService;
@@ -17,46 +17,46 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMachineTypes(
-            [FromQuery] int? MachineTypeId, 
-            [FromQuery] string? TypeName, 
-            [FromQuery] int? Status,
-            [FromQuery] string sortBy = "MachineTypeId", 
+        public async Task<ActionResult<(IEnumerable<MachineTypeDto>, PaginationMetadata)>> GetMachineTypes(
+            [FromQuery] string? typeName,
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "MachineTypeId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (machineTypes, pagination) = await _machineTypeService.GetMachineTypesAsync(MachineTypeId, TypeName, Status, sortBy, isAscending, page, pageSize);
-            return Ok(new { MachineTypes = machineTypes, Pagination = pagination });
+            var (types, pagination) = await _machineTypeService.GetMachineTypesAsync(typeName, status, sortBy, isAscending, page, pageSize);
+            return Ok(new { MachineTypes = types, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMachineTypeById(int id)
+        public async Task<ActionResult<MachineTypeDto>> GetMachineType(int id)
         {
-            var machineType = await _machineTypeService.GetMachineTypeByIdAsync(id);
-            if (machineType == null)
-            {
+            var type = await _machineTypeService.GetMachineTypeByIdAsync(id);
+            if (type == null)
                 return NotFound();
-            }
-            return Ok(machineType);
+
+            return Ok(type);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMachineType(MachineType machineType)
+        public async Task<ActionResult<MachineTypeDto>> CreateMachineType([FromBody] MachineTypeDto typeDto)
         {
-            var createdMachineType = await _machineTypeService.CreateMachineTypeAsync(machineType);
-            return CreatedAtAction(nameof(GetMachineTypeById), new { id = createdMachineType.MachineTypeId }, createdMachineType);
+            var createdType = await _machineTypeService.CreateMachineTypeAsync(typeDto);
+            return CreatedAtAction(nameof(GetMachineType), new { id = createdType.MachineTypeId }, createdType);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMachineType(int id, MachineType machineType)
+        public async Task<ActionResult<MachineTypeDto>> UpdateMachineType(int id, [FromBody] MachineTypeDto typeDto)
         {
-            var updatedMachineType = await _machineTypeService.UpdateMachineTypeAsync(id, machineType);
-            if (updatedMachineType == null)
-            {
+            if (id != typeDto.MachineTypeId)
+                return BadRequest("ID mismatch");
+
+            var updatedType = await _machineTypeService.UpdateMachineTypeAsync(id, typeDto);
+            if (updatedType == null)
                 return NotFound();
-            }
-            return Ok(updatedMachineType);
+
+            return Ok(updatedType);
         }
 
         [HttpDelete("{id}")]
@@ -64,9 +64,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _machineTypeService.DeleteMachineTypeAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

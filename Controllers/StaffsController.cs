@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/staff")]
+    [Route("api/staffs")]
     public class StaffController : ControllerBase
     {
         private readonly IStaffService _staffService;
@@ -17,49 +17,49 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetStaffs(
-            [FromQuery] long? StaffId, 
-            [FromQuery] string? FirstName, 
-            [FromQuery] string? LastName,
-            [FromQuery] string? PhoneNumber, 
-            [FromQuery] string? Email, 
-            [FromQuery] int? Status, 
-            [FromQuery] long? StoreId,
-            [FromQuery] string sortBy = "StaffId", 
+        public async Task<ActionResult<(IEnumerable<StaffDto>, PaginationMetadata)>> GetStaff(
+            [FromQuery] string? firstName,
+            [FromQuery] string? lastName,
+            [FromQuery] string? phoneNumber,
+            [FromQuery] string? email,
+            [FromQuery] int? status,
+            [FromQuery] long? storeId,
+            [FromQuery] string sortBy = "StaffId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (staffs, pagination) = await _staffService.GetStaffsAsync(StaffId, FirstName, LastName, PhoneNumber, Email, Status, StoreId, sortBy, isAscending, page, pageSize);
-            return Ok(new { Staffs = staffs, Pagination = pagination });
+            var (staff, pagination) = await _staffService.GetStaffAsync(firstName, lastName, phoneNumber, email, status, storeId, sortBy, isAscending, page, pageSize);
+            return Ok(new { Staff = staff, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStaffById(long id)
+        public async Task<ActionResult<StaffDto>> GetStaffById(long id)
         {
             var staff = await _staffService.GetStaffByIdAsync(id);
             if (staff == null)
-            {
                 return NotFound();
-            }
+
             return Ok(staff);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStaff(Staff staff)
+        public async Task<ActionResult<StaffDto>> CreateStaff([FromBody] StaffDto staffDto)
         {
-            var createdStaff = await _staffService.CreateStaffAsync(staff);
+            var createdStaff = await _staffService.CreateStaffAsync(staffDto);
             return CreatedAtAction(nameof(GetStaffById), new { id = createdStaff.StaffId }, createdStaff);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStaff(long id, Staff staff)
+        public async Task<ActionResult<StaffDto>> UpdateStaff(long id, [FromBody] StaffDto staffDto)
         {
-            var updatedStaff = await _staffService.UpdateStaffAsync(id, staff);
+            if (id != staffDto.StaffId)
+                return BadRequest("ID mismatch");
+
+            var updatedStaff = await _staffService.UpdateStaffAsync(id, staffDto);
             if (updatedStaff == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedStaff);
         }
 
@@ -68,9 +68,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _staffService.DeleteStaffAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

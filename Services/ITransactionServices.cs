@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface ITransactionService
     {
-        Task<(IEnumerable<Transaction> Transactions, PaginationMetadata Pagination)> GetTransactionsAsync(
-            long? TransactionId, decimal? TransactionAmount, DateTime? TransactionDate, int? TransactionType, int? Status, long? WalletId, int? OrderId, int? PaymentId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Transaction> GetTransactionByIdAsync(long id);
-        Task<Transaction> CreateTransactionAsync(Transaction transaction);
-        Task<Transaction> UpdateTransactionAsync(long id, Transaction transaction);
+        Task<(IEnumerable<TransactionDto> Transactions, PaginationMetadata Pagination)> GetTransactionsAsync(decimal? transactionAmount, DateTime? transactionDate, int? transactionType, int? status, long? walletId, int? orderId, int? paymentId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<TransactionDto> GetTransactionByIdAsync(long id);
+        Task<TransactionDto> CreateTransactionAsync(TransactionDto transactionDto);
+        Task<TransactionDto> UpdateTransactionAsync(long id, TransactionDto transactionDto);
         Task<bool> DeleteTransactionAsync(long id);
     }
 
@@ -28,61 +26,25 @@ namespace WebApplication2.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<(IEnumerable<Transaction> Transactions, PaginationMetadata Pagination)> GetTransactionsAsync(
-            long? TransactionId, decimal? TransactionAmount, DateTime? TransactionDate, int? TransactionType, int? Status, long? WalletId, int? OrderId, int? PaymentId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<TransactionDto> Transactions, PaginationMetadata Pagination)> GetTransactionsAsync(decimal? transactionAmount, DateTime? transactionDate, int? transactionType, int? status, long? walletId, int? orderId, int? paymentId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _transactionRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _transactionRepository.Query();
 
-            // Apply filtering
-            if (TransactionId.HasValue)
-            {
-                query = query.Where(t => t.TransactionId == TransactionId);
-                hasFilters = true;
-            }
-            if (TransactionAmount.HasValue)
-            {
-                query = query.Where(t => t.TransactionAmount == TransactionAmount);
-                hasFilters = true;
-            }
-            if (TransactionDate.HasValue)
-            {
-                query = query.Where(t => t.TransactionDate == TransactionDate);
-                hasFilters = true;
-            }
-            if (TransactionType.HasValue)
-            {
-                query = query.Where(t => t.TransactionType == TransactionType);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(t => t.Status == Status);
-                hasFilters = true;
-            }
-            if (WalletId.HasValue)
-            {
-                query = query.Where(t => t.WalletId == WalletId);
-                hasFilters = true;
-            }
-            if (OrderId.HasValue)
-            {
-                query = query.Where(t => t.OrderId == OrderId);
-                hasFilters = true;
-            }
-            if (PaymentId.HasValue)
-            {
-                query = query.Where(t => t.PaymentId == PaymentId);
-                hasFilters = true;
-            }
+            if (transactionAmount.HasValue)
+                query = query.Where(t => t.TransactionAmount == transactionAmount);
+            if (transactionDate.HasValue)
+                query = query.Where(t => t.TransactionDate == transactionDate);
+            if (transactionType.HasValue)
+                query = query.Where(t => t.TransactionType == transactionType);
+            if (status.HasValue)
+                query = query.Where(t => t.Status == status);
+            if (walletId.HasValue)
+                query = query.Where(t => t.WalletId == walletId);
+            if (orderId.HasValue)
+                query = query.Where(t => t.OrderId == orderId);
+            if (paymentId.HasValue)
+                query = query.Where(t => t.PaymentId == paymentId);
 
-            if (!hasFilters)
-            {
-                query = _transactionRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Transaction).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -90,13 +52,21 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(t => EF.Property<object>(t, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var transactions = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var transactionDtos = transactions.Select(t => new TransactionDto
+            {
+                TransactionId = t.TransactionId,
+                TransactionAmount = t.TransactionAmount,
+                TransactionDate = t.TransactionDate,
+                TransactionType = t.TransactionType,
+                Status = t.Status,
+                WalletId = t.WalletId,
+                OrderId = t.OrderId,
+                PaymentId = t.PaymentId
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -105,56 +75,75 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (transactions, paginationMetadata);
+            return (transactionDtos, paginationMetadata);
         }
 
-        public async Task<Transaction> GetTransactionByIdAsync(long id)
+        public async Task<TransactionDto> GetTransactionByIdAsync(long id)
         {
-            return await _transactionRepository.Query()
-                .Where(t => t.TransactionId == id)
-                .FirstOrDefaultAsync();
+            var transaction = await _transactionRepository.GetByIdAsync(id);
+            if (transaction == null)
+                return null;
+
+            return new TransactionDto
+            {
+                TransactionId = transaction.TransactionId,
+                TransactionAmount = transaction.TransactionAmount,
+                TransactionDate = transaction.TransactionDate,
+                TransactionType = transaction.TransactionType,
+                Status = transaction.Status,
+                WalletId = transaction.WalletId,
+                OrderId = transaction.OrderId,
+                PaymentId = transaction.PaymentId
+            };
         }
 
-        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
+        public async Task<TransactionDto> CreateTransactionAsync(TransactionDto transactionDto)
         {
+            var transaction = new Transaction
+            {
+                TransactionAmount = transactionDto.TransactionAmount,
+                TransactionDate = transactionDto.TransactionDate,
+                TransactionType = transactionDto.TransactionType,
+                Status = transactionDto.Status,
+                WalletId = transactionDto.WalletId,
+                OrderId = transactionDto.OrderId,
+                PaymentId = transactionDto.PaymentId
+            };
+
             await _transactionRepository.AddAsync(transaction);
             await _transactionRepository.SaveChangesAsync();
-            return transaction;
+            transactionDto.TransactionId = transaction.TransactionId;
+            return transactionDto;
         }
 
-        public async Task<Transaction> UpdateTransactionAsync(long id, Transaction transaction)
+        public async Task<TransactionDto> UpdateTransactionAsync(long id, TransactionDto transactionDto)
         {
-            var existingTransaction = await _transactionRepository.GetByIdAsync(id);
-            if (existingTransaction == null)
-            {
+            var transaction = await _transactionRepository.GetByIdAsync(id);
+            if (transaction == null)
                 return null;
-            }
 
-            existingTransaction.TransactionAmount = transaction.TransactionAmount;
-            existingTransaction.TransactionDate = transaction.TransactionDate;
-            existingTransaction.TransactionType = transaction.TransactionType;
-            existingTransaction.Status = transaction.Status;
-            existingTransaction.WalletId = transaction.WalletId;
-            existingTransaction.OrderId = transaction.OrderId;
-            existingTransaction.PaymentId = transaction.PaymentId;
+            transaction.TransactionAmount = transactionDto.TransactionAmount;
+            transaction.TransactionDate = transactionDto.TransactionDate;
+            transaction.TransactionType = transactionDto.TransactionType;
+            transaction.Status = transactionDto.Status;
+            transaction.WalletId = transactionDto.WalletId;
+            transaction.OrderId = transactionDto.OrderId;
+            transaction.PaymentId = transactionDto.PaymentId;
 
-            await _transactionRepository.UpdateAsync(existingTransaction);
+            await _transactionRepository.UpdateAsync(transaction);
             await _transactionRepository.SaveChangesAsync();
 
-            return existingTransaction;
+            return transactionDto;
         }
 
         public async Task<bool> DeleteTransactionAsync(long id)
         {
             var transaction = await _transactionRepository.GetByIdAsync(id);
             if (transaction == null)
-            {
                 return false;
-            }
 
             await _transactionRepository.DeleteAsync(id);
             await _transactionRepository.SaveChangesAsync();
-
             return true;
         }
     }

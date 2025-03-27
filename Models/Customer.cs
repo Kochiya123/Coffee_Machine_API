@@ -8,11 +8,11 @@ public partial class Customer
 {
     public long CustomerId { get; set; }
 
-    public string FirstName { get; set; } = null!;
+    public string? FirstName { get; set; }
 
-    public string LastName { get; set; } = null!;
+    public string? LastName { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public string? PhoneNumber { get; set; }
 
@@ -26,7 +26,6 @@ public partial class Customer
 
     public virtual ICollection<Wallet> Wallets { get; set; } = new List<Wallet>();
 }
-
 public partial class CustomerDto
 {
     public long CustomerId { get; set; }
@@ -47,7 +46,7 @@ public partial class CustomerDto
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public List<WalletDto> Wallets { get; set; } = new List<WalletDto>();
+    public virtual ICollection<Wallet> Wallets { get; set; } = new List<Wallet>();
 }
 
 public partial class AuthenticationUser : IdentityUser
@@ -60,3 +59,4 @@ public partial class AuthenticationUser : IdentityUser
 
     public string FirebaseUserId { get; set; }
 }
+

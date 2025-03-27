@@ -5,14 +5,28 @@
     "version": "v1"
   },
   "paths": {
-    "/api/area": {
+    "/api/admins": {
       "get": {
         "tags": [
-          "Area"
+          "Admin"
         ],
         "parameters": [
           {
-            "name": "AreaId",
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -20,14 +34,243 @@
             }
           },
           {
-            "name": "AreaName",
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "AdminId"
+            }
+          },
+          {
+            "name": "isAscending",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admins/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Admin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/areas": {
+      "get": {
+        "tags": [
+          "Area"
+        ],
+        "parameters": [
+          {
+            "name": "areaName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -71,7 +314,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AreaIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AreaIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AreaIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -100,12 +360,29 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/area/{id}": {
+    "/api/areas/{id}": {
       "get": {
         "tags": [
           "Area"
@@ -123,7 +400,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              }
+            }
           }
         }
       },
@@ -163,7 +457,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              }
+            }
           }
         }
       },
@@ -189,30 +500,11 @@
         }
       }
     },
-    "/authenticate": {
+    "/authenticatication": {
       "post": {
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -220,29 +512,28 @@
         }
       }
     },
-    "/api/category": {
+    "/api/categories": {
       "get": {
         "tags": [
           "Category"
         ],
         "parameters": [
           {
-            "name": "CategoryId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "CategoryName",
+            "name": "categoryCode",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "categoryName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -286,7 +577,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -298,29 +606,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/category/{id}": {
+    "/api/categories/{id}": {
       "get": {
         "tags": [
           "Category"
@@ -338,7 +663,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              }
+            }
           }
         }
       },
@@ -361,24 +703,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "$ref": "#/components/schemas/CategoryDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              }
+            }
           }
         }
       },
@@ -404,29 +763,21 @@
         }
       }
     },
-    "/api/coupon": {
+    "/api/coupons": {
       "get": {
         "tags": [
           "Coupon"
         ],
         "parameters": [
           {
-            "name": "CouponId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "CouponCode",
+            "name": "couponCode",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "DiscountAmount",
+            "name": "minDiscount",
             "in": "query",
             "schema": {
               "type": "number",
@@ -434,7 +785,15 @@
             }
           },
           {
-            "name": "StartDate",
+            "name": "maxDiscount",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "startDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -442,7 +801,7 @@
             }
           },
           {
-            "name": "ExpirationDate",
+            "name": "expirationDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -450,7 +809,23 @@
             }
           },
           {
-            "name": "Status",
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -494,7 +869,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -506,29 +898,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/coupon/{id}": {
+    "/api/coupons/{id}": {
       "get": {
         "tags": [
           "Coupon"
@@ -546,7 +955,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              }
+            }
           }
         }
       },
@@ -569,24 +995,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Coupon"
+                "$ref": "#/components/schemas/CouponDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto"
+                }
+              }
+            }
           }
         }
       },
@@ -612,7 +1055,7 @@
         }
       }
     },
-    "/api/customer": {
+    "/api/customers": {
       "get": {
         "tags": [
           "Customer"
@@ -717,7 +1160,7 @@
         }
       }
     },
-    "/api/customer/{id}": {
+    "/api/customers/{id}": {
       "get": {
         "tags": [
           "Customer"
@@ -801,14 +1244,14 @@
         }
       }
     },
-    "/api/issue_assignment": {
+    "/api/issue/{issueId}/assignment": {
       "get": {
         "tags": [
           "IssueAssignment"
         ],
         "parameters": [
           {
-            "name": "AssignmentId",
+            "name": "issueId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -816,35 +1259,27 @@
             }
           },
           {
-            "name": "AssignedDate",
+            "name": "technicianId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "assignedDate",
             "in": "query",
             "schema": {
               "type": "string",
               "format": "date-time"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "IssueId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "TechnicianId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
             }
           },
           {
@@ -880,11 +1315,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -892,33 +1352,60 @@
         "tags": [
           "IssueAssignment"
         ],
+        "parameters": [
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/issue_assignment/{id}": {
+    "/api/issue/{issueId}/assignment/{id}": {
       "get": {
         "tags": [
           "IssueAssignment"
@@ -932,11 +1419,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              }
+            }
           }
         }
       },
@@ -953,30 +1465,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueAssignment"
+                "$ref": "#/components/schemas/IssueAssignmentDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAssignmentDto"
+                }
+              }
+            }
           }
         }
       },
@@ -993,6 +1530,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1002,14 +1547,14 @@
         }
       }
     },
-    "/api/issue/resolution": {
+    "/api/issue/{issueId}/resolution": {
       "get": {
         "tags": [
           "IssueResolution"
         ],
         "parameters": [
           {
-            "name": "ResolutionId",
+            "name": "issueId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1017,42 +1562,27 @@
             }
           },
           {
-            "name": "ResolutionDate",
+            "name": "technicianId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "resolutionDate",
             "in": "query",
             "schema": {
               "type": "string",
               "format": "date-time"
-            }
-          },
-          {
-            "name": "ResolutionDescription",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "IssueId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "TechnicianId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
             }
           },
           {
@@ -1088,11 +1618,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -1100,33 +1655,60 @@
         "tags": [
           "IssueResolution"
         ],
+        "parameters": [
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/issue/resolution/{id}": {
+    "/api/issue/{issueId}/resolution/{id}": {
       "get": {
         "tags": [
           "IssueResolution"
@@ -1140,11 +1722,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1161,30 +1768,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueResolution"
+                "$ref": "#/components/schemas/IssueResolutionDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueResolutionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1201,6 +1833,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1210,29 +1850,28 @@
         }
       }
     },
-    "/api/machine": {
+    "/api/machines": {
       "get": {
         "tags": [
           "Machine"
         ],
         "parameters": [
           {
-            "name": "MachineId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "MachineName",
+            "name": "machineCode",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "InstallationDate",
+            "name": "machineName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "installationDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -1240,7 +1879,7 @@
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1248,7 +1887,7 @@
             }
           },
           {
-            "name": "StoreId",
+            "name": "storeId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1256,7 +1895,7 @@
             }
           },
           {
-            "name": "MachineTypeId",
+            "name": "machineTypeId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1300,7 +1939,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -1312,29 +1968,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/machine/{id}": {
+    "/api/machines/{id}": {
       "get": {
         "tags": [
           "Machine"
@@ -1352,7 +2025,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1375,24 +2065,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Machine"
+                "$ref": "#/components/schemas/MachineDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1418,14 +2125,14 @@
         }
       }
     },
-    "/api/machine/issue": {
+    "/api/machine/{machineid}/issue": {
       "get": {
         "tags": [
           "MachineIssue"
         ],
         "parameters": [
           {
-            "name": "IssueId",
+            "name": "machineId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1433,42 +2140,27 @@
             }
           },
           {
-            "name": "ReportDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "IssueDescription",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "MachineId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "ReportedBy",
+            "name": "reportedBy",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "reportDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -1504,11 +2196,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "machineid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -1516,33 +2233,60 @@
         "tags": [
           "MachineIssue"
         ],
+        "parameters": [
+          {
+            "name": "machineid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/machine/issue/{id}": {
+    "/api/machine/{machineid}/issue/{id}": {
       "get": {
         "tags": [
           "MachineIssue"
@@ -1556,11 +2300,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1577,30 +2346,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineIssue"
+                "$ref": "#/components/schemas/MachineIssueDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIssueDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1617,6 +2411,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1626,14 +2428,14 @@
         }
       }
     },
-    "/api/machine/log": {
+    "/api/machine{machineId}/log": {
       "get": {
         "tags": [
           "MachineLog"
         ],
         "parameters": [
           {
-            "name": "LogId",
+            "name": "machineId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1641,50 +2443,43 @@
             }
           },
           {
-            "name": "LogDate",
+            "name": "technicianId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "performedBy",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "logType",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "logDate",
             "in": "query",
             "schema": {
               "type": "string",
               "format": "date-time"
-            }
-          },
-          {
-            "name": "LogDescription",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "LogType",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "MachineId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "TechnicianId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
             }
           },
           {
@@ -1720,11 +2515,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -1732,33 +2552,60 @@
         "tags": [
           "MachineLog"
         ],
+        "parameters": [
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/machine/log/{id}": {
+    "/api/machine{machineId}/log/{id}": {
       "get": {
         "tags": [
           "MachineLog"
@@ -1772,11 +2619,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1793,30 +2665,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineLog"
+                "$ref": "#/components/schemas/MachineLogDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineLogDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1833,6 +2730,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1842,14 +2747,14 @@
         }
       }
     },
-    "/api/machine/product": {
+    "/api/machine/{machineId}/product": {
       "get": {
         "tags": [
           "MachineProduct"
         ],
         "parameters": [
           {
-            "name": "MachineProductId",
+            "name": "machineId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1857,7 +2762,7 @@
             }
           },
           {
-            "name": "MachineStockQuantity",
+            "name": "productId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1865,23 +2770,7 @@
             }
           },
           {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "MachineId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "ProductId",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1921,11 +2810,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -1933,33 +2847,60 @@
         "tags": [
           "MachineProduct"
         ],
+        "parameters": [
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/machine/product/{id}": {
+    "/api/machine/{machineId}/product/{id}": {
       "get": {
         "tags": [
           "MachineProduct"
@@ -1973,11 +2914,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1994,30 +2960,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineProduct"
+                "$ref": "#/components/schemas/MachineProductDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineProductDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2034,6 +3025,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "machineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2043,29 +3042,21 @@
         }
       }
     },
-    "/api/machine/type": {
+    "/api/machine_types": {
       "get": {
         "tags": [
           "MachineType"
         ],
         "parameters": [
           {
-            "name": "MachineTypeId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "TypeName",
+            "name": "typeName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2109,7 +3100,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -2121,29 +3129,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/machine/type/{id}": {
+    "/api/machine_types/{id}": {
       "get": {
         "tags": [
           "MachineType"
@@ -2161,7 +3186,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2184,24 +3226,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineType"
+                "$ref": "#/components/schemas/MachineTypeDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineTypeDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2227,14 +3286,280 @@
         }
       }
     },
-    "/api/order/detail": {
+    "/api/managers": {
+      "get": {
+        "tags": [
+          "Manager"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "storeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "ManagerId"
+            }
+          },
+          {
+            "name": "isAscending",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Manager"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/managers/{id}": {
+      "get": {
+        "tags": [
+          "Manager"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Manager"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Manager"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order/{orderId}/detail": {
       "get": {
         "tags": [
           "OrderDetail"
         ],
         "parameters": [
           {
-            "name": "OrderDetailId",
+            "name": "orderId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2242,7 +3567,7 @@
             }
           },
           {
-            "name": "Quantity",
+            "name": "productId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2250,31 +3575,7 @@
             }
           },
           {
-            "name": "Price",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "OrderId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "ProductId",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2314,11 +3615,36 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -2326,33 +3652,60 @@
         "tags": [
           "OrderDetail"
         ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/order/detail/{id}": {
+    "/api/order/{orderId}/detail/{id}": {
       "get": {
         "tags": [
           "OrderDetail"
@@ -2366,11 +3719,36 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2387,30 +3765,55 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderDetail"
+                "$ref": "#/components/schemas/OrderDetailDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2427,6 +3830,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2436,7 +3847,7 @@
         }
       }
     },
-    "/api/order": {
+    "/api/orders": {
       "get": {
         "tags": [
           "Orders"
@@ -2448,6 +3859,13 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "OrderCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -2466,7 +3884,15 @@
             }
           },
           {
-            "name": "totalAmount",
+            "name": "Min",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Max",
             "in": "query",
             "schema": {
               "type": "number",
@@ -2594,7 +4020,7 @@
         }
       }
     },
-    "/api/order/{id}": {
+    "/api/orders/{id}": {
       "get": {
         "tags": [
           "Orders"
@@ -2712,7 +4138,7 @@
         }
       }
     },
-    "/api/order/customer/{customerId}": {
+    "/api/orders/customer/{customerId}": {
       "get": {
         "tags": [
           "Orders"
@@ -2769,29 +4195,28 @@
         }
       }
     },
-    "/api/payment": {
+    "/api/payments": {
       "get": {
         "tags": [
           "Payment"
         ],
         "parameters": [
           {
-            "name": "PaymentId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "PaymentMethod",
+            "name": "paymentCode",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "PaymentDate",
+            "name": "paymentMethod",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "paymentDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -2799,7 +4224,7 @@
             }
           },
           {
-            "name": "PaymentStatus",
+            "name": "paymentStatus",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2807,7 +4232,7 @@
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2815,7 +4240,7 @@
             }
           },
           {
-            "name": "OrderId",
+            "name": "orderId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2859,41 +4284,29 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Payment"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Payment"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Payment"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Payment"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDtoIEnumerablePaginationMetadataValueTuple"
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
     },
-    "/api/payment/{id}": {
+    "/api/payments/{id}": {
       "get": {
         "tags": [
           "Payment"
@@ -2911,7 +4324,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2934,24 +4364,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Payment"
+                "$ref": "#/components/schemas/PaymentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Payment"
+                "$ref": "#/components/schemas/PaymentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Payment"
+                "$ref": "#/components/schemas/PaymentDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2977,14 +4424,100 @@
         }
       }
     },
-    "/api/product": {
+    "/api/payments/vnpay": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/vnpay": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "queryParams",
+            "in": "query",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payments/wallet": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletPaymentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletPaymentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/products": {
       "get": {
         "tags": [
           "Product"
         ],
         "parameters": [
           {
-            "name": "ProductId",
+            "name": "productId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -2992,14 +4525,14 @@
             }
           },
           {
-            "name": "ProductName",
+            "name": "productName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Price",
+            "name": "price",
             "in": "query",
             "schema": {
               "type": "number",
@@ -3007,7 +4540,7 @@
             }
           },
           {
-            "name": "StockQuantity",
+            "name": "stockQuantity",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3015,7 +4548,7 @@
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3023,7 +4556,7 @@
             }
           },
           {
-            "name": "CategoryId",
+            "name": "categoryId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3077,19 +4610,97 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
+                "required": [
+                  "CategoryId",
+                  "ProductCode",
+                  "ProductName",
+                  "Status"
+                ],
+                "type": "object",
+                "properties": {
+                  "ProductId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "ProductCode": {
+                    "maxLength": 50,
+                    "minLength": 3,
+                    "type": "string"
+                  },
+                  "ProductName": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Path": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Price": {
+                    "maximum": 10000000,
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "StockQuantity": {
+                    "maximum": 2147483647,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Status": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProductId": {
+                  "style": "form"
+                },
+                "ProductCode": {
+                  "style": "form"
+                },
+                "ProductName": {
+                  "style": "form"
+                },
+                "Path": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "StockQuantity": {
+                  "style": "form"
+                },
+                "Status": {
+                  "style": "form"
+                },
+                "CategoryId": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -3101,7 +4712,7 @@
         }
       }
     },
-    "/api/product/{id}": {
+    "/api/products/{id}": {
       "get": {
         "tags": [
           "Product"
@@ -3140,19 +4751,104 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
+                "required": [
+                  "CategoryId",
+                  "ProductCode",
+                  "ProductName",
+                  "Status"
+                ],
+                "type": "object",
+                "properties": {
+                  "ProductId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "ProductCode": {
+                    "maxLength": 50,
+                    "minLength": 3,
+                    "type": "string"
+                  },
+                  "ProductName": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Path": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Price": {
+                    "maximum": 10000000,
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "StockQuantity": {
+                    "maximum": 2147483647,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Status": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "imageFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProductId": {
+                  "style": "form"
+                },
+                "ProductCode": {
+                  "style": "form"
+                },
+                "ProductName": {
+                  "style": "form"
+                },
+                "Path": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "StockQuantity": {
+                  "style": "form"
+                },
+                "Status": {
+                  "style": "form"
+                },
+                "CategoryId": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                },
+                "imageFile": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -3185,50 +4881,64 @@
         }
       }
     },
-    "/api/staff": {
+    "/api/products/image/{fileName}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/staffs": {
       "get": {
         "tags": [
           "Staff"
         ],
         "parameters": [
           {
-            "name": "StaffId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "FirstName",
+            "name": "firstName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "LastName",
+            "name": "lastName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "PhoneNumber",
+            "name": "phoneNumber",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Email",
+            "name": "email",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3236,7 +4946,7 @@
             }
           },
           {
-            "name": "StoreId",
+            "name": "storeId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3280,7 +4990,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -3292,29 +5019,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/staff/{id}": {
+    "/api/staffs/{id}": {
       "get": {
         "tags": [
           "Staff"
@@ -3332,7 +5076,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3355,24 +5116,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Staff"
+                "$ref": "#/components/schemas/StaffDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3398,43 +5176,35 @@
         }
       }
     },
-    "/api/store": {
+    "/api/stores": {
       "get": {
         "tags": [
           "Store"
         ],
         "parameters": [
           {
-            "name": "StoreId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "StoreName",
+            "name": "storeName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "StoreLocation",
+            "name": "storeLocation",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "PhoneNumber",
+            "name": "phoneNumber",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3442,7 +5212,7 @@
             }
           },
           {
-            "name": "AreaId",
+            "name": "areaId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3486,7 +5256,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -3498,29 +5285,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/store/{id}": {
+    "/api/stores/{id}": {
       "get": {
         "tags": [
           "Store"
@@ -3538,7 +5342,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3561,24 +5382,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Store"
+                "$ref": "#/components/schemas/StoreDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3604,50 +5442,42 @@
         }
       }
     },
-    "/api/technician": {
+    "/api/technicians": {
       "get": {
         "tags": [
           "Technician"
         ],
         "parameters": [
           {
-            "name": "TechnicianId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "FirstName",
+            "name": "firstName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "LastName",
+            "name": "lastName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "PhoneNumber",
+            "name": "phoneNumber",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Email",
+            "name": "email",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3691,7 +5521,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -3703,29 +5550,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/technician/{id}": {
+    "/api/technicians/{id}": {
       "get": {
         "tags": [
           "Technician"
@@ -3743,7 +5607,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3766,24 +5647,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Technician"
+                "$ref": "#/components/schemas/TechnicianDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicianDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3809,22 +5707,14 @@
         }
       }
     },
-    "/api/transaction": {
+    "/api/transactions": {
       "get": {
         "tags": [
           "Transaction"
         ],
         "parameters": [
           {
-            "name": "TransactionId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "TransactionAmount",
+            "name": "transactionAmount",
             "in": "query",
             "schema": {
               "type": "number",
@@ -3832,7 +5722,7 @@
             }
           },
           {
-            "name": "TransactionDate",
+            "name": "transactionDate",
             "in": "query",
             "schema": {
               "type": "string",
@@ -3840,7 +5730,7 @@
             }
           },
           {
-            "name": "TransactionType",
+            "name": "transactionType",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3848,7 +5738,7 @@
             }
           },
           {
-            "name": "Status",
+            "name": "status",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3856,7 +5746,7 @@
             }
           },
           {
-            "name": "WalletId",
+            "name": "walletId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3864,7 +5754,7 @@
             }
           },
           {
-            "name": "OrderId",
+            "name": "orderId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3872,7 +5762,7 @@
             }
           },
           {
-            "name": "PaymentId",
+            "name": "paymentId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -3916,7 +5806,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDtoIEnumerablePaginationMetadataValueTuple"
+                }
+              }
+            }
           }
         }
       },
@@ -3928,29 +5835,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/transaction/{id}": {
+    "/api/transactions/{id}": {
       "get": {
         "tags": [
           "Transaction"
@@ -3968,7 +5892,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3991,24 +5932,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/TransactionDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -4034,7 +5992,7 @@
         }
       }
     },
-    "/api/wallet": {
+    "/customer/{customerId}": {
       "get": {
         "tags": [
           "Wallet"
@@ -4042,84 +6000,14 @@
         "parameters": [
           {
             "name": "customerId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
             }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": "WalletId"
-            }
-          },
-          {
-            "name": "isAscending",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Wallet"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WalletDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WalletDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/WalletDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -4127,7 +6015,7 @@
         }
       }
     },
-    "/api/wallet/{id}": {
+    "/api/wallets/{id}": {
       "get": {
         "tags": [
           "Wallet"
@@ -4145,7 +6033,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              }
+            }
           }
         }
       },
@@ -4185,7 +6090,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              }
+            }
           }
         }
       },
@@ -4210,10 +6132,180 @@
           }
         }
       }
+    },
+    "/api/wallets/{walletId}/recharge": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "name": "queryParams",
+            "in": "query",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/wallets/{walletId}/vnpay": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletRechargeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletRechargeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletRechargeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/wallets": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "adminId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastLogin": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AdminIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Area": {
         "type": "object",
         "properties": {
@@ -4227,7 +6319,8 @@
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "stores": {
             "type": "array",
@@ -4239,12 +6332,20 @@
         },
         "additionalProperties": false
       },
+      "AreaIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Category": {
         "type": "object",
         "properties": {
           "categoryId": {
             "type": "integer",
             "format": "int32"
+          },
+          "categoryCode": {
+            "type": "string",
+            "nullable": true
           },
           "categoryName": {
             "type": "string",
@@ -4268,6 +6369,36 @@
         },
         "additionalProperties": false
       },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categoryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoryDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Coupon": {
         "type": "object",
         "properties": {
@@ -4281,31 +6412,38 @@
           },
           "discountAmount": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "startDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "expirationDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "amountItem": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "paymentId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "productId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "payment": {
             "$ref": "#/components/schemas/Payment"
@@ -4314,6 +6452,59 @@
             "$ref": "#/components/schemas/Product"
           }
         },
+        "additionalProperties": false
+      },
+      "CouponDto": {
+        "type": "object",
+        "properties": {
+          "couponId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "couponCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "amountItem": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paymentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CouponDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
         "additionalProperties": false
       },
       "Customer": {
@@ -4413,7 +6604,7 @@
           "wallets": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/WalletDto"
+              "$ref": "#/components/schemas/Wallet"
             },
             "nullable": true
           }
@@ -4429,11 +6620,13 @@
           },
           "assignedDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "issueId": {
             "type": "integer",
@@ -4452,6 +6645,38 @@
         },
         "additionalProperties": false
       },
+      "IssueAssignmentDto": {
+        "type": "object",
+        "properties": {
+          "assignmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assignedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "issueId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "technicianId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IssueAssignmentDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "IssueResolution": {
         "type": "object",
         "properties": {
@@ -4461,7 +6686,8 @@
           },
           "resolutionDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "resolutionDescription": {
             "type": "string",
@@ -4488,30 +6714,39 @@
         },
         "additionalProperties": false
       },
-      "LoginRequest": {
-        "required": [
-          "email",
-          "password"
-        ],
+      "IssueResolutionDto": {
         "type": "object",
         "properties": {
-          "email": {
+          "resolutionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resolutionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "resolutionDescription": {
             "type": "string",
             "nullable": true
           },
-          "password": {
-            "type": "string",
-            "nullable": true
+          "status": {
+            "type": "integer",
+            "format": "int32"
           },
-          "twoFactorCode": {
-            "type": "string",
-            "nullable": true
+          "issueId": {
+            "type": "integer",
+            "format": "int32"
           },
-          "twoFactorRecoveryCode": {
-            "type": "string",
-            "nullable": true
+          "technicianId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
+        "additionalProperties": false
+      },
+      "IssueResolutionDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
         "additionalProperties": false
       },
       "Machine": {
@@ -4521,17 +6756,23 @@
             "type": "integer",
             "format": "int32"
           },
+          "machineCode": {
+            "type": "string",
+            "nullable": true
+          },
           "machineName": {
             "type": "string",
             "nullable": true
           },
           "installationDate": {
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "storeId": {
             "type": "integer",
@@ -4578,6 +6819,74 @@
         },
         "additionalProperties": false
       },
+      "MachineDto": {
+        "type": "object",
+        "properties": {
+          "machineId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "machineCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "machineName": {
+            "type": "string",
+            "nullable": true
+          },
+          "installationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "storeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "machineTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "machineIssues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MachineIssue"
+            },
+            "nullable": true
+          },
+          "machineLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MachineLog"
+            },
+            "nullable": true
+          },
+          "machineProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MachineProduct"
+            },
+            "nullable": true
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "MachineIssue": {
         "type": "object",
         "properties": {
@@ -4587,7 +6896,8 @@
           },
           "reportDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "issueDescription": {
             "type": "string",
@@ -4595,7 +6905,8 @@
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "machineId": {
             "type": "integer",
@@ -4628,6 +6939,56 @@
         },
         "additionalProperties": false
       },
+      "MachineIssueDto": {
+        "type": "object",
+        "properties": {
+          "issueId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reportDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "issueDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "machineId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reportedBy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "issueAssignments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueAssignment"
+            },
+            "nullable": true
+          },
+          "issueResolutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueResolution"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineIssueDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "MachineLog": {
         "type": "object",
         "properties": {
@@ -4637,7 +6998,8 @@
           },
           "logDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "logDescription": {
             "type": "string",
@@ -4672,6 +7034,49 @@
         },
         "additionalProperties": false
       },
+      "MachineLogDto": {
+        "type": "object",
+        "properties": {
+          "logId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "logDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "logDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "logType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "performedBy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "machineId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "technicianId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineLogDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "MachineProduct": {
         "type": "object",
         "properties": {
@@ -4681,7 +7086,8 @@
           },
           "machineStockQuantity": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "status": {
             "type": "integer",
@@ -4702,6 +7108,37 @@
             "$ref": "#/components/schemas/Product"
           }
         },
+        "additionalProperties": false
+      },
+      "MachineProductDto": {
+        "type": "object",
+        "properties": {
+          "machineProductId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "machineStockQuantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "machineId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineProductDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
         "additionalProperties": false
       },
       "MachineType": {
@@ -4733,6 +7170,137 @@
         },
         "additionalProperties": false
       },
+      "MachineTypeDto": {
+        "type": "object",
+        "properties": {
+          "machineTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "machineDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineTypeDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Manager": {
+        "type": "object",
+        "properties": {
+          "managerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastLogin": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "storeId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "store": {
+            "$ref": "#/components/schemas/Store"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManagerDto": {
+        "type": "object",
+        "properties": {
+          "managerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastLogin": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "storeId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManagerDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Order": {
         "type": "object",
         "properties": {
@@ -4740,9 +7308,14 @@
             "type": "integer",
             "format": "int32"
           },
+          "orderCode": {
+            "type": "string",
+            "nullable": true
+          },
           "orderDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "orderDescription": {
             "type": "string",
@@ -4750,15 +7323,18 @@
           },
           "totalAmount": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "customerId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "machineId": {
             "type": "integer",
@@ -4803,15 +7379,18 @@
           },
           "quantity": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "price": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "orderId": {
             "type": "integer",
@@ -4830,6 +7409,43 @@
         },
         "additionalProperties": false
       },
+      "OrderDetailDto": {
+        "type": "object",
+        "properties": {
+          "orderDetailId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetailDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "OrderDto": {
         "type": "object",
         "properties": {
@@ -4837,9 +7453,14 @@
             "type": "integer",
             "format": "int32"
           },
+          "orderCode": {
+            "type": "string",
+            "nullable": true
+          },
           "orderDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "orderDescription": {
             "type": "string",
@@ -4847,11 +7468,13 @@
           },
           "totalAmount": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "customerId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "machineId": {
             "type": "integer",
@@ -4859,7 +7482,11 @@
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
           }
         },
         "additionalProperties": false
@@ -4875,21 +7502,28 @@
             "type": "integer",
             "format": "int32"
           },
+          "paymentCode": {
+            "type": "string",
+            "nullable": true
+          },
           "paymentMethod": {
             "type": "string",
             "nullable": true
           },
           "paymentDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "paymentStatus": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "orderId": {
             "type": "integer",
@@ -4915,6 +7549,75 @@
         },
         "additionalProperties": false
       },
+      "PaymentDto": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "coupons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Coupon"
+            },
+            "nullable": true
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "PaymentRequest": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "Product": {
         "type": "object",
         "properties": {
@@ -4922,7 +7625,15 @@
             "type": "integer",
             "format": "int32"
           },
+          "productCode": {
+            "type": "string",
+            "nullable": true
+          },
           "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
             "type": "string",
             "nullable": true
           },
@@ -4932,15 +7643,18 @@
           },
           "price": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "stockQuantity": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "categoryId": {
             "type": "integer",
@@ -4998,7 +7712,8 @@
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "storeId": {
             "type": "integer",
@@ -5015,6 +7730,52 @@
             "$ref": "#/components/schemas/Store"
           }
         },
+        "additionalProperties": false
+      },
+      "StaffDto": {
+        "type": "object",
+        "properties": {
+          "staffId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "storeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "machineIssues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MachineIssue"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StaffDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
         "additionalProperties": false
       },
       "Store": {
@@ -5042,7 +7803,8 @@
           },
           "areaId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "area": {
             "$ref": "#/components/schemas/Area"
@@ -5054,6 +7816,13 @@
             },
             "nullable": true
           },
+          "managers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Manager"
+            },
+            "nullable": true
+          },
           "staff": {
             "type": "array",
             "items": {
@@ -5062,6 +7831,62 @@
             "nullable": true
           }
         },
+        "additionalProperties": false
+      },
+      "StoreDto": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "storeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "storeLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "areaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "machines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Machine"
+            },
+            "nullable": true
+          },
+          "managers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Manager"
+            },
+            "nullable": true
+          },
+          "staff": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Staff"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
         "additionalProperties": false
       },
       "Technician": {
@@ -5089,7 +7914,8 @@
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "issueAssignments": {
             "type": "array",
@@ -5115,6 +7941,62 @@
         },
         "additionalProperties": false
       },
+      "TechnicianDto": {
+        "type": "object",
+        "properties": {
+          "technicianId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "issueAssignments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueAssignment"
+            },
+            "nullable": true
+          },
+          "issueResolutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueResolution"
+            },
+            "nullable": true
+          },
+          "machineLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MachineLog"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TechnicianDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Transaction": {
         "type": "object",
         "properties": {
@@ -5124,19 +8006,23 @@
           },
           "transactionAmount": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "transactionDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "transactionType": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "walletId": {
             "type": "integer",
@@ -5144,11 +8030,13 @@
           },
           "orderId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "paymentId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "order": {
             "$ref": "#/components/schemas/Order"
@@ -5162,6 +8050,54 @@
         },
         "additionalProperties": false
       },
+      "TransactionDto": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transactionAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "transactionType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "walletId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paymentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionDtoIEnumerablePaginationMetadataValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "Wallet": {
         "type": "object",
         "properties": {
@@ -5171,15 +8107,18 @@
           },
           "balance": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "createDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "status": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "customerId": {
             "type": "integer",
@@ -5207,11 +8146,13 @@
           },
           "balance": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "createDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "customerId": {
             "type": "integer",
@@ -5219,7 +8160,28 @@
           },
           "status": {
             "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WalletPaymentRequest": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WalletRechargeRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

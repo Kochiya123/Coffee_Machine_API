@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface IMachineService
     {
-        Task<(IEnumerable<Machine> Machines, PaginationMetadata Pagination)> GetMachinesAsync(
-            int? MachineId, string? MachineName, DateOnly? InstallationDate, int? Status, long? StoreId, int? MachineTypeId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Machine> GetMachineByIdAsync(int id);
-        Task<Machine> CreateMachineAsync(Machine machine);
-        Task<Machine> UpdateMachineAsync(int id, Machine machine);
+        Task<(IEnumerable<MachineDto> Machines, PaginationMetadata Pagination)> GetMachinesAsync(string? machineCode, string? machineName, DateOnly? installationDate, int? status, long? storeId, int? machineTypeId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<MachineDto> GetMachineByIdAsync(int id);
+        Task<MachineDto> CreateMachineAsync(MachineDto machineDto);
+        Task<MachineDto> UpdateMachineAsync(int id, MachineDto machineDto);
         Task<bool> DeleteMachineAsync(int id);
     }
 
@@ -28,51 +26,23 @@ namespace WebApplication2.Services
             _machineRepository = machineRepository;
         }
 
-        public async Task<(IEnumerable<Machine> Machines, PaginationMetadata Pagination)> GetMachinesAsync(
-            int? MachineId, string? MachineName, DateOnly? InstallationDate, int? Status, long? StoreId, int? MachineTypeId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<MachineDto> Machines, PaginationMetadata Pagination)> GetMachinesAsync(string? machineCode, string? machineName, DateOnly? installationDate, int? status, long? storeId, int? machineTypeId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _machineRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _machineRepository.Query();
 
-            // Apply filtering
-            if (MachineId.HasValue)
-            {
-                query = query.Where(m => m.MachineId == MachineId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(MachineName))
-            {
-                query = query.Where(m => m.MachineName.Contains(MachineName));
-                hasFilters = true;
-            }
-            if (InstallationDate.HasValue)
-            {
-                query = query.Where(m => m.InstallationDate == InstallationDate);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(m => m.Status == Status);
-                hasFilters = true;
-            }
-            if (StoreId.HasValue)
-            {
-                query = query.Where(m => m.StoreId == StoreId);
-                hasFilters = true;
-            }
-            if (MachineTypeId.HasValue)
-            {
-                query = query.Where(m => m.MachineTypeId == MachineTypeId);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(machineCode))
+                query = query.Where(m => m.MachineCode == machineCode);
+            if (!string.IsNullOrEmpty(machineName))
+                query = query.Where(m => m.MachineName == machineName);
+            if (installationDate.HasValue)
+                query = query.Where(m => m.InstallationDate == installationDate);
+            if (status.HasValue)
+                query = query.Where(m => m.Status == status);
+            if (storeId.HasValue)
+                query = query.Where(m => m.StoreId == storeId);
+            if (machineTypeId.HasValue)
+                query = query.Where(m => m.MachineTypeId == machineTypeId);
 
-            if (!hasFilters)
-            {
-                query = _machineRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Machine).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -80,13 +50,20 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(m => EF.Property<object>(m, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var machines = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var machineDtos = machines.Select(m => new MachineDto
+            {
+                MachineId = m.MachineId,
+                MachineCode = m.MachineCode,
+                MachineName = m.MachineName,
+                InstallationDate = m.InstallationDate,
+                Status = m.Status,
+                StoreId = m.StoreId,
+                MachineTypeId = m.MachineTypeId
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -95,54 +72,75 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (machines, paginationMetadata);
+            return (machineDtos, paginationMetadata);
         }
 
-        public async Task<Machine> GetMachineByIdAsync(int id)
+           public async Task<MachineDto> GetMachineByIdAsync(int id)
         {
-            return await _machineRepository.Query()
-                .Where(m => m.MachineId == id)
-                .FirstOrDefaultAsync();
+            
+            var machine = await _machineRepository.GetByIdAsync(id);
+            if (machine == null)
+                return null;
+
+            return new MachineDto
+            {
+                MachineId = machine.MachineId,
+                MachineCode = machine.MachineCode,
+                MachineName = machine.MachineName,
+                InstallationDate = machine.InstallationDate,
+                Status = machine.Status,
+                StoreId = machine.StoreId,
+                MachineTypeId = machine.MachineTypeId
+            };
         }
 
-        public async Task<Machine> CreateMachineAsync(Machine machine)
+        public async Task<MachineDto> CreateMachineAsync(MachineDto machineDto)
         {
+            var machine = new Machine
+            {
+                MachineCode = machineDto.MachineCode,
+                MachineName = machineDto.MachineName,
+                InstallationDate = machineDto.InstallationDate,
+                Status = machineDto.Status,
+                StoreId = machineDto.StoreId,
+                MachineTypeId = machineDto.MachineTypeId
+            };
+
             await _machineRepository.AddAsync(machine);
             await _machineRepository.SaveChangesAsync();
-            return machine;
+            machineDto.MachineId = machine.MachineId;
+            return machineDto;
         }
 
-        public async Task<Machine> UpdateMachineAsync(int id, Machine machine)
+        public async Task<MachineDto> UpdateMachineAsync(int id, MachineDto machineDto)
         {
-            var existingMachine = await _machineRepository.GetByIdAsync(id);
-            if (existingMachine == null)
-            {
+            
+            var machine = await _machineRepository.GetByIdAsync(id);
+            if (machine == null)
                 return null;
-            }
 
-            existingMachine.MachineName = machine.MachineName;
-            existingMachine.InstallationDate = machine.InstallationDate;
-            existingMachine.Status = machine.Status;
-            existingMachine.StoreId = machine.StoreId;
-            existingMachine.MachineTypeId = machine.MachineTypeId;
+            machine.MachineCode = machineDto.MachineCode;
+            machine.MachineName = machineDto.MachineName;
+            machine.InstallationDate = machineDto.InstallationDate;
+            machine.Status = machineDto.Status;
+            machine.StoreId = machineDto.StoreId;
+            machine.MachineTypeId = machineDto.MachineTypeId;
 
-            await _machineRepository.UpdateAsync(existingMachine);
+            await _machineRepository.UpdateAsync(machine);
             await _machineRepository.SaveChangesAsync();
 
-            return existingMachine;
+            return machineDto;
         }
 
         public async Task<bool> DeleteMachineAsync(int id)
         {
+            
             var machine = await _machineRepository.GetByIdAsync(id);
             if (machine == null)
-            {
                 return false;
-            }
 
             await _machineRepository.DeleteAsync(id);
             await _machineRepository.SaveChangesAsync();
-
             return true;
         }
     }

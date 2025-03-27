@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/machine")]
+    [Route("api/machine{machineId}/log")]
     public class MachineLogController : ControllerBase
     {
         private readonly IMachineLogService _machineLogService;
@@ -16,61 +16,60 @@ namespace WebApplication2.Controllers
             _machineLogService = machineLogService;
         }
 
-        [HttpGet("log")]
-        public async Task<IActionResult> GetMachineLogs(
-            [FromQuery] int? LogId, 
-            [FromQuery] DateTime? LogDate, 
-            [FromQuery] string? LogDescription,
-            [FromQuery] int? LogType, 
-            [FromQuery] int? Status, 
-            [FromQuery] int? MachineId, 
-            [FromQuery] int? TechnicianId,
-            [FromQuery] string sortBy = "LogId", 
+        [HttpGet]
+        public async Task<ActionResult<(IEnumerable<MachineLogDto>, PaginationMetadata)>> GetMachineLogs(
+            [FromQuery] int? machineId,
+            [FromQuery] int? technicianId,
+            [FromQuery] long? performedBy,
+            [FromQuery] int? logType,
+            [FromQuery] int? status,
+            [FromQuery] DateTime? logDate,
+            [FromQuery] string sortBy = "LogId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (machineLogs, pagination) = await _machineLogService.GetMachineLogsAsync(LogId, LogDate, LogDescription, LogType, Status, MachineId, TechnicianId, sortBy, isAscending, page, pageSize);
-            return Ok(new { MachineLogs = machineLogs, Pagination = pagination });
+            var (logs, pagination) = await _machineLogService.GetMachineLogsAsync(machineId, technicianId, performedBy, logType, status, logDate, sortBy, isAscending, page, pageSize);
+            return Ok(new { Logs = logs, Pagination = pagination });
         }
 
-        [HttpGet("{id}/log")]
-        public async Task<IActionResult> GetMachineLogById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MachineLogDto>> GetMachineLog(int id)
         {
-            var machineLog = await _machineLogService.GetMachineLogByIdAsync(id);
-            if (machineLog == null)
-            {
+            var log = await _machineLogService.GetMachineLogByIdAsync(id);
+            if (log == null)
                 return NotFound();
-            }
-            return Ok(machineLog);
+
+            return Ok(log);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMachineLog(MachineLog machineLog)
+        public async Task<ActionResult<MachineLogDto>> CreateMachineLog([FromBody] MachineLogDto logDto)
         {
-            var createdMachineLog = await _machineLogService.CreateMachineLogAsync(machineLog);
-            return CreatedAtAction(nameof(GetMachineLogById), new { id = createdMachineLog.LogId }, createdMachineLog);
+            var createdLog = await _machineLogService.CreateMachineLogAsync(logDto);
+            return CreatedAtAction(nameof(GetMachineLog), new { id = createdLog.LogId }, createdLog);
         }
 
-        [HttpPut("{id}/log")]
-        public async Task<IActionResult> UpdateMachineLog(int id, MachineLog machineLog)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<MachineLogDto>> UpdateMachineLog(int id, [FromBody] MachineLogDto logDto)
         {
-            var updatedMachineLog = await _machineLogService.UpdateMachineLogAsync(id, machineLog);
-            if (updatedMachineLog == null)
-            {
+            if (id != logDto.LogId)
+                return BadRequest("ID mismatch");
+
+            var updatedLog = await _machineLogService.UpdateMachineLogAsync(id, logDto);
+            if (updatedLog == null)
                 return NotFound();
-            }
-            return Ok(updatedMachineLog);
+
+            return Ok(updatedLog);
         }
 
-        [HttpDelete("{id}/log")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMachineLog(int id)
         {
             var result = await _machineLogService.DeleteMachineLogAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

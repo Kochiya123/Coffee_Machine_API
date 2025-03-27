@@ -7,9 +7,9 @@ public partial class MachineLog
 {
     public int LogId { get; set; }
 
-    public DateTime LogDate { get; set; }
+    public DateTime? LogDate { get; set; }
 
-    public string LogDescription { get; set; } = null!;
+    public string? LogDescription { get; set; }
 
     public int LogType { get; set; }
 
@@ -24,4 +24,23 @@ public partial class MachineLog
     public virtual Machine Machine { get; set; } = null!;
 
     public virtual Technician Technician { get; set; } = null!;
+}
+
+public partial class MachineLogDto
+{
+    public int LogId { get; set; }
+
+    public DateTime? LogDate { get; set; }
+
+    public string? LogDescription { get; set; }
+
+    public int LogType { get; set; }
+
+    public long PerformedBy { get; set; }
+
+    public int Status { get; set; }
+
+    public int MachineId { get; set; }
+
+    public int TechnicianId { get; set; }
 }

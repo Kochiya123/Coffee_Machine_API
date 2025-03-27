@@ -181,6 +181,12 @@ public class CustomerService : ICustomerService
             return false;
         }
 
+        // Check if the customer has any orders
+        if (customer.Orders.Any())
+        {
+            return false; // Customer cannot be deleted if they have orders
+        }
+
         await _customerRepository.DeleteAsync(id);
         await _customerRepository.SaveChangesAsync();
 

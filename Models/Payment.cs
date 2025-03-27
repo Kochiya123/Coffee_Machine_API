@@ -7,19 +7,43 @@ public partial class Payment
 {
     public int PaymentId { get; set; }
 
-    public string PaymentMethod { get; set; } = null!;
+    public string? PaymentCode { get; set; }
 
-    public DateTime PaymentDate { get; set; }
+    public string? PaymentMethod { get; set; }
 
-    public int PaymentStatus { get; set; }
+    public DateTime? PaymentDate { get; set; }
 
-    public int Status { get; set; }
+    public int? PaymentStatus { get; set; }
+
+    public int? Status { get; set; }
 
     public int OrderId { get; set; }
 
     public virtual ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 
     public virtual Order Order { get; set; } = null!;
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+}
+
+
+public partial class PaymentDto
+{
+    public int PaymentId { get; set; }
+
+    public string? PaymentCode { get; set; }
+
+    public string? PaymentMethod { get; set; }
+
+    public DateTime? PaymentDate { get; set; }
+
+    public int? PaymentStatus { get; set; }
+
+    public int? Status { get; set; }
+
+    public int OrderId { get; set; }
+
+    public virtual ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

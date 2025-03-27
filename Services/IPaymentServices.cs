@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface IPaymentService
     {
-        Task<(IEnumerable<Payment> Payments, PaginationMetadata Pagination)> GetPaymentsAsync(
-            int? PaymentId, string? PaymentMethod, DateTime? PaymentDate, int? PaymentStatus, int? Status, int? OrderId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Payment> GetPaymentByIdAsync(int id);
-        Task<Payment> CreatePaymentAsync(Payment payment);
-        Task<Payment> UpdatePaymentAsync(int id, Payment payment);
+        Task<(IEnumerable<PaymentDto> Payments, PaginationMetadata Pagination)> GetPaymentsAsync(string? paymentCode, string? paymentMethod, DateTime? paymentDate, int? paymentStatus, int? status, int? orderId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<PaymentDto> GetPaymentByIdAsync(int id);
+        Task<PaymentDto> CreatePaymentAsync(PaymentDto paymentDto);
+        Task<PaymentDto> UpdatePaymentAsync(int id, PaymentDto paymentDto);
         Task<bool> DeletePaymentAsync(int id);
     }
 
@@ -28,36 +26,23 @@ namespace WebApplication2.Services
             _paymentRepository = paymentRepository;
         }
 
-        public async Task<(IEnumerable<Payment> Payments, PaginationMetadata Pagination)> GetPaymentsAsync(
-            int? PaymentId, string? PaymentMethod, DateTime? PaymentDate, int? PaymentStatus, int? Status, int? OrderId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<PaymentDto> Payments, PaginationMetadata Pagination)> GetPaymentsAsync(string? paymentCode, string? paymentMethod, DateTime? paymentDate, int? paymentStatus, int? status, int? orderId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _paymentRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _paymentRepository.Query();
 
-            // Apply filtering
-            if (!string.IsNullOrEmpty(PaymentMethod))
-            {
-                query = query.Where(p => p.PaymentMethod.Contains(PaymentMethod));
-                hasFilters = true;
-            }
-            if (PaymentDate.HasValue)
-            {
-                query = query.Where(p => p.PaymentDate == PaymentDate);
-                hasFilters = true;
-            }
-            if (PaymentStatus.HasValue)
-            {
-                query = query.Where(p => p.PaymentStatus == PaymentStatus);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(paymentCode))
+                query = query.Where(p => p.PaymentCode == paymentCode);
+            if (!string.IsNullOrEmpty(paymentMethod))
+                query = query.Where(p => p.PaymentMethod == paymentMethod);
+            if (paymentDate.HasValue)
+                query = query.Where(p => p.PaymentDate == paymentDate);
+            if (paymentStatus.HasValue)
+                query = query.Where(p => p.PaymentStatus == paymentStatus);
+            if (status.HasValue)
+                query = query.Where(p => p.Status == status);
+            if (orderId.HasValue)
+                query = query.Where(p => p.OrderId == orderId);
 
-            if (!hasFilters)
-            {
-                query = _paymentRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Payment).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -65,13 +50,22 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(p => EF.Property<object>(p, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
-
-            // Apply pagination
             var payments = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Create pagination metadata
+            var paymentDtos = payments.Select(p => new PaymentDto
+            {
+                PaymentId = p.PaymentId,
+                PaymentCode = p.PaymentCode,
+                PaymentMethod = p.PaymentMethod,
+                PaymentDate = p.PaymentDate,
+                PaymentStatus = p.PaymentStatus,
+                Status = p.Status,
+                OrderId = p.OrderId,
+                Coupons = p.Coupons,
+                Transactions = p.Transactions
+            });
+
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -80,54 +74,79 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (payments, paginationMetadata);
+            return (paymentDtos, paginationMetadata);
         }
 
-        public async Task<Payment> GetPaymentByIdAsync(int id)
+        public async Task<PaymentDto> GetPaymentByIdAsync(int id)
         {
-            return await _paymentRepository.Query()
-                .Where(p => p.PaymentId == id)
-                .FirstOrDefaultAsync();
+            var payment = await _paymentRepository.GetByIdAsync(id);
+            if (payment == null)
+                return null;
+
+            return new PaymentDto
+            {
+                PaymentId = payment.PaymentId,
+                PaymentCode = payment.PaymentCode,
+                PaymentMethod = payment.PaymentMethod,
+                PaymentDate = payment.PaymentDate,
+                PaymentStatus = payment.PaymentStatus,
+                Status = payment.Status,
+                OrderId = payment.OrderId,
+                Coupons = payment.Coupons,
+                Transactions = payment.Transactions
+            };
         }
 
-        public async Task<Payment> CreatePaymentAsync(Payment payment)
+        public async Task<PaymentDto> CreatePaymentAsync(PaymentDto paymentDto)
         {
+            var payment = new Payment
+            {
+                PaymentCode = paymentDto.PaymentCode,
+                PaymentMethod = paymentDto.PaymentMethod,
+                PaymentDate = paymentDto.PaymentDate,
+                PaymentStatus = paymentDto.PaymentStatus,
+                Status = paymentDto.Status,
+                OrderId = paymentDto.OrderId,
+                Coupons = paymentDto.Coupons,
+                Transactions = paymentDto.Transactions
+            };
+
             await _paymentRepository.AddAsync(payment);
             await _paymentRepository.SaveChangesAsync();
-            return payment;
+            paymentDto.PaymentId = payment.PaymentId;
+            return paymentDto;
         }
 
-        public async Task<Payment> UpdatePaymentAsync(int id, Payment payment)
+        public async Task<PaymentDto> UpdatePaymentAsync(int id, PaymentDto paymentDto)
         {
-            var existingPayment = await _paymentRepository.GetByIdAsync(id);
-            if (existingPayment == null)
-            {
+            var payment = await _paymentRepository.GetByIdAsync(id);
+            if (payment == null)
                 return null;
-            }
 
-            existingPayment.PaymentMethod = payment.PaymentMethod != null ? payment.PaymentMethod : existingPayment.PaymentMethod;
-            existingPayment.PaymentDate = payment.PaymentDate != null ? payment.PaymentDate : existingPayment.PaymentDate;
-            existingPayment.PaymentStatus = payment.PaymentStatus != null ? payment.PaymentStatus : existingPayment.PaymentStatus;
-            existingPayment.Status = payment.Status != null ? payment.Status : existingPayment.Status;
-            existingPayment.OrderId = existingPayment.OrderId;
+            payment.PaymentCode = paymentDto.PaymentCode;
+            payment.PaymentMethod = paymentDto.PaymentMethod;
+            payment.PaymentDate = paymentDto.PaymentDate;
+            payment.PaymentStatus = paymentDto.PaymentStatus;
+            payment.Status = paymentDto.Status;
+            payment.OrderId = paymentDto.OrderId;
+            payment.Coupons = paymentDto.Coupons;
+            payment.Transactions = paymentDto.Transactions;
 
-            await _paymentRepository.UpdateAsync(existingPayment);
+            await _paymentRepository.UpdateAsync(payment);
             await _paymentRepository.SaveChangesAsync();
 
-            return existingPayment;
+            return paymentDto;
         }
 
         public async Task<bool> DeletePaymentAsync(int id)
         {
+            
             var payment = await _paymentRepository.GetByIdAsync(id);
             if (payment == null)
-            {
                 return false;
-            }
 
             await _paymentRepository.DeleteAsync(id);
             await _paymentRepository.SaveChangesAsync();
-
             return true;
         }
     }

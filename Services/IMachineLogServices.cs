@@ -10,88 +10,61 @@ namespace WebApplication2.Services
 {
     public interface IMachineLogService
     {
-        Task<(IEnumerable<MachineLog> MachineLogs, PaginationMetadata Pagination)> GetMachineLogsAsync(
-            int? LogId, DateTime? LogDate, string? LogDescription, int? LogType, int? Status, int? MachineId, int? TechnicianId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<MachineLog> GetMachineLogByIdAsync(int id);
-        Task<MachineLog> CreateMachineLogAsync(MachineLog machineLog);
-        Task<MachineLog> UpdateMachineLogAsync(int id, MachineLog machineLog);
+        Task<(IEnumerable<MachineLogDto> Logs, PaginationMetadata Pagination)> GetMachineLogsAsync(int? machineId, int? technicianId, long? performedBy, int? logType, int? status, DateTime? logDate, string sortBy, bool isAscending, int page, int pageSize);
+        Task<MachineLogDto> GetMachineLogByIdAsync(int id);
+        Task<MachineLogDto> CreateMachineLogAsync(MachineLogDto logDto);
+        Task<MachineLogDto> UpdateMachineLogAsync(int id, MachineLogDto logDto);
         Task<bool> DeleteMachineLogAsync(int id);
     }
 
     public class MachineLogService : IMachineLogService
     {
-        private readonly IRepository<MachineLog> _machineLogRepository;
+        private readonly IRepository<MachineLog> _logRepository;
 
-        public MachineLogService(IRepository<MachineLog> machineLogRepository)
+        public MachineLogService(IRepository<MachineLog> logRepository)
         {
-            _machineLogRepository = machineLogRepository;
+            _logRepository = logRepository;
         }
 
-        public async Task<(IEnumerable<MachineLog> MachineLogs, PaginationMetadata Pagination)> GetMachineLogsAsync(
-            int? LogId, DateTime? LogDate, string? LogDescription, int? LogType, int? Status, int? MachineId, int? TechnicianId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<MachineLogDto> Logs, PaginationMetadata Pagination)> GetMachineLogsAsync(int? machineId, int? technicianId, long? performedBy, int? logType, int? status, DateTime? logDate, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _machineLogRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _logRepository.Query();
 
-            // Apply filtering
-            if (LogId.HasValue)
-            {
-                query = query.Where(ml => ml.LogId == LogId);
-                hasFilters = true;
-            }
-            if (LogDate.HasValue)
-            {
-                query = query.Where(ml => ml.LogDate == LogDate);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(LogDescription))
-            {
-                query = query.Where(ml => ml.LogDescription.Contains(LogDescription));
-                hasFilters = true;
-            }
-            if (LogType.HasValue)
-            {
-                query = query.Where(ml => ml.LogType == LogType);
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(ml => ml.Status == Status);
-                hasFilters = true;
-            }
-            if (MachineId.HasValue)
-            {
-                query = query.Where(ml => ml.MachineId == MachineId);
-                hasFilters = true;
-            }
-            if (TechnicianId.HasValue)
-            {
-                query = query.Where(ml => ml.TechnicianId == TechnicianId);
-                hasFilters = true;
-            }
+            if (machineId.HasValue)
+                query = query.Where(l => l.MachineId == machineId);
+            if (technicianId.HasValue)
+                query = query.Where(l => l.TechnicianId == technicianId);
+            if (performedBy.HasValue)
+                query = query.Where(l => l.PerformedBy == performedBy);
+            if (logType.HasValue)
+                query = query.Where(l => l.LogType == logType);
+            if (status.HasValue)
+                query = query.Where(l => l.Status == status);
+            if (logDate.HasValue)
+                query = query.Where(l => l.LogDate == logDate);
 
-            if (!hasFilters)
-            {
-                query = _machineLogRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(MachineLog).GetProperty(sortBy) != null)
             {
                 query = isAscending
-                    ? query.OrderBy(ml => EF.Property<object>(ml, sortBy))
-                    : query.OrderByDescending(ml => EF.Property<object>(ml, sortBy));
+                    ? query.OrderBy(l => EF.Property<object>(l, sortBy))
+                    : query.OrderByDescending(l => EF.Property<object>(l, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
+            var logs = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Apply pagination
-            var machineLogs = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var logDtos = logs.Select(l => new MachineLogDto
+            {
+                LogId = l.LogId,
+                LogDate = l.LogDate,
+                LogDescription = l.LogDescription,
+                LogType = l.LogType,
+                PerformedBy = l.PerformedBy,
+                Status = l.Status,
+                MachineId = l.MachineId,
+                TechnicianId = l.TechnicianId
+            });
 
-            // Create pagination metadata
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -100,55 +73,76 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (machineLogs, paginationMetadata);
+            return (logDtos, paginationMetadata);
         }
 
-        public async Task<MachineLog> GetMachineLogByIdAsync(int id)
+        public async Task<MachineLogDto> GetMachineLogByIdAsync(int id)
         {
-            return await _machineLogRepository.Query()
-                .Where(ml => ml.LogId == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<MachineLog> CreateMachineLogAsync(MachineLog machineLog)
-        {
-            await _machineLogRepository.AddAsync(machineLog);
-            await _machineLogRepository.SaveChangesAsync();
-            return machineLog;
-        }
-
-        public async Task<MachineLog> UpdateMachineLogAsync(int id, MachineLog machineLog)
-        {
-            var existingMachineLog = await _machineLogRepository.GetByIdAsync(id);
-            if (existingMachineLog == null)
-            {
+            var log = await _logRepository.GetByIdAsync(id);
+            if (log == null)
                 return null;
-            }
 
-            existingMachineLog.LogDate = machineLog.LogDate;
-            existingMachineLog.LogDescription = machineLog.LogDescription;
-            existingMachineLog.LogType = machineLog.LogType;
-            existingMachineLog.Status = machineLog.Status;
-            existingMachineLog.MachineId = machineLog.MachineId;
-            existingMachineLog.TechnicianId = machineLog.TechnicianId;
+            return new MachineLogDto
+            {
+                LogId = log.LogId,
+                LogDate = log.LogDate,
+                LogDescription = log.LogDescription,
+                LogType = log.LogType,
+                PerformedBy = log.PerformedBy,
+                Status = log.Status,
+                MachineId = log.MachineId,
+                TechnicianId = log.TechnicianId
+            };
+        }
 
-            await _machineLogRepository.UpdateAsync(existingMachineLog);
-            await _machineLogRepository.SaveChangesAsync();
+        public async Task<MachineLogDto> UpdateMachineLogAsync(int id, MachineLogDto logDto)
+        {
+            var log = await _logRepository.GetByIdAsync(id);
+            if (log == null)
+                return null;
 
-            return existingMachineLog;
+            log.LogDate = logDto.LogDate;
+            log.LogDescription = logDto.LogDescription;
+            log.LogType = logDto.LogType;
+            log.PerformedBy = logDto.PerformedBy;
+            log.Status = logDto.Status;
+            log.MachineId = logDto.MachineId;
+            log.TechnicianId = logDto.TechnicianId;
+
+            await _logRepository.UpdateAsync(log);
+            await _logRepository.SaveChangesAsync();
+
+            return logDto;
+        }
+
+        public async Task<MachineLogDto> CreateMachineLogAsync(MachineLogDto logDto)
+        {
+            var log = new MachineLog
+            {
+                LogDate = logDto.LogDate,
+                LogDescription = logDto.LogDescription,
+                LogType = logDto.LogType,
+                PerformedBy = logDto.PerformedBy,
+                Status = logDto.Status,
+                MachineId = logDto.MachineId,
+                TechnicianId = logDto.TechnicianId
+            };
+
+            await _logRepository.AddAsync(log);
+            await _logRepository.SaveChangesAsync();
+            logDto.LogId = log.LogId;
+            return logDto;
         }
 
         public async Task<bool> DeleteMachineLogAsync(int id)
         {
-            var machineLog = await _machineLogRepository.GetByIdAsync(id);
-            if (machineLog == null)
-            {
+            
+            var log = await _logRepository.GetByIdAsync(id);
+            if (log == null)
                 return false;
-            }
 
-            await _machineLogRepository.DeleteAsync(id);
-            await _machineLogRepository.SaveChangesAsync();
-
+            await _logRepository.DeleteAsync(id);
+            await _logRepository.SaveChangesAsync();
             return true;
         }
     }

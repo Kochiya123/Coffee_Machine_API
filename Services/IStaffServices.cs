@@ -10,12 +10,10 @@ namespace WebApplication2.Services
 {
     public interface IStaffService
     {
-        Task<(IEnumerable<Staff> Staffs, PaginationMetadata Pagination)> GetStaffsAsync(
-            long? StaffId, string? FirstName, string? LastName, string? PhoneNumber, string? Email, int? Status, long? StoreId,
-            string sortBy, bool isAscending, int page, int pageSize);
-        Task<Staff> GetStaffByIdAsync(long id);
-        Task<Staff> CreateStaffAsync(Staff staff);
-        Task<Staff> UpdateStaffAsync(long id, Staff staff);
+        Task<(IEnumerable<StaffDto> Staff, PaginationMetadata Pagination)> GetStaffAsync(string? firstName, string? lastName, string? phoneNumber, string? email, int? status, long? storeId, string sortBy, bool isAscending, int page, int pageSize);
+        Task<StaffDto> GetStaffByIdAsync(long id);
+        Task<StaffDto> CreateStaffAsync(StaffDto staffDto);
+        Task<StaffDto> UpdateStaffAsync(long id, StaffDto staffDto);
         Task<bool> DeleteStaffAsync(long id);
     }
 
@@ -28,56 +26,23 @@ namespace WebApplication2.Services
             _staffRepository = staffRepository;
         }
 
-        public async Task<(IEnumerable<Staff> Staffs, PaginationMetadata Pagination)> GetStaffsAsync(
-            long? StaffId, string? FirstName, string? LastName, string? PhoneNumber, string? Email, int? Status, long? StoreId,
-            string sortBy, bool isAscending, int page, int pageSize)
+        public async Task<(IEnumerable<StaffDto> Staff, PaginationMetadata Pagination)> GetStaffAsync(string? firstName, string? lastName, string? phoneNumber, string? email, int? status, long? storeId, string sortBy, bool isAscending, int page, int pageSize)
         {
-            var query = _staffRepository.Query(); // Start with IQueryable
-            bool hasFilters = false;
+            var query = _staffRepository.Query();
 
-            // Apply filtering
-            if (StaffId.HasValue)
-            {
-                query = query.Where(s => s.StaffId == StaffId);
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(FirstName))
-            {
-                query = query.Where(s => s.FirstName.Contains(FirstName));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(LastName))
-            {
-                query = query.Where(s => s.LastName.Contains(LastName));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(PhoneNumber))
-            {
-                query = query.Where(s => s.PhoneNumber.Contains(PhoneNumber));
-                hasFilters = true;
-            }
-            if (!string.IsNullOrEmpty(Email))
-            {
-                query = query.Where(s => s.Email.Contains(Email));
-                hasFilters = true;
-            }
-            if (Status.HasValue)
-            {
-                query = query.Where(s => s.Status == Status);
-                hasFilters = true;
-            }
-            if (StoreId.HasValue)
-            {
-                query = query.Where(s => s.StoreId == StoreId);
-                hasFilters = true;
-            }
+            if (!string.IsNullOrEmpty(firstName))
+                query = query.Where(s => s.FirstName == firstName);
+            if (!string.IsNullOrEmpty(lastName))
+                query = query.Where(s => s.LastName == lastName);
+            if (!string.IsNullOrEmpty(phoneNumber))
+                query = query.Where(s => s.PhoneNumber == phoneNumber);
+            if (!string.IsNullOrEmpty(email))
+                query = query.Where(s => s.Email == email);
+            if (status.HasValue)
+                query = query.Where(s => s.Status == status);
+            if (storeId.HasValue)
+                query = query.Where(s => s.StoreId == storeId);
 
-            if (!hasFilters)
-            {
-                query = _staffRepository.Query(); // Reset query to fetch all records
-            }
-
-            // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Staff).GetProperty(sortBy) != null)
             {
                 query = isAscending
@@ -85,13 +50,21 @@ namespace WebApplication2.Services
                     : query.OrderByDescending(s => EF.Property<object>(s, sortBy));
             }
 
-            // Get total count for pagination
             var totalCount = await query.CountAsync();
+            var staffList = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Apply pagination
-            var staffs = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var staffDtos = staffList.Select(s => new StaffDto
+            {
+                StaffId = s.StaffId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                PhoneNumber = s.PhoneNumber,
+                Email = s.Email,
+                Status = s.Status,
+                StoreId = s.StoreId,
+                MachineIssues = s.MachineIssues
+            });
 
-            // Create pagination metadata
             var paginationMetadata = new PaginationMetadata
             {
                 TotalItems = totalCount,
@@ -100,55 +73,75 @@ namespace WebApplication2.Services
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
-            return (staffs, paginationMetadata);
+            return (staffDtos, paginationMetadata);
         }
 
-        public async Task<Staff> GetStaffByIdAsync(long id)
+        public async Task<StaffDto> GetStaffByIdAsync(long id)
         {
-            return await _staffRepository.Query()
-                .Where(s => s.StaffId == id)
-                .FirstOrDefaultAsync();
+            var staff = await _staffRepository.GetByIdAsync(id);
+            if (staff == null)
+                return null;
+
+            return new StaffDto
+            {
+                StaffId = staff.StaffId,
+                FirstName = staff.FirstName,
+                LastName = staff.LastName,
+                PhoneNumber = staff.PhoneNumber,
+                Email = staff.Email,
+                Status = staff.Status,
+                StoreId = staff.StoreId,
+                MachineIssues = staff.MachineIssues
+            };
         }
 
-        public async Task<Staff> CreateStaffAsync(Staff staff)
+        public async Task<StaffDto> CreateStaffAsync(StaffDto staffDto)
         {
+            var staff = new Staff
+            {
+                FirstName = staffDto.FirstName,
+                LastName = staffDto.LastName,
+                PhoneNumber = staffDto.PhoneNumber,
+                Email = staffDto.Email,
+                Status = staffDto.Status,
+                StoreId = staffDto.StoreId,
+                MachineIssues = staffDto.MachineIssues
+            };
+
             await _staffRepository.AddAsync(staff);
             await _staffRepository.SaveChangesAsync();
-            return staff;
+            staffDto.StaffId = staff.StaffId;
+            return staffDto;
         }
 
-        public async Task<Staff> UpdateStaffAsync(long id, Staff staff)
+        public async Task<StaffDto> UpdateStaffAsync(long id, StaffDto staffDto)
         {
-            var existingStaff = await _staffRepository.GetByIdAsync(id);
-            if (existingStaff == null)
-            {
+            var staff = await _staffRepository.GetByIdAsync(id);
+            if (staff == null)
                 return null;
-            }
 
-            existingStaff.FirstName = staff.FirstName;
-            existingStaff.LastName = staff.LastName;
-            existingStaff.PhoneNumber = staff.PhoneNumber;
-            existingStaff.Email = staff.Email;
-            existingStaff.Status = staff.Status;
-            existingStaff.StoreId = staff.StoreId;
+            staff.FirstName = staffDto.FirstName;
+            staff.LastName = staffDto.LastName;
+            staff.PhoneNumber = staffDto.PhoneNumber;
+            staff.Email = staffDto.Email;
+            staff.Status = staffDto.Status;
+            staff.StoreId = staffDto.StoreId;
+            staff.MachineIssues = staffDto.MachineIssues;
 
-            await _staffRepository.UpdateAsync(existingStaff);
+            await _staffRepository.UpdateAsync(staff);
             await _staffRepository.SaveChangesAsync();
 
-            return existingStaff;
+            return staffDto;
         }
 
         public async Task<bool> DeleteStaffAsync(long id)
         {
             var staff = await _staffRepository.GetByIdAsync(id);
             if (staff == null)
-            {
                 return false;
-            }
 
             await _staffRepository.DeleteAsync(id);
             await _staffRepository.SaveChangesAsync();
-
             return true;
         }
     }

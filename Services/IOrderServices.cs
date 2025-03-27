@@ -5,13 +5,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 
 namespace WebApplication2.Services
 {
     public interface IOrderService
     {
         Task<(IEnumerable<OrderDto> Orders, PaginationMetadata Pagination)> GetOrdersAsync(
-            int? OrderId, DateTime? OrderDate, string? OrderDescription, decimal? TotalAmount, int? status,long? CustomerId,
+            int? OrderId,string? OrderCode, DateTime? OrderDate, string? OrderDescription, decimal? Min, decimal? Max, int? status,long? CustomerId,
             string sortBy, bool isAscending, int page, int pageSize);
         Task<OrderDto> GetOrderByIdAsync(int id);
         Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
@@ -32,7 +33,7 @@ namespace WebApplication2.Services
         }
 
         public async Task<(IEnumerable<OrderDto> Orders, PaginationMetadata Pagination)> GetOrdersAsync(
-            int? OrderId, DateTime? OrderDate, string? OrderDescription, decimal? TotalAmount, int? status,long? CustomerId,
+            int? OrderId,string? OrderCode, DateTime? OrderDate, string? OrderDescription, decimal? Min, decimal? Max, int? status,long? CustomerId,
             string sortBy, bool isAscending, int page, int pageSize)
 
         {
@@ -49,9 +50,9 @@ namespace WebApplication2.Services
                 query = query.Where(o => o.OrderDate == OrderDate);
                 hasFilters = true;
             }
-            if (TotalAmount.HasValue)
+            if (Min.HasValue && Max.HasValue)
             {
-                query = query.Where(o => o.TotalAmount == TotalAmount);
+                query = query.Where(o => o.TotalAmount >= Min && o.TotalAmount <= Max);
                 hasFilters = true;
             }
             if (status.HasValue)
@@ -60,17 +61,16 @@ namespace WebApplication2.Services
                 hasFilters = true;
             }
 
-            if (!hasFilters)
-            {
-                query = _orderRepository.Query(); // Reset query to fetch all records
-            }
-
             // Validate and apply sorting
             if (!string.IsNullOrEmpty(sortBy) && typeof(Order).GetProperty(sortBy) != null)
             {
                 query = isAscending
                     ? query.OrderBy(o => EF.Property<object>(o, sortBy))
                     : query.OrderByDescending(o => EF.Property<object>(o, sortBy));
+            }
+            if (!string.IsNullOrEmpty(sortBy) && typeof(Order).GetProperty(sortBy) == null)
+            {
+                throw new ArgumentException($"Invalid sorting column: {sortBy}");
             }
 
             // Get total count for pagination
@@ -83,6 +83,7 @@ namespace WebApplication2.Services
             var orderDtos = orders.Select(o => new OrderDto
             {
                 OrderId = o.OrderId,
+                OrderCode = o.OrderCode,
                 OrderDate = o.OrderDate,
                 OrderDescription = o.OrderDescription,
                 TotalAmount = o.TotalAmount,
@@ -117,6 +118,7 @@ namespace WebApplication2.Services
             return new OrderDto
             {
                 OrderId = order.OrderId,
+                OrderCode= order.OrderCode,
                 OrderDate = order.OrderDate,
                 OrderDescription = order.OrderDescription,
                 TotalAmount = order.TotalAmount,
@@ -130,11 +132,12 @@ namespace WebApplication2.Services
             var order = new Order
             {
                 OrderDate = orderDto.OrderDate,
+                OrderCode = orderDto.OrderCode,
                 OrderDescription = orderDto.OrderDescription,
                 TotalAmount = orderDto.TotalAmount,
                 Status = orderDto.Status,
-                CustomerId = 1, // Replace with actual logic to set CustomerId
-                MachineId = 1,  // Replace with actual logic to set MachineId
+                CustomerId = (orderDto.CustomerId == 0) ? null : orderDto.CustomerId, // Replace with actual logic to set CustomerId
+                MachineId = orderDto.MachineId,  // Replace with actual logic to set MachineId
             };
 
             await _orderRepository.AddAsync(order);
@@ -153,6 +156,7 @@ namespace WebApplication2.Services
             }
 
             order.OrderDate = orderDto.OrderDate;
+            order.OrderCode = orderDto.OrderCode;
             order.OrderDescription = orderDto.OrderDescription;
             order.TotalAmount = orderDto.TotalAmount;
             order.Status = orderDto.Status;
@@ -205,6 +209,7 @@ namespace WebApplication2.Services
         var orderDtos = orders.Select(o => new OrderDto
         {
             OrderId = o.OrderId,
+            OrderCode = o.OrderCode,
             OrderDate = o.OrderDate,
             TotalAmount = o.TotalAmount,
             Status = o.Status,

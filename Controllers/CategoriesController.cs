@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
+    [Route("api/categories")]
     [ApiController]
-    [Route("api/category")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -17,45 +17,46 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories(
-            [FromQuery] int? CategoryId, 
-            [FromQuery] string? CategoryName, 
-            [FromQuery] int? Status,
-            [FromQuery] string sortBy = "CategoryId", 
+        public async Task<ActionResult<(IEnumerable<CategoryDto>, PaginationMetadata)>> GetCategories(
+            [FromQuery] string? categoryCode,
+            [FromQuery] string? categoryName,
+            [FromQuery] int? status,
+            [FromQuery] string sortBy = "CategoryId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, 
+            [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var (categories, pagination) = await _categoryService.GetCategoriesAsync(CategoryId, CategoryName, Status, sortBy, isAscending, page, pageSize);
+            var (categories, pagination) = await _categoryService.GetCategoriesAsync(categoryCode, categoryName, status, sortBy, isAscending, page, pageSize);
             return Ok(new { Categories = categories, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
-            {
                 return NotFound();
-            }
+
             return Ok(category);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(Category category)
+        public async Task<ActionResult<CategoryDto>> CreateCategory([FromBody] CategoryDto categoryDto)
         {
-            var createdCategory = await _categoryService.CreateCategoryAsync(category);
-            return CreatedAtAction(nameof(GetCategoryById), new { id = createdCategory.CategoryId }, createdCategory);
+            var createdCategory = await _categoryService.CreateCategoryAsync(categoryDto);
+            return CreatedAtAction(nameof(GetCategory), new { id = createdCategory.CategoryId }, createdCategory);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
+        public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, [FromBody] CategoryDto categoryDto)
         {
-            var updatedCategory = await _categoryService.UpdateCategoryAsync(id, category);
+            if (id != categoryDto.CategoryId)
+                return BadRequest("ID mismatch");
+
+            var updatedCategory = await _categoryService.UpdateCategoryAsync(id, categoryDto);
             if (updatedCategory == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedCategory);
         }
 
@@ -64,9 +65,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _categoryService.DeleteCategoryAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

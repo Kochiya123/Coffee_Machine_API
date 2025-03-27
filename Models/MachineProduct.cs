@@ -7,7 +7,7 @@ public partial class MachineProduct
 {
     public int MachineProductId { get; set; }
 
-    public int MachineStockQuantity { get; set; }
+    public int? MachineStockQuantity { get; set; }
 
     public int Status { get; set; }
 
@@ -18,4 +18,17 @@ public partial class MachineProduct
     public virtual Machine Machine { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
+}
+
+public partial class MachineProductDto
+{
+    public int MachineProductId { get; set; }
+
+    public int? MachineStockQuantity { get; set; }
+
+    public int Status { get; set; }
+
+    public int MachineId { get; set; }
+
+    public int ProductId { get; set; }
 }

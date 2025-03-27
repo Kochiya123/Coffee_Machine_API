@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
+    [Route("api/coupons")]
     [ApiController]
-    [Route("api/coupon")]
     public class CouponController : ControllerBase
     {
         private readonly ICouponService _couponService;
@@ -17,47 +17,51 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCoupons(
-            [FromQuery] int? CouponId, 
-            [FromQuery] string? CouponCode, 
-            [FromQuery] decimal? DiscountAmount,
-            [FromQuery] DateTime? StartDate, 
-            [FromQuery] DateTime? ExpirationDate, 
-            [FromQuery] int? Status,
-            [FromQuery] string sortBy = "CouponId", 
+        public async Task<ActionResult<(IEnumerable<CouponDto>, PaginationMetadata)>> GetCoupons(
+            [FromQuery] string? couponCode,
+            [FromQuery] decimal? minDiscount,
+            [FromQuery] decimal? maxDiscount,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? expirationDate,
+            [FromQuery] int? status,
+            [FromQuery] int? paymentId,
+            [FromQuery] int? productId,
+            [FromQuery] string sortBy = "CouponId",
             [FromQuery] bool isAscending = true,
-            [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var (coupons, pagination) = await _couponService.GetCouponsAsync(CouponId, CouponCode, DiscountAmount, StartDate, ExpirationDate, Status, sortBy, isAscending, page, pageSize);
+            var (coupons, pagination) = await _couponService.GetCouponsAsync(couponCode, minDiscount, maxDiscount, startDate, expirationDate, status, paymentId, productId, sortBy, isAscending, page, pageSize);
             return Ok(new { Coupons = coupons, Pagination = pagination });
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCouponById(int id)
+        public async Task<ActionResult<CouponDto>> GetCoupon(int id)
         {
             var coupon = await _couponService.GetCouponByIdAsync(id);
             if (coupon == null)
-            {
                 return NotFound();
-            }
+
             return Ok(coupon);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCoupon(Coupon coupon)
+        public async Task<ActionResult<CouponDto>> CreateCoupon([FromBody] CouponDto couponDto)
         {
-            var createdCoupon = await _couponService.CreateCouponAsync(coupon);
-            return CreatedAtAction(nameof(GetCouponById), new { id = createdCoupon.CouponId }, createdCoupon);
+            var createdCoupon = await _couponService.CreateCouponAsync(couponDto);
+            return CreatedAtAction(nameof(GetCoupon), new { id = createdCoupon.CouponId }, createdCoupon);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCoupon(int id, Coupon coupon)
+        public async Task<ActionResult<CouponDto>> UpdateCoupon(int id, [FromBody] CouponDto couponDto)
         {
-            var updatedCoupon = await _couponService.UpdateCouponAsync(id, coupon);
+            if (id != couponDto.CouponId)
+                return BadRequest("ID mismatch");
+
+            var updatedCoupon = await _couponService.UpdateCouponAsync(id, couponDto);
             if (updatedCoupon == null)
-            {
                 return NotFound();
-            }
+
             return Ok(updatedCoupon);
         }
 
@@ -66,9 +70,8 @@ namespace WebApplication2.Controllers
         {
             var result = await _couponService.DeleteCouponAsync(id);
             if (!result)
-            {
                 return NotFound();
-            }
+
             return NoContent();
         }
     }

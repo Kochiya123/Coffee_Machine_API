@@ -2,7 +2,7 @@
 using WebApplication2.Services;
 using WebApplication2.Models;
 
-[Route("api/customer")]
+[Route("api/customers")]
 [ApiController]
 public class CustomerController : ControllerBase
 {

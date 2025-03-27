@@ -7,11 +7,11 @@ public partial class MachineIssue
 {
     public int IssueId { get; set; }
 
-    public DateTime ReportDate { get; set; }
+    public DateTime? ReportDate { get; set; }
 
-    public string IssueDescription { get; set; } = null!;
+    public string? IssueDescription { get; set; }
 
-    public int Status { get; set; }
+    public int? Status { get; set; }
 
     public int MachineId { get; set; }
 
@@ -24,4 +24,24 @@ public partial class MachineIssue
     public virtual Machine Machine { get; set; } = null!;
 
     public virtual Staff ReportedByNavigation { get; set; } = null!;
+}
+
+
+public partial class MachineIssueDto
+{
+    public int IssueId { get; set; }
+
+    public DateTime? ReportDate { get; set; }
+
+    public string? IssueDescription { get; set; }
+
+    public int? Status { get; set; }
+
+    public int MachineId { get; set; }
+
+    public long ReportedBy { get; set; }
+
+    public virtual ICollection<IssueAssignment> IssueAssignments { get; set; } = new List<IssueAssignment>();
+
+    public virtual ICollection<IssueResolution> IssueResolutions { get; set; } = new List<IssueResolution>();
 }
